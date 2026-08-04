@@ -1,0 +1,6 @@
+data/
+__pycache__/
+*.pyc
+.pytest_cache/
+config/discord_webhook.txt
+http_cache/

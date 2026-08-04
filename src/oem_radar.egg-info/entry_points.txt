@@ -1,0 +1,2 @@
+[console_scripts]
+oem-radar = oem_radar.cli:main

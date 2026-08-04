@@ -1,0 +1,36 @@
+# OEM Radar Stage 1 — NON-PRODUCTION path assumptions.
+# Portable Linux host template. Do not hard-code Synology paths.
+# Map host directories explicitly for your environment.
+
+services:
+  oem-radar:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: oem-radar:stage1
+    container_name: oem-radar
+    restart: unless-stopped
+    environment:
+      OEM_RADAR_OPEN_BROWSER: "0"
+      # OEM_RADAR_DISCORD_WEBHOOK: set via host env or secrets file — not committed
+      OEM_RADAR_DISCORD_WEBHOOK: ${OEM_RADAR_DISCORD_WEBHOOK:-}
+      OEM_RADAR_DATA_DIR: /app/data
+    volumes:
+      # Persist domain SQLite + logs + evidence
+      - oem_radar_data:/app/data
+      # Optional: mount host config (read-only) to override image defaults
+      # - ./config:/app/config:ro
+    # Dashboard is optional; keep bound to localhost on the host only if published.
+    # ports:
+    #   - "127.0.0.1:8787:8787"
+    healthcheck:
+      test: ["CMD", "oem-radar", "health"]
+      interval: 60s
+      timeout: 15s
+      retries: 3
+      start_period: 20s
+    # Default CMD from image: run (one-shot). For long-running dashboard:
+    # command: ["dashboard", "--host", "0.0.0.0", "--port", "8787", "--no-browser"]
+
+volumes:
+  oem_radar_data:

@@ -1,0 +1,15 @@
+# NiPoGi — UNVERIFIED from sandbox (limited egress). On your machine run:
+#   oem-radar probe https://www.nipogi.com
+# If it reports 'shopify', set enabled: true below. If 'woocommerce' or
+# 'unknown', see docs/BIG_BRANDS.md (may need a different engine).
+manufacturer:
+  name: NiPoGi
+  country: CN
+sources:
+  - id: nipogi-shopify
+    engine: shopify
+    base_url: https://www.nipogi.com
+    min_interval: 12h
+    discovery: [products_json, sitemap]
+    currency_default: USD
+    enabled: false

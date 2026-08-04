@@ -1,0 +1,15 @@
+# Bosgame — UNVERIFIED from sandbox (limited egress). On your machine run:
+#   oem-radar probe https://bosgame.com
+# If it reports 'shopify', set enabled: true below. If 'woocommerce' or
+# 'unknown', see docs/BIG_BRANDS.md (may need a different engine).
+manufacturer:
+  name: Bosgame
+  country: CN
+sources:
+  - id: bosgame-shopify
+    engine: shopify
+    base_url: https://bosgame.com
+    min_interval: 12h
+    discovery: [products_json, sitemap]
+    currency_default: USD
+    enabled: false

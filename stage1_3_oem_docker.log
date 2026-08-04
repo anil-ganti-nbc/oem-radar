@@ -1,0 +1,47 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260803232454
+Username: DESKTOP-GA8J1H5\anil
+RunAs User: DESKTOP-GA8J1H5\anil
+Configuration Name: 
+Machine: DESKTOP-GA8J1H5 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 34072
+PSVersion: 5.1.26100.6899
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.6899
+BuildVersion: 10.0.26100.6899
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is .\stage1_3_oem_docker.log
+PS C:\Users\anil\Desktop\unified\oem-radar> docker build --pull -t oem-radar:stage1.3 .
+
+PS C:\Users\anil\Desktop\unified\oem-radar> docker image inspect oem-radar:stage1.3
+
+PS C:\Users\anil\Desktop\unified\oem-radar> docker compose config
+
+PS C:\Users\anil\Desktop\unified\oem-radar> docker compose run --rm oem-radar version
+
+PS C:\Users\anil\Desktop\unified\oem-radar> docker compose run --rm oem-radar identity
+
+PS C:\Users\anil\Desktop\unified\oem-radar> docker compose run --rm oem-radar health
+
+PS C:\Users\anil\Desktop\unified\oem-radar> docker compose run --rm oem-radar validate
+
+PS C:\Users\anil\Desktop\unified\oem-radar> docker compose run --rm oem-radar run --dry-run
+
+PS C:\Users\anil\Desktop\unified\oem-radar> Stop-Transcript
+**********************
+Windows PowerShell transcript end
+End time: 20260803234259
+**********************
+
+baseline:
+  OEM Radar (pre-discount-tracker)
+workspace:
+  Local portability test
+git_commit:
+  unavailable (ZIP/workspace copy)

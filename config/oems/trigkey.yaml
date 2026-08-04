@@ -1,0 +1,15 @@
+# Platform unverified (probe returned nothing from sandbox).
+# Run `oem-radar probe https://www.trigkey.com` on your machine, then set enabled: true.
+
+manufacturer:
+  name: Trigkey
+  country: CN
+
+sources:
+  - id: trigkey-shopify
+    engine: shopify
+    base_url: https://www.trigkey.com
+    min_interval: 12h
+    discovery: [products_json, sitemap]
+    currency_default: USD
+    enabled: false

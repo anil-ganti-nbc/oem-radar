@@ -1,0 +1,11 @@
+data/http_cache/**
+data/raw/**
+data/*.log
+**/__pycache__
+**/.pytest_cache
+**/*.pyc
+.git
+Potential fork
+*.cmd
+*.vbs
+.env

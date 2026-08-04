@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: oem-radar
+Version: 0.0.1
+Summary: Product-intelligence platform for boutique PC OEMs
+Requires-Python: >=3.10
+Requires-Dist: pydantic>=2.5
+Requires-Dist: PyYAML>=6.0
+Requires-Dist: requests>=2.31
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"

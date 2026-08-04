@@ -1,0 +1,20 @@
+# Stage 0.5 inventory draft + Stage 1 pilot registration.
+# Not an authoritative final format. Validate syntax only.
+
+clanks:
+  - id: oem-radar
+    display_name: OEM Radar
+    repository: local:oem-radar  # pilot path in Stage 1 delivery workspace
+    version: "0.0.1"
+    contract_version: "0.1.0-stage0"
+    runtime_version: "0.0.1.dev0"
+    release_channel: production
+    operational_state: unknown
+    scheduler_mode: external  # Windows Task Scheduler historically; Linux cron/compose externally
+    health_mode: local-cli  # `oem-radar health` emits HealthPayload
+    data_paths:
+      - data/radar.db
+      - data/http_cache
+      - data/raw
+    evidence_paths:
+      - data/raw
