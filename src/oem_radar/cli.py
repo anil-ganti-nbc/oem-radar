@@ -36,6 +36,37 @@ def _load(config_dir: Path) -> tuple[RadarConfig, dict]:
     return radar, oems
 
 
+def cmd_version(args: argparse.Namespace) -> int:
+    from . import runtime_bridge
+
+    print(json.dumps(runtime_bridge.get_version_info(), indent=2, default=str))
+    return 0
+
+
+def cmd_identity(args: argparse.Namespace) -> int:
+    from . import runtime_bridge
+
+    identity = runtime_bridge.as_jsonable(runtime_bridge.get_identity())
+    print(json.dumps(identity, indent=2, default=str))
+    return 0
+
+
+def cmd_health(args: argparse.Namespace) -> int:
+    from . import runtime_bridge
+    from .paths import resolve_data_path
+
+    config_dir = Path(args.config)
+    try:
+        radar = load_radar_config(config_dir / "radar.yaml")
+        db_path = resolve_data_path(radar.db_path)
+    except Exception:  # noqa: BLE001 - health must not raise even if config is broken
+        db_path = resolve_data_path("data/radar.db")
+
+    payload = runtime_bridge.as_jsonable(runtime_bridge.get_health(db_path))
+    print(json.dumps(payload, indent=2, default=str))
+    return 1 if payload.get("operational_state") == "failed" else 0
+
+
 def _setup_logging(cfg: RadarConfig) -> None:
     level = getattr(logging, str(cfg.logging.get("level", "INFO")).upper(), logging.INFO)
     handlers: list[logging.Handler] = [logging.StreamHandler()]
@@ -524,6 +555,10 @@ def main(argv: list[str] | None = None) -> int:
     sub = parser.add_subparsers(dest="command", required=True)
 
     sub.add_parser("validate", help="validate configuration offline").set_defaults(func=cmd_validate)
+
+    sub.add_parser("version", help="print runtime version info as JSON").set_defaults(func=cmd_version)
+    sub.add_parser("identity", help="print Stage 0.5 runtime identity as JSON").set_defaults(func=cmd_identity)
+    sub.add_parser("health", help="print truthful runtime health as JSON").set_defaults(func=cmd_health)
 
     p_run = sub.add_parser("run", help="one-shot crawl of all due sources")
     p_run.add_argument("--dry-run", action="store_true", help="no persistence, console output")
