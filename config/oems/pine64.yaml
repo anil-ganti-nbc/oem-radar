@@ -1,0 +1,20 @@
+# support_status: LIVE_VALIDATED — probed + enabled Stage 7 (2026-08-07).
+# Real WooCommerce Store API (open-hardware community brand: PinePhone,
+# PineTab, PineBook Pro, SBCs, and a large accessories/spare-parts catalog).
+# Raw catalog is 213 items spanning phones/tablets/SBCs/accessories;
+# category_include/exclude scopes to the Laptops/Pinebook Pro categories
+# only (2 real current SKUs — UK/US keyboard-layout variants). Small
+# catalog, but real, stable, and on-mission (Linux/boutique laptop tier).
+# Fixtures: tests/fixtures/woocommerce/pine64_*.
+manufacturer:
+  name: Pine64
+  aliases: [PINE64, Pine Microsystems]
+  country: HK
+sources:
+  - id: pine64-wc
+    engine: woocommerce_store_api
+    base_url: https://pine64.com
+    min_interval: 24h
+    category_include: [laptop, pinebook pro]
+    category_exclude: [accessor, spare part]
+    enabled: true

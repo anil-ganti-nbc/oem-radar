@@ -1,0 +1,55 @@
+# support_status: LIVE_VALIDATED — probed Stage 6 (2026-08-07), enabled
+# Stage 7 (2026-08-07). Real Shopify store, real Linux laptops (StarBook,
+# StarFighter, StarLite families incl. "Privacy" editions), but ~85% of the
+# raw catalog is spare parts sold directly (mainboards, batteries, displays,
+# input covers, daughter boards, OS licenses, recovery drives) that the
+# built-in Shopify denylist doesn't cover. The non_product_terms below were
+# derived empirically against the real fixture — see
+# tests/fixtures/shopify/PROVENANCE.md and
+# tests/test_stage7_starlabs_medion_lg.py. After filtering: 19 real listings
+# across 12 distinct laptop models (some models have multiple pre-built
+# config SKUs, which is real catalog behavior, not noise).
+manufacturer:
+  name: Star Labs
+  aliases: [StarLabs, Star Labs Systems]
+  country: GB
+sources:
+  - id: starlabs-shopify
+    engine: shopify
+    base_url: https://starlabs.systems
+    min_interval: 12h
+    discovery: [products_json, sitemap]
+    currency_default: USD
+    non_product_terms:
+      - mainboard
+      - battery
+      - input cover
+      - daughter board
+      - " fan "
+      - " fan,"
+      - heatsink
+      - speaker
+      - bottom cover
+      - glass surface
+      - wireless card
+      - rubber feet
+      - so-dimm
+      - sata ssd
+      - nvme ssd
+      - workshop inspection
+      - anti-interdiction
+      - debug kit
+      - return label
+      - academy bundle
+      - active pen
+      - " hub"
+      - " case"
+      - "2242 ssd"
+      - privacy byte
+      - " byte"
+      - "display -"
+      - windows 11
+      - " license"
+      - recovery drive
+      - magnetic keyboard
+    enabled: true

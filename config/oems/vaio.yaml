@@ -1,0 +1,18 @@
+# support_status: LIVE_VALIDATED — probed 2026-08-07 (Stage 5).
+# Confirmed Shopify via a real products.json capture: 165 total items but
+# 157 are product_type "Warranty" (extended-warranty/repair-plan SKUs,
+# already filtered by the existing "warranty" denylist term — no config
+# change needed for those). 8 real laptops remain (FS/SX14/SX-R series).
+# Fixture: tests/fixtures/shopify/vaio_products_p1.json — see PROVENANCE.md.
+manufacturer:
+  name: VAIO
+  aliases: [VAIO Corporation]
+  country: JP
+sources:
+  - id: vaio-shopify
+    engine: shopify
+    base_url: https://us.vaio.com
+    min_interval: 12h
+    discovery: [products_json, sitemap]
+    currency_default: USD
+    enabled: true

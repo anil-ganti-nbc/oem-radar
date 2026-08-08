@@ -1,0 +1,21 @@
+# support_status: LIVE_VALIDATED — probed + enabled Stage 8 (2026-08-07).
+# Real category-page ItemList JSON-LD (new category_jsonld engine): the
+# Galaxy Book category page itself embeds a full 12-item ItemList with real
+# name/price/availability/image/url per item — no sitemap needed, no
+# per-product fetch needed. No sku/mpn field on the nested items; identity
+# comes from the "-sku-XXXXXX" suffix on each product URL (Samsung's own
+# real model code, e.g. NP960UJH-XG7US), extracted via sku_url_pattern.
+# Fixtures: tests/fixtures/category_jsonld/samsung_galaxy_book_category.html.
+manufacturer:
+  name: Samsung
+  country: KR
+sources:
+  - id: samsung-galaxybook
+    engine: category_jsonld
+    base_url: https://www.samsung.com
+    min_interval: 12h
+    category_urls:
+      - https://www.samsung.com/us/computers/galaxy-book/
+    currency_default: USD
+    region: US
+    enabled: true

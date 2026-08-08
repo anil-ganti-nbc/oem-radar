@@ -1,0 +1,27 @@
+# support_status: LIVE_VALIDATED — probed + enabled Stage 7 (2026-08-07).
+# Real WooCommerce Store API (security-focused Linux/coreboot laptop maker,
+# NL). Raw catalog is 275 items dominated by refurbished/second-hand/
+# returned units and spare parts; category_include/category_exclude +
+# non_product_terms scope it to the 6 real current SecurityTitan/
+# PrivacyGuard laptop and mini-PC listings. Fixtures:
+# tests/fixtures/woocommerce/novacustom_*.
+manufacturer:
+  name: NovaCustom
+  country: NL
+sources:
+  - id: novacustom-wc
+    engine: woocommerce_store_api
+    base_url: https://novacustom.com
+    min_interval: 24h
+    category_include: [laptop, mini pc]
+    category_exclude:
+      - bag
+      - spare part
+      - accessor
+      - old model
+      - refurbished
+      - wifi card
+      - storage drive
+      - charger
+    non_product_terms: [refurbished, second hand, returned, keyboard]
+    enabled: true

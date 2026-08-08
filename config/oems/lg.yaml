@@ -1,0 +1,22 @@
+# support_status: LIVE_VALIDATED — confirmed Stage 6 (India business site:
+# real identity/mpn, no price), re-confirmed and enabled Stage 7 on the US
+# consumer site (2026-08-07): real price + availability in JSON-LD, though
+# no explicit sku/mpn field there. Identity instead comes from the URL slug
+# itself (e.g. "lg-14t90q-k.aab6u1-gram-laptop" embeds LG's own model code
+# 14T90Q-K.AAB6U1), which is stable — see core/jsonld identity strategy in
+# docs/ENTERPRISE_OEM_ARCHITECTURE.md §7. url_include_pattern scopes the
+# 6,220-URL full US sitemap down to the 182 real gram-laptop product pages.
+# Fixtures: tests/fixtures/sitemap_jsonld/lg_*.
+manufacturer:
+  name: LG
+  aliases: [LG Electronics, LG gram]
+  country: KR
+sources:
+  - id: lg-us-gram-sitemap
+    engine: sitemap_jsonld
+    base_url: https://www.lg.com
+    sitemap_url: https://www.lg.com/us/sitemap.xml
+    url_include_pattern: '/us/laptops/lg-[\w.-]+-gram-laptop$'
+    min_interval: 12h
+    currency_default: USD
+    enabled: true

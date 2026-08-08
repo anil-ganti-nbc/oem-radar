@@ -1,0 +1,75 @@
+{
+  "code": 1,
+  "data": {
+    "ProductClassificationList": [
+      {
+        "ClassificationName": "Laptops",
+        "ClassificationImage": "https://psrefstuff.lenovo.com/syspool/Sys/ResourceImages/CompareProducts/Laptops_Overflow.png",
+        "ProductLineList": [
+          {
+            "ProductLine": "ThinkPad",
+            "ProductSeriesList": [
+              {
+                "SeriesName": "C Series",
+                "ProductList": [
+                  {
+                    "ProductID": 1523,
+                    "ProductName": "ThinkPad C13 Yoga Gen 1 Chromebook",
+                    "ProductKey": "ThinkPad_C13_Yoga_Gen_1_Chromebook",
+                    "ImageURL": "https://psrefstuff.lenovo.com/syspool/Sys/Image/ThinkPad/ThinkPad_C13_Yoga_Gen_1_Chromebook\\Compressedimage\\ThinkPad_C13_Yoga_Gen_1_Chromebook_CT1_01.png",
+                    "Withdraw": 1,
+                    "IsDigitalSpec": 1,
+                    "IsNewProduct": 0
+                  },
+                  {
+                    "ProductID": 2026,
+                    "ProductName": "ThinkPad C14 Gen 1 Chromebook",
+                    "ProductKey": "ThinkPad_C14_Gen_1_Chromebook",
+                    "ImageURL": "https://psrefstuff.lenovo.com/syspool/Sys/Image/ThinkPad/ThinkPad_C14_Gen_1_Chromebook\\Compressedimage\\ThinkPad_C14_Gen_1_Chromebook_CT1_01.png",
+                    "Withdraw": 1,
+                    "IsDigitalSpec": 1,
+                    "IsNewProduct": 0
+                  }
+                ],
+                "IsExistNewProduct": 0
+              },
+              {
+                "SeriesName": "E Series",
+                "ProductList": [
+                  {
+                    "ProductID": 977,
+                    "ProductName": "ThinkPad E14",
+                    "ProductKey": "ThinkPad_E14",
+                    "ImageURL": "https://psrefstuff.lenovo.com/syspool/Sys/Image/ThinkPad/ThinkPad_E14\\Compressedimage\\ThinkPad_E14_CT1_01.png",
+                    "Withdraw": 1,
+                    "IsDigitalSpec": 1,
+                    "IsNewProduct": 0
+                  },
+                  {
+                    "ProductID": 1239,
+                    "ProductName": "ThinkPad E14 Gen 2 (AMD)",
+                    "ProductKey": "ThinkPad_E14_Gen_2_AMD",
+                    "ImageURL": "https://psrefstuff.lenovo.com/syspool/Sys/Image/ThinkPad/ThinkPad_E14_Gen_2_AMD\\Compressedimage\\ThinkPad_E14_Gen_2_AMD_CT1_01.png",
+                    "Withdraw": 1,
+                    "IsDigitalSpec": 1,
+                    "IsNewProduct": 0
+                  },
+                  {
+                    "ProductID": 1483,
+                    "ProductName": "ThinkPad E14 Gen 2 (Intel)",
+                    "ProductKey": "ThinkPad_E14_Gen_2_Intel",
+                    "ImageURL": "https://psrefstuff.lenovo.com/syspool/Sys/Image/ThinkPad/ThinkPad_E14_Gen_2_Intel\\Compressedimage\\ThinkPad_E14_Gen_2_Intel_CT1_01.png",
+                    "Withdraw": 1,
+                    "IsDigitalSpec": 1,
+                    "IsNewProduct": 0
+                  }
+                ],
+                "IsExistNewProduct": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

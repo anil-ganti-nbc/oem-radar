@@ -1,0 +1,36 @@
+# support_status: BLOCKED_BOT — probed Stage 8 (2026-08-07), NOT enabled.
+# Real evidence, real engine match, deliberately not turned on. Lenovo's
+# curated marketing/deals landing pages (lenovo.com/buy/us/en/<slug>) embed
+# a full, real ItemList/Product-per-page catalog (real sku/price/
+# availability — confirmed 64 real SKUs across 3 pages) that the new
+# category_jsonld engine parses correctly with zero code changes. BUT: this
+# page only serves that content to a browser-shaped User-Agent. Fetched
+# with OEM Radar's actual declared, honest crawler UA
+# (`OEMRadar/0.1 (product-intelligence; respectful crawler; contact@...)`
+# — see core/fetch.py DEFAULT_UA), the exact same URL returns HTTP 403.
+# Direct PDP fetches (lenovo.com/us/en/p/laptops/...) are also 403
+# regardless of UA (reconfirmed Stage 8, matches Stage 7).
+# Making this source actually collect data in production would require
+# spoofing a browser identity to defeat Lenovo's UA-based bot filter —
+# that is bot-detection evasion, a line this project does not cross even
+# though no rendering/Playwright would be involved. Left disabled on
+# principle, not on missing evidence. See docs/STAGE8.md Phase 2 and
+# docs/OEM_ROADMAP_2027.md for the standing "never build" rationale this
+# extends. category_urls/fixtures kept below as a documented dead end, not
+# a TODO — re-enable only if Lenovo's UA policy changes on its own.
+# Fixtures: tests/fixtures/category_jsonld/lenovo_buy_*.html.
+manufacturer:
+  name: Lenovo
+  country: CN
+sources:
+  - id: lenovo-buy-landing
+    engine: category_jsonld
+    base_url: https://www.lenovo.com
+    min_interval: 12h
+    category_urls:
+      - https://www.lenovo.com/buy/us/en/amd-ryzen-7-pro-thinkpad-p-series-laptops-0arz00a
+      - https://www.lenovo.com/buy/us/en/intel/wide-screen-laptops-0abz00a
+      - https://www.lenovo.com/buy/us/en/laptops-under-800-0akz00a
+    currency_default: USD
+    region: US
+    enabled: false

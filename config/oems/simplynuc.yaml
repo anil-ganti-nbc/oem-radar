@@ -1,0 +1,19 @@
+# support_status: LIVE_VALIDATED — probed Stage 5 (2026-08-07), collected via
+# the new sitemap_jsonld engine Stage 6 (2026-08-07). Real WordPress/WooCommerce
+# + Yoast SEO site: dedicated product-sitemap.xml (137 real URLs), clean
+# Product JSON-LD with sku/mpn/offers in a @graph block. Pricing is largely
+# "$0 = request a quote" placeholders across this vendor's catalog (a real,
+# observed limitation, not a bug) — tracked anyway for spec/SKU/availability
+# signal. Fixtures: tests/fixtures/sitemap_jsonld/simplynuc_*.
+manufacturer:
+  name: SimplyNUC
+  aliases: [SNUC]
+  country: US
+sources:
+  - id: simplynuc-sitemap
+    engine: sitemap_jsonld
+    base_url: https://snuc.com
+    sitemap_url: https://snuc.com/product-sitemap.xml
+    min_interval: 12h
+    currency_default: USD
+    enabled: true

@@ -1,0 +1,28 @@
+# support_status: LIVE_VALIDATED — confirmed real Product JSON-LD Stage 5,
+# scoped and enabled Stage 7 (2026-08-07). Medion is a mass consumer-
+# electronics retailer (fridges, radios, vacuums, TVs, ~6,265 product URLs
+# total) — url_include_pattern below scopes collection to the ERAZER gaming
+# notebook/desktop lines only (real category-prefix vocabulary derived from
+# the live sitemap: high-end-gaming-notebooks, high-end-gaming-pcs,
+# core-gaming-notebooks, core-gaming-pcs, gaming-notebooks, gaming-pcs).
+# Deliberately excludes the much larger entry-level/multimedia/convertible
+# lines (~1,580 more URLs) and every non-PC category — those have lower
+# editorial density (largely near-identical budget SKUs) and would make a
+# single-OEM crawl disproportionately expensive relative to the rest of the
+# platform. Even scoped this is ~680 products, the largest single source in
+# the platform — min_interval is deliberately longer than other sources.
+# Fixtures: tests/fixtures/sitemap_jsonld/medion_*.
+manufacturer:
+  name: Medion
+  aliases: [MEDION AG, ERAZER]
+  country: DE
+sources:
+  - id: medion-gaming-sitemap
+    engine: sitemap_jsonld
+    base_url: https://www.medion.com
+    sitemap_url: https://www.medion.com/de/shop/sitemap/Product-de-DE-medion-de-EUR.xml
+    url_include_pattern: '/p/(high-end-gaming-notebooks|high-end-gaming-pcs|core-gaming-notebooks|core-gaming-pcs|gaming-notebooks|gaming-pcs)-'
+    min_interval: 24h
+    max_products: 700
+    currency_default: EUR
+    enabled: true

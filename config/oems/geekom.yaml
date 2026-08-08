@@ -1,0 +1,17 @@
+# support_status: LIVE_VALIDATED — WooCommerce Store API confirmed live
+# Stage 5 (77 real products), engine built and enabled Stage 7 (2026-08-07).
+# The old audit note claiming this storefront was BROKEN (404/lander
+# redirect) was wrong/stale — geekompc.com is a real, working WooCommerce
+# site. Most products are `type: "variable"` (RAM/storage configs); this
+# engine tracks the base listing's displayed price (the cheapest variant),
+# not per-variant configurations — a documented scope limitation, not a bug.
+# Fixtures: tests/fixtures/woocommerce/geekom_*.
+manufacturer:
+  name: GEEKOM
+  country: TW
+sources:
+  - id: geekom-wc
+    engine: woocommerce_store_api
+    base_url: https://www.geekompc.com
+    min_interval: 12h
+    enabled: true

@@ -1,0 +1,19 @@
+# support_status: LIVE_VALIDATED — probed + collected Stage 6 (2026-08-07).
+# Wix Stores site (sitemap generatedBy="WIX"): dedicated
+# store-products-sitemap.xml (78 real URLs, mix of SBCs/mini-PCs and
+# accessories). Real Product JSON-LD confirmed with genuine price/currency/
+# availability — the one quirk: this vendor emits `Offers`/`Availability`
+# with capital letters instead of the documented `offers`/`availability`,
+# which is exactly why the engine does case-insensitive field lookups.
+# Fixtures: tests/fixtures/sitemap_jsonld/khadas_*.
+manufacturer:
+  name: Khadas
+  country: CN
+sources:
+  - id: khadas-sitemap
+    engine: sitemap_jsonld
+    base_url: https://www.khadas.com
+    sitemap_url: https://www.khadas.com/store-products-sitemap.xml
+    min_interval: 12h
+    currency_default: USD
+    enabled: true

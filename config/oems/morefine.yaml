@@ -1,0 +1,19 @@
+# support_status: LIVE_VALIDATED — re-probed 2026-08-07 (Stage 5).
+# The previous base_url (store.morefine.com) was stale/wrong (DNS failure);
+# the real storefront is www.morefine.com. Confirmed Shopify via a real
+# products.json capture: 40 products, real mini-PC catalog (M8 Plus, S800,
+# S700, H1, external-GPU docks). Fixture:
+# tests/fixtures/shopify/morefine_products_p1.json — see PROVENANCE.md.
+manufacturer:
+  name: Morefine
+  country: CN
+sources:
+  - id: morefine-shopify
+    engine: shopify
+    base_url: https://www.morefine.com
+    min_interval: 12h
+    discovery: [products_json, sitemap]
+    currency_default: USD
+    # Two SKUs are "shipping-protection" add-ons, not products.
+    non_product_terms: [shipping-protection]
+    enabled: true
