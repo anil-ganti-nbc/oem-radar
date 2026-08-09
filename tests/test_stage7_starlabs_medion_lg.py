@@ -157,6 +157,18 @@ def test_medion_max_products_safety_valve_applied():
     assert src.model_dump()["max_products"] == 700
 
 
+def test_medion_min_interval_reduced_to_72h_after_cloud_soak_evidence():
+    """2026-08-09 Hetzner soak evidence: a real forced re-crawl found 0/692
+    changed products and cost 68m34s (57% of a 119m26s full-fleet cycle).
+    Category scoping (url_include_pattern above) and model-family
+    deduplication were both investigated; scoping is already correct and
+    dedup was rejected (same-model URLs carry genuinely different CPU/GPU
+    configs -- exactly the signal this engine exists to catch). min_interval
+    is the one safe, completeness-preserving lever -- see medion.yaml."""
+    _, src = _medion_engine()
+    assert src.min_interval_s == 72 * 3600
+
+
 # ============================================================================
 # LG (sitemap_jsonld, pricing-enabled region + url_include_pattern)
 # ============================================================================
