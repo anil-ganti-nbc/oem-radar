@@ -12,6 +12,31 @@
 # platform. Even scoped this is ~680 products, the largest single source in
 # the platform — min_interval is deliberately longer than other sources.
 # Fixtures: tests/fixtures/sitemap_jsonld/medion_*.
+#
+# min_interval 24h -> 72h (2026-08-09, Hetzner cloud-soak evidence): a real
+# controlled forced re-crawl of all 692 matched URLs a few hours after the
+# first baseline crawl found 0 changed products and took 68m34s alone (57%
+# of a 119m26s full-fleet cycle) on a shared 2-vCPU host. Investigated
+# whether the ~692 URLs could be reduced further first (see
+# ai/handoff/DECISIONS.md for the full writeup): the existing
+# url_include_pattern scoping above is already the correct, deliberate
+# category filter (confirmed still necessary, not touched). A further idea
+# -- deduplicating the ~692 URLs down to their ~201 underlying model-family
+# tokens -- was investigated and REJECTED: sampled URLs sharing the same
+# model token (e.g. "engineer-x10", 57 URL variants) carry genuinely
+# different CPU/GPU/RAM configurations (i7-10700 vs i7-10700K, RTX 3070 vs
+# RTX 2080 Super vs RTX 2070 Super vs RTX 3060 Ti), which is exactly the
+# per-config "unannounced silicon" signal this engine exists to catch --
+# deduplicating would silently suppress real hardware variance, not noise.
+# The sitemap also carries no <lastmod> element, so conditional/incremental
+# fetching based on sitemap metadata isn't available either. With no safe
+# completeness-preserving way to reduce the per-crawl page-fetch count
+# further, min_interval is the correct lever: it reduces how often the full
+# ~692-page cost is paid without omitting a single product from any crawl
+# that does run. 72h was chosen over a shorter value because real hardware
+# refreshes at this catalog's scale do not appear on a sub-day cadence, and
+# because Medion was already the platform's longest-interval source before
+# this change.
 manufacturer:
   name: Medion
   aliases: [MEDION AG, ERAZER]
@@ -22,7 +47,7 @@ sources:
     base_url: https://www.medion.com
     sitemap_url: https://www.medion.com/de/shop/sitemap/Product-de-DE-medion-de-EUR.xml
     url_include_pattern: '/p/(high-end-gaming-notebooks|high-end-gaming-pcs|core-gaming-notebooks|core-gaming-pcs|gaming-notebooks|gaming-pcs)-'
-    min_interval: 24h
+    min_interval: 72h
     max_products: 700
     currency_default: EUR
     enabled: true
