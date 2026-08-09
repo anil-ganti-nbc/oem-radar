@@ -1,5 +1,7 @@
 # OEM Radar
 
+> Status: Active development — feature incomplete
+
 Product-intelligence platform for boutique PC OEMs. It watches vendor storefronts, reasons about **products** (not webpages), detects semantic changes between immutable snapshots, and pushes high-signal alerts to Discord — with the explicit mission of spotting new hardware before mainstream tech media does.
 
 ## What it is not
