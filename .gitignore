@@ -8,3 +8,6 @@ http_cache/
 venv/
 *.exe
 *.egg-info/
+
+# Local AI-tool config, not project content
+.claude/

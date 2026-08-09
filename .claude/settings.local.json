@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(cd \"/c/Users/anil/Desktop/oem-radar v 2.0\" && find . -maxdepth 2 -not -path '*/.git*' | sort)"
-    ]
-  }
-}
