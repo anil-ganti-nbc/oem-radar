@@ -10,6 +10,7 @@ manufacturer:
 sources:
   - id: dell-us-laptops
     engine: dell
+    enabled: false  # disabled 2026-08-10: persistent HTTP 403 (bot protection), see docs/CURRENT_STATUS.md
     base_url: https://www.dell.com
     min_interval: 6h
     region: us
