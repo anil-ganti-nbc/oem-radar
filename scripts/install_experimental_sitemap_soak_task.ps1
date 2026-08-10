@@ -8,8 +8,8 @@ if (-not $Install) {
 }
 $root = Split-Path -Parent $PSScriptRoot
 $action = New-ScheduledTaskAction -Execute "cmd.exe" -Argument "/c `"$root\scripts\run_experimental_sitemap_soaks.cmd`""
-$trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).Date.AddMinutes(5)
-$trigger.Repetition.Interval = 'PT6H'
-$trigger.Repetition.Duration = 'P1D'
+$trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).Date.AddMinutes(5) `
+    -RepetitionInterval (New-TimeSpan -Hours 6) `
+    -RepetitionDuration (New-TimeSpan -Days 3650)
 Register-ScheduledTask -TaskName "OEM Radar Experimental Sitemap Soak" -Action $action -Trigger $trigger -Description "Isolated Lenovo/ASUS sitemap experiments; no product DB or Discord" -Force | Out-Null
 Write-Host "Installed OEM Radar Experimental Sitemap Soak. Disable with: Disable-ScheduledTask -TaskName 'OEM Radar Experimental Sitemap Soak'"

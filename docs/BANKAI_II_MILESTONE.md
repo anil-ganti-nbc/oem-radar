@@ -159,6 +159,12 @@ six-hour opt-in Windows task is provided in
 `scripts/install_experimental_sitemap_soak_task.ps1`; invoking it with no
 argument is a dry run, and it never changes the production hourly task. State
 lives only under `data/experimental/` in separate Lenovo and ASUS databases.
+The scheduled wrapper is `run_experimental_sitemap_soaks.py`; it appends one
+compact JSON record per pass to `data/experimental/soak-runs.jsonl`, including
+run start/end, OEM, isolated database path, region count, baseline size, delta
+and fetch counts, candidate/mirror counts, and failure details. `IgnoreNew`
+prevents task overlap; each OEM is independently caught so one failed source
+does not prevent the other from being recorded.
 
 ## Shared-core decision
 
@@ -167,3 +173,39 @@ partial-collapse, first-seen, URL-delta, and candidate-dedup mechanics. The
 OEM-specific sitemap topology, URL filtering, and page identity parsing remain
 separate. This is sufficient shared core for two proven OEMs; a wider
 `RegionalSitemapSource` refactor is deferred until a third OEM requires it.
+
+## Installed experimental soak and Acer reconnaissance
+
+The local Windows task is now installed as **`OEM Radar Experimental Sitemap
+Soak`**. Its command is `cmd.exe /c` followed by the repository's
+`scripts/run_experimental_sitemap_soaks.cmd`; the batch file changes to the
+repository root and invokes the telemetry wrapper. The task has an explicit
+`PT6H` repetition interval, `IgnoreNew` multiple-instance policy, and an
+interactive-token principal. A manual trigger completed with
+`LastTaskResult=0`: Lenovo (seven regions) and ASUS (three regions) both
+recorded successful, zero-delta passes in `data/experimental/soak-runs.jsonl`.
+The existing **OEM Radar Hourly Crawl** task remained Ready and was not
+modified.
+
+This Windows task is a temporary local mechanism only. The collectors already
+use portable Python plus isolated SQLite paths, so a later Hetzner service can
+invoke `scripts/run_experimental_sitemap_soaks.py` on the same cadence without
+Windows Task Scheduler; no Hetzner deployment was attempted.
+
+### Acer official discovery reconnaissance
+
+| Region / surface | Official endpoint | Result | Suitability |
+|---|---|---|---|
+| Global | `https://www.acer.com/robots.txt` | HTTP 200; advertises Acer and Predator sitemaps | promising contract root |
+| Global sitemap | `https://www.acer.com/sitemap.xml` | repeated timeout (25–45 s) | not validated |
+| US Store robots | `https://store.acer.com/en-us/robots.txt` | HTTP 200; advertises `/sitemap/sitemap.xml` | promising store contract root |
+| US Store sitemap/catalogue | advertised sitemap, laptops, desktops | repeated timeout (45 s) | not validated |
+| China | Acer China request redirected to a minimal response; no sitemap link exposed | inconclusive | research-only |
+| India / UK robots paths | branded HTTP 404 pages | no contract at that path | research-only |
+
+The frozen corpus’s Acer entries remain primarily regional official/retail
+stories (China/JD, international Acer/retail, and US/retail variants). The
+current evidence cannot establish that Acer China or US official enumeration
+would have preceded JD, nor that JD supplies unique models. Therefore Acer and
+JD remain **RESEARCH_ONLY**; no collector has been built from timeouts or a
+single robots declaration.
