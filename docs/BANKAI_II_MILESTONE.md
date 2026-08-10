@@ -136,3 +136,34 @@ candidates, zero mirror suppressions, and zero region failures. Both passes
 had exactly zero normal change events and notifications. This establishes only
 that the contract is stable over the observed interval; it is not yet evidence
 that Lenovo appends launches quickly enough for editorial lead time.
+
+## ASUS regional sitemap delta collector
+
+ASUS reuses the isolated experimental-store and successful-baseline semantics,
+but has its own URL filtering and identity extraction. The first bounded scope
+is **Global, China, and India**, using only each locale's first product shard
+as a deliberately small seed. It accepts laptop/notebook/desktop/mini-PC paths
+and excludes review, tech-specification, support, and marketing paths.
+Identity prefers the public embedded SKU, then a normalized model heading / OG
+title; URLs are only locators. Simultaneous same-SKU locale pages collapse to
+one candidate.
+
+Two live passes completed cleanly: the first baseline recorded 119 product URLs
+and the second saw zero URL deltas, zero fetched pages, zero candidates, zero
+failures, zero normal events, and zero notifications. This is not full ASUS
+coverage: the index contains many shards and no lastmod; expanding scope awaits
+observed candidate quality and locale-dedup evidence.
+
+Both experiments can be run manually with their `*_soak.py` scripts. A
+six-hour opt-in Windows task is provided in
+`scripts/install_experimental_sitemap_soak_task.ps1`; invoking it with no
+argument is a dry run, and it never changes the production hourly task. State
+lives only under `data/experimental/` in separate Lenovo and ASUS databases.
+
+## Shared-core decision
+
+Lenovo and ASUS now share the experimental SQLite baseline, successful-run,
+partial-collapse, first-seen, URL-delta, and candidate-dedup mechanics. The
+OEM-specific sitemap topology, URL filtering, and page identity parsing remain
+separate. This is sufficient shared core for two proven OEMs; a wider
+`RegionalSitemapSource` refactor is deferred until a third OEM requires it.
