@@ -103,3 +103,36 @@ and 44 laptop-path URLs respectively), but no `lastmod`. It is a promising
 research-only baseline/delta input, not yet a candidate collector; category
 filtering, product identity extraction, and locale-mirror deduplication need
 fixtures before implementation.
+
+## Lenovo regional sitemap delta collector
+
+`experimental/lenovo_sitemap_delta.py` is a separate SQLite-backed collector,
+not a source engine. It begins at seven benchmark-supported country shards
+(US, CA, UK, AU, SG, HK, MY), accepts only laptop and desktop `/p/` URLs, and
+normalizes query strings and trailing slashes. Its first successful regional
+pass records a baseline only. Later successful passes compare URLs against the
+region's retained known set; removals are ignored, and an empty or less than
+35%-of-prior sitemap is a failed pass that cannot replace the baseline.
+
+New URLs alone are not launches. Only those URLs are fetched; an explicit
+Product JSON-LD identity (preferably an SKU) becomes a review-only candidate.
+Same-run regional mirrors with the same SKU emit one candidate and are counted
+as suppressed mirrors. An identity already known in another region becomes
+`regional_page_appearance`, not a global product launch. There is no normal
+database, `change_events`, notification, or Discord code path.
+
+`scripts/lenovo_regional_sitemap_soak.py` runs the isolated collector on a
+chosen cadence. Synthetic capability coverage is demonstrated for two frozen
+Lenovo event types: a new-model regional product page and a regional first
+appearance with explicit Product JSON-LD. This is mechanics coverage only,
+not historical replay evidence.
+
+### Live delta soak (2026-08-10)
+
+Two consecutive polite live passes completed against all seven P0 regions.
+The first established 6,349 laptop/desktop URLs and fetched no product pages.
+The second completed with zero URL deltas, zero new-page fetches, zero
+candidates, zero mirror suppressions, and zero region failures. Both passes
+had exactly zero normal change events and notifications. This establishes only
+that the contract is stable over the observed interval; it is not yet evidence
+that Lenovo appends launches quickly enough for editorial lead time.
