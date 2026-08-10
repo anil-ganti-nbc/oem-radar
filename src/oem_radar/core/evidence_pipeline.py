@@ -30,6 +30,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from .interfaces import EvidenceSource, Fetcher
+from .models import EvidenceCandidate, EvidenceCandidateType, EvidenceItem
 
 
 @dataclass
@@ -42,7 +43,49 @@ class EvidenceRunStats:
     linked: int = 0
     unlinked: int = 0
     events: int = 0
+    candidates: list[EvidenceCandidate] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+
+
+def candidates_for_evidence(
+    item: EvidenceItem, product_key: str | None,
+) -> list[EvidenceCandidate]:
+    """Return conservative editorial-review candidates for an evidence item.
+
+    A product database observation only yields a new-model candidate when it
+    is current and has no exact link to a tracked product.  SKU and region are
+    additional *evidence* candidates, never commercial alerts.  A withdrawn
+    PSREF record is historical inventory, not a launch signal.
+    """
+    if item.evidence_kind.value != "product_database":
+        return []
+    if item.raw_data.get("Withdraw"):
+        return []
+    common = dict(
+        source_id=item.source_id, manufacturer=item.manufacturer,
+        external_id=item.external_id, canonical_url=item.canonical_url,
+        model=item.model, sku=item.sku, region=item.region,
+        linked_product_key=product_key, published_at=item.published_at,
+    )
+    # A regional availability signal is only meaningful when the identity is
+    # already known.  An unlinked regional page is still model evidence, not
+    # proof that an existing product newly reached that market.
+    if item.region and product_key:
+        return [EvidenceCandidate(
+            candidate_type=EvidenceCandidateType.REGIONAL_PRODUCT_EVIDENCE,
+            **common,
+        )]
+    if item.sku:
+        return [EvidenceCandidate(
+            candidate_type=EvidenceCandidateType.NEW_CONFIGURATION_EVIDENCE,
+            **common,
+        )]
+    if product_key is None and item.model:
+        return [EvidenceCandidate(
+            candidate_type=EvidenceCandidateType.NEW_MODEL_EVIDENCE,
+            **common,
+        )]
+    return []
 
 
 def run_evidence_source(source_id: str, source: EvidenceSource, fetcher: Fetcher, store) -> EvidenceRunStats:
@@ -79,6 +122,9 @@ def run_evidence_source(source_id: str, source: EvidenceSource, fetcher: Fetcher
             else:
                 stats.unlinked += 1
 
+            candidates = candidates_for_evidence(item, product_key)
+            stats.candidates.extend(candidates)
+
             store.record_evidence_event(
                 item_id,
                 "added" if status == "new" else "updated",
@@ -89,6 +135,7 @@ def run_evidence_source(source_id: str, source: EvidenceSource, fetcher: Fetcher
                     "title": item.title,
                     "canonical_url": item.canonical_url,
                     "linked": bool(product_key),
+                    "candidates": [c.model_dump(mode="json") for c in candidates],
                 },
             )
             stats.events += 1

@@ -316,6 +316,19 @@ class EvidenceProvenance(StrEnum):
     HUMAN_CAPTURED = "human_captured"  # an owner-supplied DevTools capture
 
 
+class EvidenceCandidateType(StrEnum):
+    """Review-only editorial candidates derived from official evidence.
+
+    These are deliberately not ``ChangeType`` values: an official product
+    database can establish that an identity exists, but cannot by itself
+    establish commercial availability or justify a production notification.
+    """
+
+    NEW_MODEL_EVIDENCE = "new_model_evidence"
+    NEW_CONFIGURATION_EVIDENCE = "new_configuration_evidence"
+    REGIONAL_PRODUCT_EVIDENCE = "regional_product_evidence"
+
+
 class EvidenceItem(BaseModel):
     """One fact from an alternate official source. Never invents a value:
     unknown stays None, same discipline as NormalizedProduct."""
@@ -355,6 +368,27 @@ class EvidenceItem(BaseModel):
             self.description, self.version, self.filename, self.region,
         ))
         return hashlib.sha256(basis.encode("utf-8")).hexdigest()[:32]
+
+
+class EvidenceCandidate(BaseModel):
+    """A deterministic, non-deliverable item for editorial review.
+
+    Persistence is intentionally through the owning evidence event's metadata
+    rather than ``change_events``.  This keeps the product-alert stream and
+    collector-health metrics insulated while still making candidate generation
+    auditable and replayable.
+    """
+
+    candidate_type: EvidenceCandidateType
+    source_id: str
+    manufacturer: str
+    external_id: str
+    canonical_url: str
+    model: str | None = None
+    sku: str | None = None
+    region: str | None = None
+    linked_product_key: str | None = None
+    published_at: datetime | None = None
 
 
 class EvidenceRef(BaseModel):

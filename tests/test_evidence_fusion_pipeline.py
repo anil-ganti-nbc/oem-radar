@@ -9,10 +9,11 @@ from __future__ import annotations
 
 import pytest
 
-from oem_radar.core.evidence_pipeline import run_evidence_source
+from oem_radar.core.evidence_pipeline import candidates_for_evidence, run_evidence_source
 from oem_radar.core.models import (
     ChangeType,
     EvidenceDocument,
+    EvidenceCandidateType,
     EvidenceItem,
     EvidenceKind,
     EvidenceProvenance,
@@ -244,6 +245,38 @@ def test_evidence_never_writes_to_change_events(store):
     assert store.db.execute("SELECT COUNT(*) FROM evidence_events").fetchone()[0] == 2
     # ...and nothing was queued for delivery as an alert, either.
     assert store.db.execute("SELECT COUNT(*) FROM notifications").fetchone()[0] == 0
+
+
+def test_current_unlinked_product_database_is_a_review_only_new_model_candidate(store):
+    item = _item(raw_data={"Withdraw": False})
+    candidates = candidates_for_evidence(item, None)
+    assert [c.candidate_type for c in candidates] == [EvidenceCandidateType.NEW_MODEL_EVIDENCE]
+    assert candidates[0].external_id == "9001"
+
+
+def test_withdrawn_psref_record_never_becomes_a_candidate():
+    assert candidates_for_evidence(_item(raw_data={"Withdraw": True}), None) == []
+
+
+def test_known_product_in_new_region_is_regional_availability_evidence():
+    candidates = candidates_for_evidence(
+        _item(region="US", raw_data={"Withdraw": False}), "lenovo-storefront:x1"
+    )
+    assert [c.candidate_type for c in candidates] == [EvidenceCandidateType.REGIONAL_PRODUCT_EVIDENCE]
+    assert candidates[0].linked_product_key == "lenovo-storefront:x1"
+
+
+def test_unlinked_regional_page_is_not_mislabelled_availability():
+    candidates = candidates_for_evidence(_item(region="US", raw_data={"Withdraw": False}), None)
+    assert candidates[0].candidate_type == EvidenceCandidateType.NEW_MODEL_EVIDENCE
+
+
+def test_candidate_is_persisted_only_in_evidence_event_metadata(store):
+    stats = run_evidence_source("lenovo-psref", _FakeEvidenceSource(), fetcher=None, store=store)
+    assert len(stats.candidates) == 2
+    meta = store.db.execute("SELECT meta_json FROM evidence_events ORDER BY id LIMIT 1").fetchone()[0]
+    assert "new_model_evidence" in meta
+    assert store.db.execute("SELECT COUNT(*) FROM change_events").fetchone()[0] == 0
 
 
 def test_evidence_events_carry_no_severity_or_review_surface(store):
