@@ -133,16 +133,39 @@ def diff(
         # Configurations: skip entirely when `before` predates the variant
         # model (empty configs) — that's a schema migration boundary, not a
         # product change (DESIGN_REVIEW §4).
-        if before.configurations and \
-           {c.key() for c in before.configurations} != {c.key() for c in after.configurations}:
-            b_keys = {c.key() for c in before.configurations}
-            a_keys = {c.key() for c in after.configurations}
-            events.append(ChangeEvent(
-                product_key=product_key, change_type=ChangeType.SPEC_CHANGED,
-                field="configurations",
-                old_value=sorted(b_keys), new_value=sorted(a_keys),
-                meta={"added": sorted(a_keys - b_keys), "removed": sorted(b_keys - a_keys)},
-            ))
+        if before.configurations:
+            before_configs = {c.key(): c for c in before.configurations}
+            after_configs = {c.key(): c for c in after.configurations}
+            b_keys = set(before_configs)
+            a_keys = set(after_configs)
+            if b_keys != a_keys:
+                events.append(ChangeEvent(
+                    product_key=product_key, change_type=ChangeType.SPEC_CHANGED,
+                    field="configurations",
+                    old_value=sorted(b_keys), new_value=sorted(a_keys),
+                    meta={"added": sorted(a_keys - b_keys), "removed": sorted(b_keys - a_keys)},
+                ))
+
+            # Configuration identity is intentionally stable (SKU, or the
+            # vendor's labelled option), but its commercial state is not. A
+            # preorder opening or a SKU becoming purchasable is an editorial
+            # event even when the product URL, family, and configuration key
+            # were already known. Do not emit a transition *to* UNKNOWN: that
+            # normally means a source stopped exposing a field, not that a
+            # product became unavailable.
+            for key in sorted(b_keys & a_keys):
+                old_availability = before_configs[key].availability
+                new_availability = after_configs[key].availability
+                if (old_availability != new_availability and
+                        new_availability.value != "unknown"):
+                    events.append(ChangeEvent(
+                        product_key=product_key,
+                        change_type=ChangeType.AVAILABILITY_CHANGED,
+                        field="configurations.availability",
+                        old_value={"configuration": key, "availability": old_availability.value},
+                        new_value={"configuration": key, "availability": new_availability.value},
+                        meta={"configuration": key},
+                    ))
 
         b_price_set = {(p.currency, p.region, p.amount) for p in before.prices}
         a_price_set = {(p.currency, p.region, p.amount) for p in after.prices}
