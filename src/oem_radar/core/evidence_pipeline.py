@@ -61,11 +61,18 @@ def candidates_for_evidence(
         return []
     if item.raw_data.get("Withdraw"):
         return []
+    # PSREF enumerates its entire current catalogue.  `IsNewProduct` is the
+    # only first-party freshness bit exposed by ProductCategoryTree; without
+    # it, a first experimental run would manufacture hundreds of stale
+    # "new-model" candidates.  Missing/false is intentionally conservative.
+    if not item.raw_data.get("IsNewProduct"):
+        return []
     common = dict(
         source_id=item.source_id, manufacturer=item.manufacturer,
         external_id=item.external_id, canonical_url=item.canonical_url,
         model=item.model, sku=item.sku, region=item.region,
         linked_product_key=product_key, published_at=item.published_at,
+        novelty_reason="official_is_new_product",
     )
     # A regional availability signal is only meaningful when the identity is
     # already known.  An unlinked regional page is still model evidence, not

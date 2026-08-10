@@ -389,6 +389,15 @@ class EvidenceCandidate(BaseModel):
     region: str | None = None
     linked_product_key: str | None = None
     published_at: datetime | None = None
+    novelty_reason: str
+
+    def dedup_key(self) -> str:
+        """Stable review identity; observation time must never create noise."""
+        basis = "|".join(str(x) for x in (
+            self.source_id, self.candidate_type.value, self.external_id,
+            self.sku, self.region, self.linked_product_key,
+        ))
+        return hashlib.sha256(basis.encode("utf-8")).hexdigest()[:32]
 
 
 class EvidenceRef(BaseModel):

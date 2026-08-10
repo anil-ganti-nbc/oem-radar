@@ -203,7 +203,8 @@ class _FakeEvidenceSource:
         return EvidenceDocument(url=ref.url, status=200, body=ref.inline_payload["n"])
 
     def extract(self, doc):
-        return [_item(external_id=doc.url.rsplit("/", 1)[-1], model=doc.body)]
+        return [_item(external_id=doc.url.rsplit("/", 1)[-1], model=doc.body,
+                      raw_data={"Withdraw": False, "IsNewProduct": True})]
 
 
 def test_pipeline_first_run_emits_added_events(store):
@@ -248,27 +249,41 @@ def test_evidence_never_writes_to_change_events(store):
 
 
 def test_current_unlinked_product_database_is_a_review_only_new_model_candidate(store):
-    item = _item(raw_data={"Withdraw": False})
+    item = _item(raw_data={"Withdraw": False, "IsNewProduct": True})
     candidates = candidates_for_evidence(item, None)
     assert [c.candidate_type for c in candidates] == [EvidenceCandidateType.NEW_MODEL_EVIDENCE]
     assert candidates[0].external_id == "9001"
 
 
 def test_withdrawn_psref_record_never_becomes_a_candidate():
-    assert candidates_for_evidence(_item(raw_data={"Withdraw": True}), None) == []
+    assert candidates_for_evidence(_item(raw_data={"Withdraw": True, "IsNewProduct": True}), None) == []
+
+
+def test_current_but_not_new_psref_record_is_stale_catalogue_not_a_candidate():
+    assert candidates_for_evidence(_item(raw_data={"Withdraw": False, "IsNewProduct": False}), None) == []
 
 
 def test_known_product_in_new_region_is_regional_availability_evidence():
     candidates = candidates_for_evidence(
-        _item(region="US", raw_data={"Withdraw": False}), "lenovo-storefront:x1"
+        _item(region="US", raw_data={"Withdraw": False, "IsNewProduct": True}), "lenovo-storefront:x1"
     )
     assert [c.candidate_type for c in candidates] == [EvidenceCandidateType.REGIONAL_PRODUCT_EVIDENCE]
     assert candidates[0].linked_product_key == "lenovo-storefront:x1"
 
 
 def test_unlinked_regional_page_is_not_mislabelled_availability():
-    candidates = candidates_for_evidence(_item(region="US", raw_data={"Withdraw": False}), None)
+    candidates = candidates_for_evidence(_item(region="US", raw_data={"Withdraw": False, "IsNewProduct": True}), None)
     assert candidates[0].candidate_type == EvidenceCandidateType.NEW_MODEL_EVIDENCE
+
+
+def test_candidate_dedup_key_is_stable_and_distinguishes_region():
+    a = candidates_for_evidence(_item(raw_data={"Withdraw": False, "IsNewProduct": True}), None)[0]
+    b = candidates_for_evidence(_item(raw_data={"Withdraw": False, "IsNewProduct": True}), None)[0]
+    regional = candidates_for_evidence(
+        _item(region="US", raw_data={"Withdraw": False, "IsNewProduct": True}), "lenovo:x1"
+    )[0]
+    assert a.dedup_key() == b.dedup_key()
+    assert a.dedup_key() != regional.dedup_key()
 
 
 def test_candidate_is_persisted_only_in_evidence_event_metadata(store):

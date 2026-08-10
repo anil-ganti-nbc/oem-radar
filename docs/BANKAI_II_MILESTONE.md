@@ -55,3 +55,51 @@ The evidence establishes only PSREF as a viable experimental candidate input. It
 - `EXPERIMENTAL`: Lenovo PSREF evidence candidates (no alerts or production metric impact).
 - `RESEARCH_ONLY`: Lenovo regional storefronts, ASUS regional endpoints, Acer regional surfaces, JD official-store discovery.
 - `HETZNER`: no deployment access or deployed commit was supplied; no server, scheduler, or production DB was touched.
+
+## PSREF live-validation soak (2026-08-10)
+
+An isolated temporary SQLite database was used for two consecutive live public
+PSREF passes. The first pass discovered and stored 1,545 evidence items but
+created only four candidates: ThinkPad X13 Detachable Gen 1, ThinkBook Plus G7
+Auto Twist, ThinkCentre neo 50q Gen 7, and ThinkCentre neo 50a 24 Gen 7. The
+second pass found all 1,545 unchanged and produced zero candidates. Both passes
+created zero `change_events` and zero notifications.
+
+The feed itself explains the filtering result: 952 records had `Withdraw=1`,
+589 were current but `IsNewProduct=0`, and only four were current with
+`IsNewProduct=1`. The official new flag therefore suppresses the 593-record
+catalogue flood, but it is **not a publication timestamp**. The candidate
+sample is too small and includes apparently old product identities, so no
+HIT/INTERESTING/NOISE/BUG outcome or precision rate is claimed yet.
+
+`scripts/psref_experimental_soak.py` provides a repeatable isolated pass. It
+defaults to `data/experimental/`, is not in the normal runner or scheduler,
+and has no notifier. Candidate records include source, type, model, exact
+identity when exposed, first observation (the evidence event), novelty reason,
+and deterministic dedup key.
+
+## Baseline-quiet recovery design
+
+The selected design is **C: review-only baseline candidates**, gated by a
+source-provided `published_at` timestamp within 14 days. Missing, malformed,
+naive, future, or old timestamps stay completely quiet. The pure, deterministic
+implementation in `core/onboarding.py` neither changes the product pipeline
+nor persists or delivers anything; integration awaits a real source with a
+reliable timestamp and a separate candidate-review store.
+
+## Revised Lenovo / ASUS reconnaissance
+
+Lenovo's root `robots.txt` advertises a public sitemap index. That index links
+official country shards, including CA, HK, MY, SG, GB, and US. The six sampled
+shards returned HTTP 200 and contained 1,294–2,843 `/p/` product URLs each,
+but none supplied `lastmod`. This is a viable **experimental baseline-then-
+delta** discovery contract: establish a region-scoped URL baseline, then fetch
+and verify only future new URLs. It must not be treated as dated launch data on
+the initial import.
+
+ASUS's public sitemap index contains 11,594 locale shards. Sample global,
+China, and India shards returned HTTP 200 and include product URLs (72, 133,
+and 44 laptop-path URLs respectively), but no `lastmod`. It is a promising
+research-only baseline/delta input, not yet a candidate collector; category
+filtering, product identity extraction, and locale-mirror deduplication need
+fixtures before implementation.
