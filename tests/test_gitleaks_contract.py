@@ -12,8 +12,10 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_captured_telemetry_identifiers_are_inert() -> None:
     lenovo = (
         ROOT / "tests/fixtures/lenovo_psref/psref_product_category_tree_trimmed.json"
-    ).read_text()
-    lg = (ROOT / "tests/fixtures/sitemap_jsonld/lg_product_14t90q.html").read_text()
+    ).read_text(encoding="utf-8")
+    lg = (ROOT / "tests/fixtures/sitemap_jsonld/lg_product_14t90q.html").read_text(
+        encoding="utf-8"
+    )
     assert '"ProductKey": "CLANK_FIXTURE_PRODUCT_KEY"' in lenovo
     assert "clientToken: 'CLANK_FIXTURE_RUM_TOKEN'" in lg
     assert 'window.BOOMR_API_key="CLANK_FIXTURE_BOOMR_KEY"' in lg
