@@ -39,7 +39,7 @@
                   {
                     "ProductID": 977,
                     "ProductName": "ThinkPad E14",
-                    "ProductKey": "ThinkPad_E14",
+                    "ProductKey": "CLANK_FIXTURE_PRODUCT_KEY",
                     "ImageURL": "https://psrefstuff.lenovo.com/syspool/Sys/Image/ThinkPad/ThinkPad_E14\\Compressedimage\\ThinkPad_E14_CT1_01.png",
                     "Withdraw": 1,
                     "IsDigitalSpec": 1,
