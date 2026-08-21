@@ -1,5 +1,9 @@
 # OEM Radar
 
+> **Phase 0: UNVERIFIED_PRODUCTION — promotion frozen.** Repository state is
+> not proof of the deployed SHA, scheduler, database, notification authority,
+> backup, or rollback target; those facts remain `UNKNOWN` in the fleet ledger.
+
 > Status: Active development — feature incomplete
 
 Product-intelligence platform for boutique PC OEMs. It watches vendor storefronts, reasons about **products** (not webpages), detects semantic changes between immutable snapshots, and pushes high-signal alerts to Discord — with the explicit mission of spotting new hardware before mainstream tech media does.
