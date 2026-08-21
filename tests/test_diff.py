@@ -1,6 +1,6 @@
 from oem_radar.core.config import SeverityRule
 from oem_radar.core.diff import diff, score
-from oem_radar.core.models import ChangeEvent, ChangeType, Component, Severity
+from oem_radar.core.models import Availability, ChangeEvent, ChangeType, Component, Configuration, Severity
 
 from test_models import make_product
 
@@ -45,3 +45,34 @@ def test_config_rules_override_defaults():
     e = ChangeEvent(product_key=KEY, change_type=ChangeType.IMAGES_CHANGED, field="images")
     assert score(e, quiet) == Severity.NOISE
     assert score(e) == Severity.NOTABLE  # default table
+
+
+def test_configuration_availability_transition_is_an_editorial_event():
+    """Known SKU + preorder opening must not require a new URL or product."""
+    before = make_product(configurations=[Configuration(
+        sku="SKU-1", label="16GB / 512GB", availability=Availability.PREORDER,
+    )])
+    after = make_product(configurations=[Configuration(
+        sku="SKU-1", label="16GB / 512GB", availability=Availability.IN_STOCK,
+    )])
+
+    events = diff(before, after, KEY)
+
+    assert len(events) == 1
+    event = events[0]
+    assert event.change_type == ChangeType.AVAILABILITY_CHANGED
+    assert event.field == "configurations.availability"
+    assert event.old_value == {"configuration": "SKU-1", "availability": "preorder"}
+    assert event.new_value == {"configuration": "SKU-1", "availability": "in_stock"}
+    assert event.severity == Severity.NOTABLE
+
+
+def test_configuration_transition_to_unknown_is_not_treated_as_unavailable():
+    before = make_product(configurations=[Configuration(
+        sku="SKU-1", availability=Availability.IN_STOCK,
+    )])
+    after = make_product(configurations=[Configuration(
+        sku="SKU-1", availability=Availability.UNKNOWN,
+    )])
+
+    assert diff(before, after, KEY) == []
