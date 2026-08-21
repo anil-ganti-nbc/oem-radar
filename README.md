@@ -6,6 +6,10 @@
 
 > Status: Active development — feature incomplete
 
+The dashboard is loopback-only and read-only during Phase 0. It has no
+authenticated remote or mutation profile; CSRF tokens are not authentication.
+Use approved CLI workflows for crawl and review changes.
+
 Product-intelligence platform for boutique PC OEMs. It watches vendor storefronts, reasons about **products** (not webpages), detects semantic changes between immutable snapshots, and pushes high-signal alerts to Discord — with the explicit mission of spotting new hardware before mainstream tech media does.
 
 ## What it is not

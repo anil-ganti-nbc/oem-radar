@@ -375,16 +375,14 @@ def build_dashboard_crawl_kwargs(radar: RadarConfig, config_dir: Path,
     authority that belongs to whoever launched the process and holds the
     config. `--no-crawl` on the command line always wins over config.
     """
-    from .core.crawl_service import CrawlController
-
     dash = radar.dashboard
-    if args is not None and getattr(args, "no_crawl", False):
-        return {"crawl": None, "auto_crawl": False,
-                "stale_after_hours": dash.stale_after_hours}
+    # Phase 0 has no authenticated dashboard mutation profile. CSRF is not
+    # authentication, so dashboard-triggered and launch-triggered crawls are
+    # disabled regardless of older configuration values.
     return {
-        "crawl": CrawlController(config_dir, allow_manual=dash.allow_manual_crawl),
-        "auto_crawl": dash.auto_crawl_on_start,
-        "auto_crawl_force": dash.auto_crawl_force,
+        "crawl": None,
+        "auto_crawl": False,
+        "auto_crawl_force": False,
         "stale_after_hours": dash.stale_after_hours,
     }
 

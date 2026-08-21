@@ -290,7 +290,7 @@ def test_no_crawl_flag_overrides_config(tmp_path):
     assert kw["crawl"] is None and kw["auto_crawl"] is False
 
     kw2 = build_dashboard_crawl_kwargs(radar, tmp_path, argparse.Namespace(no_crawl=False))
-    assert kw2["crawl"] is not None and kw2["auto_crawl"] is True
+    assert kw2["crawl"] is None and kw2["auto_crawl"] is False
 
 
 # ---------------------------------------------------------------------------
@@ -340,37 +340,40 @@ def fake_httpd(monkeypatch):
     yield
 
 
-def test_serve_auto_crawls_on_start(fake_httpd, tmp_path):
+def test_serve_rejects_auto_crawl_on_start(fake_httpd, tmp_path):
     from oem_radar.dashboard import serve
 
     ctl = RecordingController()
-    serve(str(tmp_path / "x.db"), open_browser=False, crawl=ctl, auto_crawl=True)
-    assert ctl.calls == [{"force": False, "source": None, "trigger": "auto"}]
+    with pytest.raises(ValueError, match="read-only"):
+        serve(str(tmp_path / "x.db"), open_browser=False, crawl=ctl, auto_crawl=True)
+    assert ctl.calls == []
 
 
-def test_serve_auto_crawl_does_not_force_by_default(fake_httpd, tmp_path):
+def test_serve_rejects_crawl_controller_even_without_force(fake_httpd, tmp_path):
     """Auto-crawl on every launch is only safe because it respects
     min_interval. If it ever forces, opening the dashboard five times
     re-crawls every catalog five times."""
     from oem_radar.dashboard import serve
 
     ctl = RecordingController()
-    serve(str(tmp_path / "x.db"), open_browser=False, crawl=ctl, auto_crawl=True)
-    assert ctl.calls[0]["force"] is False
+    with pytest.raises(ValueError, match="read-only"):
+        serve(str(tmp_path / "x.db"), open_browser=False, crawl=ctl, auto_crawl=True)
+    assert ctl.calls == []
 
 
-def test_serve_without_auto_crawl_triggers_nothing(fake_httpd, tmp_path):
+def test_serve_rejects_manual_crawl_controller(fake_httpd, tmp_path):
     from oem_radar.dashboard import serve
 
     ctl = RecordingController()
-    serve(str(tmp_path / "x.db"), open_browser=False, crawl=ctl, auto_crawl=False)
+    with pytest.raises(ValueError, match="read-only"):
+        serve(str(tmp_path / "x.db"), open_browser=False, crawl=ctl, auto_crawl=False)
     assert ctl.calls == []
 
 
 def test_serve_read_only_needs_no_controller(fake_httpd, tmp_path):
     from oem_radar.dashboard import serve
 
-    serve(str(tmp_path / "x.db"), open_browser=False, crawl=None, auto_crawl=True)
+    serve(str(tmp_path / "x.db"), open_browser=False, crawl=None, auto_crawl=False)
 
 
 # ---------------------------------------------------------------------------
@@ -399,12 +402,14 @@ def server(tmp_path, request):
     _Handler.max_body = 16384
     _Handler.csrf_token = _CSRF_TOKEN
     _Handler.crawl = ctl
+    _Handler.mutation_authorizer = lambda _headers: True
     _Handler.stale_after_hours = 6.0
     httpd = ThreadingHTTPServer(("127.0.0.1", port), _Handler)
     threading.Thread(target=httpd.serve_forever, daemon=True).start()
     yield {"port": port, "csrf": _CSRF_TOKEN, "crawl": ctl}
     httpd.shutdown()
     _Handler.crawl = None  # class attribute: never leak into another test
+    _Handler.mutation_authorizer = None
 
 
 def _req(port, method, path, body=None, headers=None):
