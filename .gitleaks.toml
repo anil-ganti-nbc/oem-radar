@@ -1,0 +1,20 @@
+title = "OEM Radar secret scanning policy"
+
+[[allowlists]]
+description = "The Lenovo ProductKey is a public catalog identifier in a captured PSREF response."
+paths = ['''^tests/fixtures/lenovo_psref/psref_product_category_tree_trimmed\.json$''']
+rules = ["generic-api-key"]
+regexTarget = "match"
+regexes = [
+  '''ProductKey"\s*:\s*"[^"]+"''',
+]
+
+[[allowlists]]
+description = "The captured LG page contains public client-side RUM and BOOMR identifiers."
+paths = ['''^tests/fixtures/sitemap_jsonld/lg_product_14t90q\.html$''']
+rules = ["generic-api-key"]
+regexTarget = "match"
+regexes = [
+  '''clientToken\s*:\s*[\x27][^\x27]+[\x27]''',
+  '''window\.BOOMR_API_key\s*=\s*["'][^"']+["']''',
+]

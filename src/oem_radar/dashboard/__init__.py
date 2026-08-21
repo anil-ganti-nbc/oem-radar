@@ -8,6 +8,7 @@ default. CSRF token is per-process and required for browser review writes.
 from __future__ import annotations
 
 import json
+import ipaddress
 import logging
 import re
 import secrets
@@ -90,6 +91,7 @@ class _Handler(BaseHTTPRequestHandler):
     #: serving a database and deciding to crawl the internet are different
     #: authorities, and only the entry point has the config to decide.
     crawl = None
+    mutation_authorizer = None
     stale_after_hours: float = 6.0
 
     def log_message(self, *a):
@@ -280,6 +282,13 @@ class _Handler(BaseHTTPRequestHandler):
             self.send_error(500, str(exc)[:200])
 
     def do_POST(self):
+        authorizer = type(self).mutation_authorizer
+        if authorizer is None or not authorizer(self.headers):
+            _json_error(
+                self, 403, "authenticated_profile_required",
+                "Phase 0 dashboard is read-only; CSRF is not authentication.",
+            )
+            return
         path = urlparse(self.path).path
         try:
             if path == "/api/mark-seen":
@@ -479,6 +488,15 @@ class _Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
 
+def require_loopback_host(host: str) -> None:
+    try:
+        loopback = ipaddress.ip_address(host).is_loopback
+    except ValueError:
+        loopback = host.lower() == "localhost"
+    if not loopback:
+        raise ValueError("OEM Radar has no authenticated remote dashboard profile; host must be loopback")
+
+
 def serve(
     db_path: str,
     host: str = "127.0.0.1",
@@ -492,12 +510,18 @@ def serve(
     auto_crawl_force: bool = False,
     stale_after_hours: float = 6.0,
 ) -> None:
+    require_loopback_host(host)
+    if crawl is not None or auto_crawl:
+        raise ValueError(
+            "Phase 0 dashboard is read-only; crawl controllers and auto-crawl are not permitted"
+        )
     handler = partial(_Handler)
     _Handler.db_path = db_path
     _Handler.raw_dir = raw_dir or str(Path(db_path).parent / "raw")
     _Handler.max_body = max_body
     _Handler.csrf_token = _CSRF_TOKEN
-    _Handler.crawl = crawl
+    _Handler.crawl = None
+    _Handler.mutation_authorizer = None
     _Handler.stale_after_hours = stale_after_hours
     httpd = ThreadingHTTPServer((host, port), handler)
     url = f"http://{host}:{port}/"
@@ -508,12 +532,7 @@ def serve(
     # Started before serve_forever and in the background, so the browser
     # opens now rather than after a crawl that can take over an hour.
     # Not forced: each source's own min_interval still decides.
-    if crawl is not None and auto_crawl:
-        started, reason, _ = crawl.trigger(trigger="auto", force=auto_crawl_force)
-        print("  auto-crawl: started in background" if started
-              else f"  auto-crawl: skipped ({reason})")
-    elif crawl is not None:
-        print("  crawl trigger available (auto-crawl off; use the button)")
+    print("  Phase 0 read-only: review and crawl mutations are disabled")
 
     if open_browser:
         try:

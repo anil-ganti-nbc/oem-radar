@@ -129,11 +129,13 @@ def server(tmp_path):
     _Handler.raw_dir = raw
     _Handler.max_body = 16384
     _Handler.csrf_token = _CSRF_TOKEN
+    _Handler.mutation_authorizer = lambda _headers: True
     httpd = ThreadingHTTPServer(("127.0.0.1", port), _Handler)
     t = threading.Thread(target=httpd.serve_forever, daemon=True)
     t.start()
     yield {"port": port, "eid": eid, "csrf": _CSRF_TOKEN, "db": db, "raw": raw}
     httpd.shutdown()
+    _Handler.mutation_authorizer = None
 
 
 def _req(port, method, path, body=None, headers=None):
@@ -200,6 +202,30 @@ def test_api_post_review_and_history(server):
     assert status == 200
     assert data["review"]["outcome"] == "BUG"
     assert len(data["history"]) == 2
+
+
+def test_phase0_csrf_alone_does_not_authorize_mutation(server):
+    from oem_radar.dashboard import _Handler
+
+    _Handler.mutation_authorizer = None
+    status, data = _req(
+        server["port"], "POST", f"/api/alerts/{server['eid']}/review",
+        body={"outcome": "NOISE", "csrf_token": server["csrf"]},
+        headers={"X-OEM-Radar-CSRF": server["csrf"]},
+    )
+    assert status == 403
+    assert data["error"]["code"] == "authenticated_profile_required"
+    _Handler.mutation_authorizer = lambda _headers: True
+
+
+def test_phase0_host_validation_is_fail_closed():
+    from oem_radar.dashboard import require_loopback_host
+
+    for host in ("127.0.0.1", "::1", "localhost"):
+        require_loopback_host(host)
+    for host in ("0.0.0.0", "::", "192.168.1.20", "bad host", ""):
+        with pytest.raises(ValueError):
+            require_loopback_host(host)
 
 
 def test_api_invalid_outcome(server):
