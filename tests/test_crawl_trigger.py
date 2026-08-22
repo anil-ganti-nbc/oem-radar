@@ -265,9 +265,11 @@ def test_execute_crawl_is_what_cmd_run_calls():
 # config
 # ---------------------------------------------------------------------------
 
-def test_dashboard_config_defaults():
+def test_dashboard_config_defaults_fail_closed():
+    # Fleet Law 5 (Phase 2C): dashboards must not become collection/notification
+    # actors implicitly. Default is fail-closed; opting in is explicit.
     d = DashboardConfig()
-    assert d.auto_crawl_on_start is True
+    assert d.auto_crawl_on_start is False
     assert d.allow_manual_crawl is True
     # Forcing on every launch would re-crawl every catalog on every open.
     assert d.auto_crawl_force is False
@@ -275,7 +277,7 @@ def test_dashboard_config_defaults():
 
 def test_shipped_radar_yaml_has_a_dashboard_section():
     cfg = load_radar_config(Path("config/radar.yaml"))
-    assert cfg.dashboard.auto_crawl_on_start is True
+    assert cfg.dashboard.auto_crawl_on_start is False
     assert cfg.dashboard.stale_after_hours > 0
 
 

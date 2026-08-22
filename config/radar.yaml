@@ -107,7 +107,7 @@ run_lock_path: data/oem-radar.lock
 # notifications. Set auto_crawl_on_start: false (or pass --no-crawl) for
 # the read-only behaviour this project had before.
 dashboard:
-  auto_crawl_on_start: true
+  auto_crawl_on_start: false  # Fleet Law 5: fail-closed default since Phase 2C; opt in deliberately
   allow_manual_crawl: true      # the "Run collectors now" button
   auto_crawl_force: false       # forcing on every launch re-crawls every catalog
   stale_after_hours: 6          # older than this and the UI calls the data stale

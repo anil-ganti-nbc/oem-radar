@@ -155,12 +155,16 @@ class DashboardConfig(BaseModel):
     a real side effect: it fetches from OEM sites and sends Discord
     notifications, exactly as `oem-radar run` does.
 
-    `auto_crawl_on_start` is safe to leave on: it does *not* force. Every
-    source's own `min_interval` still applies, so opening the dashboard
-    five times in an hour crawls nothing the first run already covered.
+    Fleet Law 5 (single notification authority): a dashboard that implicitly
+    becomes a production collection/notification actor is an authority leak,
+    so `auto_crawl_on_start` now defaults FAIL-CLOSED (False). Opting in is
+    an explicit operator decision per deployment; even then the Phase 0
+    read-only dashboard `serve()` rejects crawl controllers outright, and
+    every source's own `min_interval` still applies. Forcing on startup was
+    never allowed by default.
     """
 
-    auto_crawl_on_start: bool = True
+    auto_crawl_on_start: bool = False
     allow_manual_crawl: bool = True
     #: Forcing on startup would re-crawl every catalog on every launch.
     #: Off by default; the UI's "Force re-crawl" button is the deliberate,
