@@ -361,8 +361,18 @@ def cmd_dashboard(args: argparse.Namespace) -> int:
           open_browser=not args.no_browser,
           max_body=fb.max_review_request_bytes,
           raw_dir=radar.raw_dir,
-          **build_dashboard_crawl_kwargs(radar, _P(args.config), args))
+          **build_dashboard_crawl_kwargs(radar, _P(args.config), args),
+          **build_dashboard_review_kwarg(radar, args))
     return 0
+
+
+def build_dashboard_review_kwarg(radar: RadarConfig,
+                                 args: argparse.Namespace | None = None) -> dict:
+    """M4.5 QC activation: review writes are opt-in per launch via
+    --allow-review-writes (default off). Loopback-only remains enforced in
+    serve(); only /api/alerts/{id}/review is ever authorized."""
+    enabled = getattr(args, "allow_review_writes", False)
+    return {"allow_review_writes": bool(enabled)}
 
 
 def build_dashboard_crawl_kwargs(radar: RadarConfig, config_dir: Path,
@@ -601,6 +611,10 @@ def main(argv: list[str] | None = None) -> int:
     p_dash.add_argument("--no-crawl", action="store_true",
                         help="serve read-only: no auto-crawl on start, no "
                              "'run collectors now' button (overrides config)")
+    p_dash.add_argument("--allow-review-writes", action="store_true",
+                        help="M4.5 QC activation: authorize ONLY the "
+                             "alert-review POST path (loopback still enforced; "
+                             "default off)")
     p_dash.set_defaults(func=cmd_dashboard)
 
     p_outbox = sub.add_parser("outbox", help="notification outbox status")

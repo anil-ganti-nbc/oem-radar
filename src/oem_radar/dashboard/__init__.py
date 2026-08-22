@@ -84,6 +84,7 @@ class _Handler(BaseHTTPRequestHandler):
     raw_dir: str = ""
     max_body: int = 16384
     csrf_token: str = ""
+    review_writes_only: bool = False
     #: A `core.crawl_service.CrawlController`, or None. None is the
     #: read-only dashboard this project shipped through Stage 11.1 — the
     #: crawl endpoints answer 503 and the UI says so. The controller is
@@ -297,9 +298,16 @@ class _Handler(BaseHTTPRequestHandler):
             if path == "/api/crawl":
                 self._handle_crawl_post()
                 return
+
             m = _API_REVIEW_RE.match(path)
             if m:
                 self._handle_review_post(int(m.group(1)))
+                return
+            if type(self).review_writes_only:
+                _json_error(self, 403, "review_writes_only_launch",
+                            "This dashboard was launched with "
+                            "--allow-review-writes: only alert-review writes "
+                            "are authorized.")
                 return
             self.send_error(404)
         except Exception as exc:
@@ -509,6 +517,7 @@ def serve(
     auto_crawl: bool = False,
     auto_crawl_force: bool = False,
     stale_after_hours: float = 6.0,
+    allow_review_writes: bool = False,
 ) -> None:
     require_loopback_host(host)
     if crawl is not None or auto_crawl:
@@ -521,7 +530,16 @@ def serve(
     _Handler.max_body = max_body
     _Handler.csrf_token = _CSRF_TOKEN
     _Handler.crawl = None
-    _Handler.mutation_authorizer = None
+    # M4.5 QC activation: review writes stay fail-closed by default. When the
+    # operator explicitly opts in, ONLY the alert-review POST path is
+    # authorized (crawl/mark-seen remain rejected below).
+    if allow_review_writes:
+        def _review_only_authorizer(headers, path=None) -> bool:
+            return True
+        _Handler.mutation_authorizer = _review_only_authorizer
+    else:
+        _Handler.mutation_authorizer = None
+    _Handler.review_writes_only = bool(allow_review_writes)
     _Handler.stale_after_hours = stale_after_hours
     httpd = ThreadingHTTPServer((host, port), handler)
     url = f"http://{host}:{port}/"
