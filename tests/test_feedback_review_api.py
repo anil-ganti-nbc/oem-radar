@@ -206,6 +206,98 @@ def test_api_post_review_and_history(server):
     assert len(data["history"]) == 2
 
 
+# ---------------------------------------------------------------------------
+# Fleet-wide QC-archive contract: a review decision archives the alert
+# (full snapshot + provenance) to a separate DB and removes it from the
+# active queue immediately.
+# ---------------------------------------------------------------------------
+
+def test_review_post_archives_the_alert_and_it_leaves_the_active_queue(server):
+    from oem_radar.core.qc_archive import QCArchive
+
+    status, data = _req(
+        server["port"], "POST", f"/api/alerts/{server['eid']}/review",
+        body={"outcome": "HIT", "csrf_token": server["csrf"]},
+        headers={"X-OEM-Radar-CSRF": server["csrf"]},
+    )
+    assert status == 200
+    assert data["qc_archived"] is True
+
+    archive = QCArchive(Path(server["db"]).parent / "oem_radar_qc.db")
+    row = archive.decision_for(server["eid"])
+    assert row is not None
+    assert row["decision"] == "HIT"
+    assert row["product_key"] == "gmktec:k12"
+    assert row["source_key"] == "gmktec"
+
+    # removed from the active queue: collect() no longer lists it once its
+    # id is passed as archived, exactly as the dashboard's GET / and
+    # /api/data handlers do.
+    conn = connect_readonly(server["db"])
+    try:
+        data2 = collect(conn, archived_alert_ids=archive.archived_alert_ids())
+    finally:
+        conn.close()
+    assert all(e["id"] != server["eid"] for e in data2["events"])
+
+
+def test_second_review_post_does_not_re_archive_but_still_updates_live_outcome(server):
+    """A reviewer changing their mind still updates the live alert_reviews
+    row (that's what alert_review_history is for) but the QC archive's
+    UNIQUE(alert_id) makes the second archive attempt a graceful no-op --
+    never a crash, never a duplicate row."""
+    from oem_radar.core.qc_archive import QCArchive
+
+    _req(server["port"], "POST", f"/api/alerts/{server['eid']}/review",
+        body={"outcome": "NOISE", "csrf_token": server["csrf"]},
+        headers={"X-OEM-Radar-CSRF": server["csrf"]})
+    status, data = _req(
+        server["port"], "POST", f"/api/alerts/{server['eid']}/review",
+        body={"outcome": "HIT", "csrf_token": server["csrf"]},
+        headers={"X-OEM-Radar-CSRF": server["csrf"]},
+    )
+    assert status == 200
+    assert data["review"]["outcome"] == "HIT"  # live outcome did change
+    assert data["qc_archived"] is False         # but no second archive write
+
+    archive = QCArchive(Path(server["db"]).parent / "oem_radar_qc.db")
+    assert archive.decision_for(server["eid"])["decision"] == "NOISE"  # frozen at first decision
+    assert len(archive.recent(10)) == 1
+
+
+def test_qc_page_and_api_list_the_archived_decision(server):
+    _req(server["port"], "POST", f"/api/alerts/{server['eid']}/review",
+        body={"outcome": "BUG", "reviewer": "anil", "csrf_token": server["csrf"]},
+        headers={"X-OEM-Radar-CSRF": server["csrf"]})
+
+    status, data = _req(server["port"], "GET", "/api/qc/recent")
+    assert status == 200
+    assert any(r["alert_id"] == server["eid"] and r["decision"] == "BUG"
+              for r in data["recent"])
+
+    status, html = _req(server["port"], "GET", "/qc")
+    assert status == 200
+    assert "Recently QCed" in html
+    assert "BUG" in html
+
+
+def test_review_post_sends_no_notifications(server, tmp_path):
+    """A QC decision must never fire a notification -- it's a local
+    editorial record, not a collection/notification action."""
+    before = SqliteStore(server["db"], server["raw"])
+    before_count = before.db.execute("SELECT COUNT(*) c FROM notifications").fetchone()["c"]
+    before.close()
+
+    _req(server["port"], "POST", f"/api/alerts/{server['eid']}/review",
+        body={"outcome": "INTERESTING", "csrf_token": server["csrf"]},
+        headers={"X-OEM-Radar-CSRF": server["csrf"]})
+
+    after = SqliteStore(server["db"], server["raw"])
+    after_count = after.db.execute("SELECT COUNT(*) c FROM notifications").fetchone()["c"]
+    after.close()
+    assert after_count == before_count
+
+
 def test_phase0_csrf_alone_does_not_authorize_mutation(server):
     from oem_radar.dashboard import _Handler
 

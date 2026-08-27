@@ -100,8 +100,24 @@ def _latest_product_brief(conn: sqlite3.Connection, product_key: str,
     return brief
 
 
-def collect(conn: sqlite3.Connection, limit: int = 300) -> dict:
+def _qc_exclusion_sql(archived_alert_ids) -> str:
+    """`archived_alert_ids` is the set of change_events.id already archived
+    to the QC archive (core.qc_archive.QCArchive) -- a QC'd alert leaves
+    the active queue immediately, same scope as the baseline exclusion
+    above (only the default/active view; diagnostics are unaffected).
+    Interpolated directly (not a bind param) because the count varies per
+    call and these are our own integers read back from our own DB, not
+    user input."""
+    if not archived_alert_ids:
+        return ""
+    ids = ",".join(str(int(i)) for i in sorted(archived_alert_ids))
+    return f" AND e.id NOT IN ({ids})"
+
+
+def collect(conn: sqlite3.Connection, limit: int = 300, archived_alert_ids=frozenset()) -> dict:
     brief_cache: dict = {}
+    qc_excl = _qc_exclusion_sql(archived_alert_ids)
+    active_events_where = _DEFAULT_EVENTS_WHERE + qc_excl
 
     def brief(key):
         return _latest_product_brief(conn, key, brief_cache)
@@ -109,6 +125,8 @@ def collect(conn: sqlite3.Connection, limit: int = 300) -> dict:
     # ---- product change events (the heart of the view) ----
     # Product changes only — evidence has its own stream and its own tab.
     # Review join is optional: older DBs without alert_reviews still work.
+    # A QC'd alert (archived_alert_ids) is excluded here same as a
+    # baseline event: still real, just no longer part of the active queue.
     try:
         event_rows = conn.execute(
             "SELECT e.id, e.product_key, e.change_type, e.field, e.old_value_json, "
@@ -117,7 +135,7 @@ def collect(conn: sqlite3.Connection, limit: int = 300) -> dict:
             "FROM change_events e "
             "LEFT JOIN notifications n ON n.change_event_id = e.id "
             "LEFT JOIN alert_reviews r ON r.alert_id = e.id "
-            f"WHERE {_DEFAULT_EVENTS_WHERE} "
+            f"WHERE {active_events_where} "
             "ORDER BY e.detected_at DESC, e.id DESC LIMIT ?", (limit,),
         ).fetchall()
     except sqlite3.OperationalError:
@@ -127,7 +145,7 @@ def collect(conn: sqlite3.Connection, limit: int = 300) -> dict:
             "n.status AS notif_status "
             "FROM change_events e "
             "LEFT JOIN notifications n ON n.change_event_id = e.id "
-            f"WHERE {_DEFAULT_EVENTS_WHERE} "
+            f"WHERE {active_events_where} "
             "ORDER BY e.detected_at DESC, e.id DESC LIMIT ?", (limit,),
         ).fetchall()
     events = []
@@ -186,7 +204,7 @@ def collect(conn: sqlite3.Connection, limit: int = 300) -> dict:
     change_types = [
         r["change_type"] for r in conn.execute(
             "SELECT DISTINCT e.change_type FROM change_events e "
-            f"WHERE {_DEFAULT_EVENTS_WHERE} ORDER BY e.change_type"
+            f"WHERE {active_events_where} ORDER BY e.change_type"
         ).fetchall()
     ]
 
@@ -239,7 +257,7 @@ def collect(conn: sqlite3.Connection, limit: int = 300) -> dict:
         "stories": scalar("SELECT COUNT(*) FROM stories"),
         "snapshots": scalar("SELECT COUNT(*) FROM snapshots"),
         "events": scalar(
-            f"SELECT COUNT(*) FROM change_events e WHERE {_DEFAULT_EVENTS_WHERE}"),
+            f"SELECT COUNT(*) FROM change_events e WHERE {active_events_where}"),
         "baseline_events": scalar(
             f"SELECT COUNT(*) FROM change_events e WHERE {_PRODUCT_EVENTS_WHERE} "
             f"AND NOT ({EXCLUDE_BASELINE_EVENTS_SQL})"),
@@ -251,8 +269,9 @@ def collect(conn: sqlite3.Connection, limit: int = 300) -> dict:
             "SELECT COUNT(*) FROM notifications WHERE status='pending'"),
         "unreviewed_events": scalar(
             "SELECT COUNT(*) FROM change_events e "
-            f"WHERE {_DEFAULT_EVENTS_WHERE} AND "
+            f"WHERE {active_events_where} AND "
             "NOT EXISTS (SELECT 1 FROM alert_reviews r WHERE r.alert_id = e.id)"),
+        "qc_archived_events": len(archived_alert_ids),
         "enabled_sources": scalar("SELECT COUNT(*) FROM sources WHERE enabled=1"),
         "last_run": (last_run["started_at"] if last_run else None),
     }

@@ -18,6 +18,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
 
+from ..core.qc_archive import AlreadyQCed, QCArchive
 from ..providers.sqlite import SqliteStore, connect_readonly
 from .data import (
     collect,
@@ -25,7 +26,7 @@ from .data import (
     collect_baseline_events,
     collect_evidence_detail,
 )
-from .render import render, render_evidence_page, render_review_page
+from .render import render, render_evidence_page, render_qc_page, render_review_page
 
 log = logging.getLogger("oem_radar.dashboard")
 
@@ -109,13 +110,21 @@ class _Handler(BaseHTTPRequestHandler):
     def _readonly(self):
         return connect_readonly(self.db_path)
 
+    def _qc_archive(self) -> QCArchive:
+        """Separate, on-disk archive DB for alert-review QC decisions --
+        sibling file to the live DB, never the live DB's own schema. See
+        core.qc_archive for why (fleet-wide QC-archive contract)."""
+        return QCArchive(Path(self.db_path).parent / "oem_radar_qc.db")
+
     def do_GET(self):
         try:
             path = urlparse(self.path).path
             if path.startswith("/api/data"):
                 conn = self._readonly()
                 try:
-                    body = json.dumps(collect(conn)).encode("utf-8")
+                    body = json.dumps(
+                        collect(conn, archived_alert_ids=self._qc_archive().archived_alert_ids())
+                    ).encode("utf-8")
                 finally:
                     conn.close()
                 self._send(200, body, "application/json")
@@ -276,13 +285,33 @@ class _Handler(BaseHTTPRequestHandler):
                 return
 
             if path in ("/", "/index.html"):
+                archived = self._qc_archive().archived_alert_ids()
                 conn = self._readonly()
                 try:
-                    data = collect(conn)
+                    data = collect(conn, archived_alert_ids=archived)
                 finally:
                     conn.close()
                 body = render(data, csrf_token=self.csrf_token).encode("utf-8")
                 self._send(200, body, "text/html; charset=utf-8")
+                return
+
+            if path == "/qc" or path.startswith("/qc/"):
+                recent = [dict(r) for r in self._qc_archive().recent(limit=100)]
+                html = render_qc_page(recent, csrf_token=self.csrf_token)
+                self._send(200, html.encode("utf-8"), "text/html; charset=utf-8")
+                return
+
+            if path == "/api/qc/recent":
+                from urllib.parse import parse_qs
+                qs = parse_qs(urlparse(self.path).query)
+                try:
+                    limit = int((qs.get("limit", [None])[0]) or 50)
+                except ValueError:
+                    limit = 50
+                limit = max(1, min(limit, 500))
+                recent = [dict(r) for r in self._qc_archive().recent(limit=limit)]
+                self._send(200, json.dumps({"recent": recent}).encode("utf-8"),
+                          "application/json")
                 return
 
             self.send_error(404)
@@ -490,6 +519,30 @@ class _Handler(BaseHTTPRequestHandler):
                     reviewer=data.get("reviewer"),
                     change_note=data.get("change_note"),
                 )
+                # Fleet-wide QC-archive contract: the alert's first terminal
+                # decision is transactionally archived (full snapshot +
+                # provenance) to a separate DB and leaves the active queue
+                # immediately (see collect()'s archived_alert_ids filter).
+                # A later change-of-mind still updates alert_reviews above
+                # (that is what alert_review_history is for) but does not
+                # re-archive -- the UNIQUE(alert_id) constraint makes that
+                # a no-op, never a duplicate or a crash.
+                event_row = store.db.execute(
+                    "SELECT id, product_key, change_type, field, old_value_json, "
+                    "new_value_json, severity, meta_json, detected_at "
+                    "FROM change_events WHERE id=?", (alert_id,),
+                ).fetchone()
+                archived = False
+                if event_row is not None:
+                    try:
+                        self._qc_archive().archive(
+                            event_row, outcome, reason_codes=reason_codes,
+                            note=data.get("reviewer_note"),
+                            decided_by=data.get("reviewer"),
+                        )
+                        archived = True
+                    except AlreadyQCed:
+                        archived = False  # already archived by an earlier decision
             except FeedbackError as fe:
                 msg = str(fe)
                 code = "validation_error"
@@ -513,7 +566,9 @@ class _Handler(BaseHTTPRequestHandler):
         finally:
             hist_store.close()
 
-        body = json.dumps({"ok": True, "review": rev, "history": history}).encode("utf-8")
+        body = json.dumps(
+            {"ok": True, "review": rev, "history": history, "qc_archived": archived}
+        ).encode("utf-8")
         self._send(200, body, "application/json")
 
     def _send(self, status: int, body: bytes, ctype: str) -> None:

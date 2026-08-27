@@ -181,6 +181,7 @@ _PAGE = r"""<!DOCTYPE html>
   <a href="/?tab=events">Alerts</a>
   <a href="/?tab=evidence">Evidence</a>
   <a href="/feedback">Feedback</a>
+  <a href="/qc">Recently QCed</a>
 </nav>
 <div class="wrap">
   <div class="crawlbar" id="crawlbar"></div>
@@ -898,6 +899,7 @@ def render_review_page(detail: dict, csrf_token: str = "") -> str:
   <a href="/">&larr; Overview</a>
   <a href="/?tab=events">&larr; Alerts</a>
   <a href="/feedback">Feedback</a>
+  <a href="/qc">Recently QCed</a>
   <span class="sep"></span>
   {"<a href='/alerts/"+str(int(d['prev_id']))+"'>&larr; Prev</a>" if d.get('prev_id') else ""}
   {"<a href='/alerts/"+str(int(d['next_id']))+"'>Next &rarr;</a>" if d.get('next_id') else ""}
@@ -1274,6 +1276,7 @@ Status IMPLEMENTED is recordkeeping only — it does not modify collectors.</p>
   <a href="/">&larr; Overview</a>
   <a href="/?tab=events">Alerts</a>
   <a href="/feedback" class="here">Feedback</a>
+  <a href="/qc">Recently QCed</a>
 </nav>
 <div class="wrap">
   <div class="stats">{cards()}</div>
@@ -1288,6 +1291,81 @@ Status IMPLEMENTED is recordkeeping only — it does not modify collectors.</p>
     <h3>Rule suggestions</h3>
     <p class="warn">No Activate control. Accept/Reject is manual approval only.</p>
     {sug_html}
+  </div>
+</div>
+</body></html>"""
+
+
+def render_qc_page(recent: list, csrf_token: str = "") -> str:
+    """"Recently QCed" -- the fleet-wide QC-archive contract's own tab:
+    every alert whose reviewer decision (HIT/INTERESTING/NOISE/BUG --
+    OEM Radar's domain-appropriate equivalent of Useful/Not useful/False
+    positive/Out of stock; see core.qc_archive) has been archived and
+    taken out of the active Alerts queue. Read-only: this page has no
+    "undo" -- reopening a QC'd alert (if ever needed) is a direct DB
+    action, same as every other fleet clank's QC archive."""
+    import html as _html
+
+    def esc(s):
+        return _html.escape(str(s) if s is not None else "", quote=True)
+
+    _DECISION_CLASS = {"HIT": "hit", "INTERESTING": "interesting",
+                       "NOISE": "noise", "BUG": "bug"}
+
+    def row(r):
+        cls = _DECISION_CLASS.get(r.get("decision"), "")
+        note = esc(r.get("note") or "")
+        return (
+            f"<tr><td>{esc(r.get('decided_at'))}</td>"
+            f"<td><span class='qcdot {cls}'>{esc(r.get('decision'))}</span></td>"
+            f"<td><a href='/alerts/{esc(r.get('alert_id'))}'>#{esc(r.get('alert_id'))}</a></td>"
+            f"<td>{esc(r.get('source_key'))}</td>"
+            f"<td>{esc(r.get('product_key'))}</td>"
+            f"<td>{esc(r.get('change_type'))}</td>"
+            f"<td>{esc(r.get('decided_by') or '')}</td>"
+            f"<td>{note}</td></tr>"
+        )
+
+    body = "".join(row(r) for r in recent) or (
+        "<tr><td colspan=8 class='muted'>No QC decisions archived yet. "
+        "Review an alert to archive its first decision here.</td></tr>"
+    )
+
+    return f"""<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Recently QCed &middot; OEM Radar</title>
+<style>
+:root{{--bg:#0d1017;--panel:#161b22;--line:#2a323d;--fg:#e6edf3;--muted:#8b98a5;--accent:#3fb950}}
+body{{margin:0;background:var(--bg);color:var(--fg);font:14px/1.5 system-ui,sans-serif}}
+a{{color:#3f8cd6}} header{{padding:14px 24px;border-bottom:1px solid var(--line)}}
+.wrap{{max-width:1080px;margin:0 auto;padding:20px 24px}}
+nav.crumbs{{max-width:1080px;margin:0 auto;padding:10px 24px 0;display:flex;gap:8px;flex-wrap:wrap}}
+nav.crumbs a{{background:var(--panel);border:1px solid var(--line);
+  border-radius:20px;padding:6px 14px;font-size:12.5px;color:var(--fg)}}
+nav.crumbs a:hover{{border-color:var(--accent);color:var(--accent);text-decoration:none}}
+nav.crumbs a.here{{border-color:var(--accent);color:var(--accent)}}
+.panel{{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px}}
+table{{width:100%;border-collapse:collapse}} td,th{{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}}
+.muted{{color:var(--muted)}}
+.qcdot{{font-size:10.5px;font-weight:700;border-radius:20px;padding:2px 9px;white-space:nowrap}}
+.qcdot.hit{{color:#0b1f12;background:#3fb950}} .qcdot.interesting{{color:#0b1f12;background:#6ab0f3}}
+.qcdot.noise{{color:var(--muted);background:var(--line)}} .qcdot.bug{{color:#fff;background:#c0392b}}
+</style></head><body>
+<header><h1><a href="/">OEM Radar</a> &middot; Recently QCed</h1>
+<p class="muted">Every alert here has been archived to a separate QC ledger
+(oem_radar_qc.db) with a full snapshot and provenance, and has left the
+active Alerts queue. No notifications are sent by a QC decision.</p>
+</header>
+<nav class="crumbs">
+  <a href="/">&larr; Overview</a>
+  <a href="/?tab=events">Alerts</a>
+  <a href="/feedback">Feedback</a>
+  <a href="/qc" class="here">Recently QCed</a>
+</nav>
+<div class="wrap">
+  <div class="panel">
+    <table><thead><tr><th>Decided</th><th>Decision</th><th>Alert</th>
+      <th>Source</th><th>Product</th><th>Change type</th><th>By</th><th>Note</th></tr></thead>
+      <tbody>{body}</tbody></table>
   </div>
 </div>
 </body></html>"""
