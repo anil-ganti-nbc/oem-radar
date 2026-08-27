@@ -185,6 +185,9 @@ def resolve_identity(
         if fam_match and cfg_same is False and cpu_in and cpu_in == cpu_k:
             mem_differs = memory_arch(incoming.memory) != memory_arch(k.memory)
             stor_differs = memory_arch(incoming.storage) != memory_arch(k.storage)
+            gpu_differs = bool(
+                incoming.gpu_raw and k.gpu_raw
+                and _slug(incoming.gpu_raw) != _slug(k.gpu_raw))
             if mem_differs or stor_differs:
                 reasons.append(
                     "same family/platform, "
@@ -193,6 +196,13 @@ def resolve_identity(
                     + " variation only")
                 if best[1] < 0.8:
                     best = (IdentityDecision.SKU_VARIANT, 0.8)
+            elif gpu_differs:
+                # Same CPU generation but a different GPU under one family:
+                # architecture-class change beneath a reused identity.
+                reasons.append(
+                    f"family reused with changed gpu {k.gpu_raw}->{incoming.gpu_raw}")
+                if best[1] < 0.7:
+                    best = (IdentityDecision.PLATFORM_CHANGE, 0.7)
             continue
 
         if fam_match and cpu_in and cpu_k and cpu_in != cpu_k:

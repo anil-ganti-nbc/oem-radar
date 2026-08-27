@@ -105,3 +105,22 @@ def test_title_hint_shape():
     cluster = cluster_launches([cand("solo")])[0]
     hint = cluster.title_hint()
     assert "1 new SKU" in hint and "legion" in hint
+
+
+def _plat(pk: str, family: str = "legion", cpu: str = "amd-zen5",
+          source: str = "lenovo-us") -> SkuCandidate:
+    return SkuCandidate(
+        product_key=pk, source_id=source, manufacturer="Lenovo",
+        model=f"Legion {pk}", family=family, cpu_generation=cpu,
+        region="US", detected_at=T0, editorial_kind="new_hardware_platform")
+
+
+def test_platform_change_siblings_cluster_separately_from_sku_launches():
+    plat_a = _plat("p1")
+    plat_b = _plat("p2")
+    clusters = cluster_launches([cand("sku-1"), plat_a, plat_b])
+    # sku launch stays its own alert; the two platform siblings form one
+    assert any(c.members == ["sku-1"] for c in clusters)
+    plat_clusters = [c for c in clusters if set(c.members) == {"p1", "p2"}]
+    assert len(plat_clusters) == 1
+    assert plat_clusters[0].platform == "amd-zen5"

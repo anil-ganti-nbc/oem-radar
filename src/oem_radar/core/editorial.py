@@ -35,10 +35,10 @@ class EditorialEventType(StrEnum):
     NEW_SKU = "new_sku"
     NEW_SKU_CLUSTER = "new_sku_cluster"
     RESTOCK_CANDIDATE = "restock_candidate"
-    # Designed, not activated: OEM reuses a model/page while materially
-    # changing internal hardware. Requires evidence standards still to be
-    # agreed; do not emit from production paths yet.
-    NEW_HARDWARE_PLATFORM_DESIGN_ONLY = "new_hardware_platform_design_only"
+    # Activated: OEM reuses a model/page while materially changing internal
+    # hardware (CPU generation / GPU architecture / platform swap). Fires ONLY
+    # from identity PLATFORM_CHANGE decisions, never from page mutations.
+    NEW_HARDWARE_PLATFORM = "new_hardware_platform"
 
 
 # Every ChangeType is an observation. Most lose notification authority
@@ -70,11 +70,32 @@ def observation_authority(change_type: ChangeType) -> Authority:
     return Authority.OBSERVATION_ONLY
 
 
+# Observations that can legitimately carry a silicon-signal decision. A
+# platform decision attached to price/image/copy/availability churn is
+# by definition spurious — those events carry no hardware evidence.
+_PLATFORM_CARRIERS: frozenset[ChangeType] = frozenset({
+    ChangeType.NEW_PRODUCT,
+    ChangeType.COMPONENT_CHANGED,
+    ChangeType.SPEC_CHANGED,
+})
+
+
 def classify_new_product(
     change_type: ChangeType,
     identity_decision: str | None,
 ) -> EditorialEventType | None:
-    """Turn a NEW_PRODUCT observation into an editorial event or None."""
+    """Turn an observation into an editorial event or None.
+
+    NEW_PRODUCT + unknown_sku            -> NEW_SKU
+    hardware-bearing obs + PLATFORM_CHANGE -> NEW_HARDWARE_PLATFORM
+
+    Everything else stays silent: renames, regional mirrors, storage/RAM
+    variants, URL churn, price/image/copy/spec/availability mutations can
+    never manufacture platform news.
+    """
+    if (identity_decision == "platform_change"
+            and change_type in _PLATFORM_CARRIERS):
+        return EditorialEventType.NEW_HARDWARE_PLATFORM
     if change_type != ChangeType.NEW_PRODUCT:
         return None
     if identity_decision == "unknown_sku":

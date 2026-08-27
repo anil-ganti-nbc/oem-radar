@@ -7,6 +7,10 @@ produce ~4 alerts, not 30.
 Deterministic: same input -> same clusters -> same cluster IDs. No clocks,
 no randomness, no LLM.  Split/merge across calls is defined by member-set
 overlap so a launch reported over two crawls still converges to one cluster.
+
+NEW_HARDWARE_PLATFORM members are a different editorial species: they only
+cluster with same-family/same-source platform siblings, never into SKU
+launches.
 """
 
 from __future__ import annotations
@@ -19,7 +23,7 @@ from pydantic import BaseModel, Field
 
 
 class SkuCandidate(BaseModel):
-    """One confirmed UNKNOWN_SKU awaiting clustering."""
+    """One confirmed UNKNOWN_SKU (or PLATFORM_CHANGE) awaiting clustering."""
 
     product_key: str
     source_id: str
@@ -30,6 +34,9 @@ class SkuCandidate(BaseModel):
     gpu_key: str | None = None
     region: str | None = None
     detected_at: datetime
+    # Editorial kind of the underlying event; NEW_HARDWARE_PLATFORM members
+    # only cluster with same-platform siblings, never into SKU launches.
+    editorial_kind: str = "new_sku"  # new_sku | new_hardware_platform
 
     @property
     def family_or_model(self) -> str:
@@ -81,14 +88,60 @@ def _cluster_id(cluster: LaunchCluster, config: ClusterConfig) -> str:
 def cluster_launches(
     candidates: list[SkuCandidate], config: ClusterConfig | None = None
 ) -> list[LaunchCluster]:
-    """Group sibling SKUs deterministically.
+    """Split candidates by editorial kind, then group each deterministically."""
+    config = config or ClusterConfig()
+    if not candidates:
+        return []
+
+    platform_cands = [c for c in candidates
+                      if c.editorial_kind == "new_hardware_platform"]
+    sku_cands = [c for c in candidates
+                 if c.editorial_kind != "new_hardware_platform"]
+
+    clusters = list(_cluster_group(sku_cands, config))
+
+    # Platform-change siblings cluster only among themselves per
+    # (manufacturer, source, family); never join SKU-launch clusters.
+    plat_by_key: dict[tuple, list[SkuCandidate]] = defaultdict(list)
+    for c in platform_cands:
+        plat_by_key[(c.manufacturer.lower(), c.source_id,
+                     c.family_or_model)].append(c)
+    if plat_by_key:
+        ref = max(c.detected_at for c in platform_cands)
+        window_start = ref - timedelta(seconds=config.window_s)
+        for key, members in sorted(plat_by_key.items()):
+            members = [m for m in members if m.detected_at >= window_start]
+            if not members:
+                continue
+            platform_set = {m.cpu_generation for m in members if m.cpu_generation}
+            platform = next(iter(platform_set)) if len(platform_set) == 1 else None
+            cl = LaunchCluster(
+                cluster_id="",
+                manufacturer=members[0].manufacturer,
+                source_id=key[1],
+                family=members[0].family_or_model,
+                platform=platform,
+                members=[m.product_key for m in
+                         sorted(members, key=lambda x: (x.model, x.product_key))],
+                first_detected_at=min(m.detected_at for m in members),
+                last_detected_at=max(m.detected_at for m in members),
+            )
+            cl.cluster_id = _cluster_id(cl, config)
+            clusters.append(cl)
+
+    clusters.sort(key=lambda cl: cl.title_hint())
+    return clusters
+
+
+def _cluster_group(candidates: list[SkuCandidate], config: ClusterConfig
+                   ) -> list[LaunchCluster]:
+    """Group sibling SKU candidates deterministically.
 
     Primary key:  (manufacturer, source_id, family)
     Guardrails:   all members within one window; platform affinity may merge
                   two families sharing one new CPU generation *and* source;
                   oversized groups split alphabetically by model.
     """
-    config = config or ClusterConfig()
     if not candidates:
         return []
 
@@ -98,19 +151,19 @@ def cluster_launches(
 
     # Platform-affinity merge pass: same (manufacturer, source_id) plus one
     # unanimous cpu generation == one platform event even across families.
-    by_platform: dict[tuple, dict[str, list[tuple[str, list[SkuCandidate]]]]] = defaultdict(dict)
+    by_platform: dict[tuple, dict[str, list[SkuCandidate]]] = defaultdict(dict)
     for key, group in primary.items():
         mfr_src = (key[0], key[1])
         gens = {c.cpu_generation for c in group if c.cpu_generation}
         rep = next(iter(gens)) if len(gens) == 1 else None
         if rep and len(group) >= 2:
-            by_platform[(mfr_src, rep)][key[2]] = (key, group)
+            by_platform[(mfr_src, rep)][key[2]] = group
 
     merges: dict[tuple, set[str]] = {}
     for (mfr_src, gen), fam_map in by_platform.items():
         # Merge families only when each side is small (avoid swallowing big
         # distinct launches into one mega-alert).
-        if len(fam_map) >= 2 and all(len(g) <= 4 for _, g in fam_map.values()):
+        if len(fam_map) >= 2 and all(len(g) <= 4 for g in fam_map.values()):
             merges.setdefault(mfr_src, set()).update(fam_map.keys())
 
     def merged_family(key: tuple) -> tuple:
@@ -135,8 +188,7 @@ def cluster_launches(
         members = [m for m in members if m.detected_at >= window_start]
         if not members:
             continue
-        too_big = len(members) > config.max_members
-        if too_big:
+        if len(members) > config.max_members:
             chunk = config.max_members
             for i in range(0, len(members), chunk):
                 part = members[i:i + chunk]
