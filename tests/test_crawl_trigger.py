@@ -114,6 +114,70 @@ def test_planned_total_respects_only_source_and_disabled(tmp_path):
         store.close()
 
 
+def _heavy_env(tmp_path):
+    radar = RadarConfig(db_path=str(tmp_path / "r.db"), raw_dir=str(tmp_path / "raw"))
+    oems = {"GMKtec": OemConfig(
+        manufacturer=ManufacturerConfig(name="GMKtec", country="CN"),
+        sources=[
+            SourceConfig(id="fast", engine="shopify", base_url=BASE,
+                         discovery=["products_json"]),
+            SourceConfig(id="slow", engine="shopify", base_url=BASE,
+                         discovery=["products_json"], heavy=True,
+                         heavy_runtime_note="~19 min"),
+        ],
+    )}
+    return radar, oems
+
+
+def test_run_all_excludes_heavy_sources_by_default_kwarg_but_runner_default_includes_them(tmp_path):
+    """Fleet policy: a collector whose normal runtime exceeds 5 minutes must
+    never fire as part of a full sweep unless the caller opts in. The
+    scheduled `oem-radar run` path opts in (include_heavy defaults True on
+    run_all itself); only the dashboard's "Run all collectors" button
+    explicitly passes include_heavy=False."""
+    radar, oems = _heavy_env(tmp_path)
+    store = SqliteStore(radar.db_path, radar.raw_dir)
+    try:
+        seen = []
+        run_all(radar, oems, store, DiscordNotifier(store, None, 3),
+                RouteFetcher(FIXTURE), force=True, on_progress=seen.append)
+        assert seen[0]["sources_total"] == 2  # default: nothing excluded
+    finally:
+        store.close()
+
+
+def test_run_all_include_heavy_false_excludes_the_heavy_source(tmp_path):
+    radar, oems = _heavy_env(tmp_path)
+    store = SqliteStore(radar.db_path, radar.raw_dir)
+    try:
+        seen = []
+        run_all(radar, oems, store, DiscordNotifier(store, None, 3),
+                RouteFetcher(FIXTURE), force=True, include_heavy=False,
+                on_progress=seen.append)
+        assert seen[0]["sources_total"] == 1
+        done = [e for e in seen if e["event"] == "source_done"]
+        assert [e["source"] for e in done] == ["fast"]
+    finally:
+        store.close()
+
+
+def test_run_all_only_source_reaches_a_heavy_source_even_with_include_heavy_false(tmp_path):
+    """Naming a heavy source explicitly is the individually-runnable escape
+    hatch fleet policy requires -- include_heavy=False must not block it."""
+    radar, oems = _heavy_env(tmp_path)
+    store = SqliteStore(radar.db_path, radar.raw_dir)
+    try:
+        seen = []
+        run_all(radar, oems, store, DiscordNotifier(store, None, 3),
+                RouteFetcher(FIXTURE), force=True, only_source="slow",
+                include_heavy=False, on_progress=seen.append)
+        assert seen[0]["sources_total"] == 1
+        done = [e for e in seen if e["event"] == "source_done"]
+        assert [e["source"] for e in done] == ["slow"]
+    finally:
+        store.close()
+
+
 # ---------------------------------------------------------------------------
 # CrawlController
 # ---------------------------------------------------------------------------
@@ -137,7 +201,7 @@ def test_controller_starts_idle(tmp_path):
 def test_controller_runs_and_reports_outcome(tmp_path):
     calls = {}
 
-    def runner(config_dir, *, force, only_source, on_progress):
+    def runner(config_dir, *, force, only_source, on_progress, include_heavy=True):
         calls.update(config_dir=config_dir, force=force, only_source=only_source)
         on_progress({"event": "planned", "sources_total": 4})
         on_progress({"event": "source_start", "source": "medion"})
@@ -162,7 +226,7 @@ def test_controller_runs_and_reports_outcome(tmp_path):
 def test_controller_is_single_flight(tmp_path):
     release = threading.Event()
 
-    def runner(config_dir, *, force, only_source, on_progress):
+    def runner(config_dir, *, force, only_source, on_progress, include_heavy=True):
         release.wait(5)
         return FakeOutcome()
 
@@ -186,7 +250,7 @@ def test_controller_reports_lock_held_as_blocked_not_failed(tmp_path):
     The scheduled hourly task and the dashboard share one lock; a user who
     opens the dashboard mid-crawl should be told that, not shown a failure.
     """
-    def runner(config_dir, *, force, only_source, on_progress):
+    def runner(config_dir, *, force, only_source, on_progress, include_heavy=True):
         raise LockError("another oem-radar run is active (pid=4242)")
 
     c = CrawlController(tmp_path, runner=runner)
@@ -198,7 +262,7 @@ def test_controller_reports_lock_held_as_blocked_not_failed(tmp_path):
 
 
 def test_controller_survives_a_crawl_that_raises(tmp_path):
-    def runner(config_dir, *, force, only_source, on_progress):
+    def runner(config_dir, *, force, only_source, on_progress, include_heavy=True):
         raise ValueError("network exploded")
 
     c = CrawlController(tmp_path, runner=runner)
@@ -220,6 +284,40 @@ def test_allow_manual_false_blocks_the_button_but_not_the_auto_trigger(tmp_path)
     accepted, _, _ = c.trigger(trigger="auto")
     assert accepted is True
     c.join(5)
+
+
+def test_controller_trigger_passes_include_heavy_through_to_the_runner(tmp_path):
+    calls = {}
+
+    def runner(config_dir, *, force, only_source, on_progress, include_heavy=True):
+        calls["include_heavy"] = include_heavy
+        return FakeOutcome()
+
+    c = CrawlController(tmp_path, runner=runner)
+    c.trigger(include_heavy=False)
+    c.join(5)
+    assert calls["include_heavy"] is False
+
+
+def test_controller_catalog_marks_the_documented_slow_sources_heavy():
+    """Cross-check against the real shipped config: the fleet audit
+    (2026-08-27) marked exactly khadas/lg/medion/simplynuc sitemap sources
+    heavy=True based on documented multi-minute P95 runtimes; every other
+    enabled source must stay eligible for Run All."""
+    c = CrawlController(Path("config"))
+    catalog = c.catalog()
+    ids = {c["id"] for c in catalog}
+    assert {"khadas-sitemap", "lg-us-gram-sitemap", "medion-gaming-sitemap",
+            "simplynuc-sitemap"} <= ids
+    heavy_ids = {row["id"] for row in catalog if row["heavy"]}
+    assert heavy_ids == {"khadas-sitemap", "lg-us-gram-sitemap",
+                         "medion-gaming-sitemap", "simplynuc-sitemap"}
+    assert all(row["runtime_note"] for row in catalog if row["heavy"])
+    assert all(not row["runtime_note"] for row in catalog if not row["heavy"])
+    # disabled sources (dell bot-blocked, lenovo bot-blocked, several
+    # not-yet-probed shopify placeholders) must not appear at all
+    assert "dell-us-laptops" not in ids
+    assert "lenovo-buy-landing" not in ids
 
 
 # ---------------------------------------------------------------------------
@@ -286,13 +384,29 @@ def test_no_crawl_flag_overrides_config(tmp_path):
 
     from oem_radar.cli import build_dashboard_crawl_kwargs
 
+    # auto_crawl_on_start=True in config must never reach `auto_crawl` --
+    # this kwarg builder never wires that value through at all (fleet
+    # policy: the dashboard never auto-starts a crawl on launch).
     radar = RadarConfig(dashboard=DashboardConfig(auto_crawl_on_start=True))
     args = argparse.Namespace(no_crawl=True)
     kw = build_dashboard_crawl_kwargs(radar, tmp_path, args)
     assert kw["crawl"] is None and kw["auto_crawl"] is False
 
+    # Without --no-crawl, manual crawl triggering (the button) is
+    # authorized by default (dashboard.allow_manual_crawl defaults True) --
+    # auto_crawl still stays False regardless.
     kw2 = build_dashboard_crawl_kwargs(radar, tmp_path, argparse.Namespace(no_crawl=False))
-    assert kw2["crawl"] is None and kw2["auto_crawl"] is False
+    assert kw2["crawl"] is not None and kw2["auto_crawl"] is False
+
+
+def test_no_crawl_flag_without_allow_manual_crawl_config(tmp_path):
+    import argparse
+
+    from oem_radar.cli import build_dashboard_crawl_kwargs
+
+    radar = RadarConfig(dashboard=DashboardConfig(allow_manual_crawl=False))
+    kw = build_dashboard_crawl_kwargs(radar, tmp_path, argparse.Namespace(no_crawl=False))
+    assert kw["crawl"] is None and kw["auto_crawl"] is False
 
 
 # ---------------------------------------------------------------------------
@@ -309,8 +423,10 @@ class RecordingController:
     def running(self):
         return self._running
 
-    def trigger(self, *, force=False, only_source=None, trigger="manual"):
-        self.calls.append({"force": force, "source": only_source, "trigger": trigger})
+    def trigger(self, *, force=False, only_source=None, include_heavy=True,
+                trigger="manual"):
+        self.calls.append({"force": force, "source": only_source,
+                           "include_heavy": include_heavy, "trigger": trigger})
         if self._running:
             return False, "already_running", self.status()
         return True, "started", self.status()
@@ -322,6 +438,9 @@ class RecordingController:
                 "outcome": None, "message": None, "trigger": None,
                 "started_at": None, "finished_at": None, "current_source": None,
                 "force": False}
+
+    def catalog(self):
+        return []
 
 
 @pytest.fixture()
@@ -343,33 +462,44 @@ def fake_httpd(monkeypatch):
 
 
 def test_serve_rejects_auto_crawl_on_start(fake_httpd, tmp_path):
+    """Fleet policy, hard requirement: opening the dashboard never starts a
+    crawl by itself. serve() rejects auto_crawl=True outright, independent
+    of whatever config or entry point tried to pass it."""
     from oem_radar.dashboard import serve
 
     ctl = RecordingController()
-    with pytest.raises(ValueError, match="read-only"):
+    with pytest.raises(ValueError, match="never auto-starts a crawl"):
         serve(str(tmp_path / "x.db"), open_browser=False, crawl=ctl, auto_crawl=True)
     assert ctl.calls == []
 
 
-def test_serve_rejects_crawl_controller_even_without_force(fake_httpd, tmp_path):
-    """Auto-crawl on every launch is only safe because it respects
-    min_interval. If it ever forces, opening the dashboard five times
-    re-crawls every catalog five times."""
+def test_serve_rejects_auto_crawl_even_with_a_controller_present(fake_httpd, tmp_path):
+    """Having an authorized manual-crawl controller does not relax the
+    auto_crawl rejection -- the two are independent opt-ins."""
     from oem_radar.dashboard import serve
 
     ctl = RecordingController()
-    with pytest.raises(ValueError, match="read-only"):
+    with pytest.raises(ValueError, match="never auto-starts a crawl"):
         serve(str(tmp_path / "x.db"), open_browser=False, crawl=ctl, auto_crawl=True)
     assert ctl.calls == []
 
 
-def test_serve_rejects_manual_crawl_controller(fake_httpd, tmp_path):
-    from oem_radar.dashboard import serve
+def test_serve_accepts_a_manual_crawl_controller_without_triggering_it(fake_httpd, tmp_path):
+    """dashboard.allow_manual_crawl authorizes the "Run all collectors"
+    button (and per-source runs) for this launch -- serve() wires the
+    controller into the Handler but never calls trigger() itself; only an
+    actual button click (a POST) does."""
+    from oem_radar.dashboard import _Handler, serve
 
     ctl = RecordingController()
-    with pytest.raises(ValueError, match="read-only"):
-        serve(str(tmp_path / "x.db"), open_browser=False, crawl=ctl, auto_crawl=False)
+    serve(str(tmp_path / "x.db"), open_browser=False, crawl=ctl, auto_crawl=False)
     assert ctl.calls == []
+    assert _Handler.crawl is ctl
+    assert _Handler.crawl_mutations_enabled is True
+    assert _Handler.mutation_authorizer is not None
+    _Handler.crawl = None  # class attribute: never leak into another test
+    _Handler.crawl_mutations_enabled = False
+    _Handler.mutation_authorizer = None
 
 
 def test_serve_read_only_needs_no_controller(fake_httpd, tmp_path):
@@ -466,8 +596,22 @@ def test_post_crawl_starts_a_run(server):
         headers={"X-OEM-Radar-CSRF": server["csrf"]})
     assert status == 202 and data["ok"] is True
     assert data["state"]["enabled"] is True
+    # No source named -> this is "Run all collectors": include_heavy=False
+    # so a collector whose normal runtime exceeds 5 minutes is excluded.
     assert server["crawl"].calls == [
-        {"force": False, "source": None, "trigger": "manual"}]
+        {"force": False, "source": None, "include_heavy": False, "trigger": "manual"}]
+
+
+@pytest.mark.parametrize("server", [RecordingController()], indirect=True)
+def test_post_crawl_with_a_named_source_includes_heavy(server):
+    """The per-collector "Run" button always sets include_heavy=True --
+    only_source already scopes the run to that one source, so the heavy
+    exclusion (which only matters for a full sweep) is irrelevant, but this
+    pins that naming a source is never itself blocked by it."""
+    _req(server["port"], "POST", "/api/crawl", body={"source": "medion-gaming-sitemap"},
+        headers={"X-OEM-Radar-CSRF": server["csrf"]})
+    assert server["crawl"].calls[0]["source"] == "medion-gaming-sitemap"
+    assert server["crawl"].calls[0]["include_heavy"] is True
 
 
 @pytest.mark.parametrize("server", [RecordingController()], indirect=True)

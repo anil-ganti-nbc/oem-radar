@@ -149,6 +149,7 @@ def execute_crawl(
     *,
     force: bool = False,
     only_source: str | None = None,
+    include_heavy: bool = True,
     dry_run: bool = False,
     use_lock: bool = True,
     on_progress: ProgressFn | None = None,
@@ -172,6 +173,7 @@ def execute_crawl(
         store.seed_components(SEED_COMPONENTS)
         stats = run_all(radar, oems, store, notifier, build_fetcher(radar),
                         force=force, only_source=only_source,
+                        include_heavy=include_heavy,
                         on_progress=on_progress)
         outcome = CrawlOutcome(
             sources=len(stats),
@@ -266,13 +268,19 @@ class CrawlController:
 
     def trigger(
         self, *, force: bool = False, only_source: str | None = None,
-        trigger: str = "manual",
+        include_heavy: bool = True, trigger: str = "manual",
     ) -> tuple[bool, str, dict]:
         """Start a crawl in the background.
 
         Returns (accepted, reason, status). `accepted` is False when a
         crawl is already in flight, or when manual triggering is disabled
         and this is a manual request.
+
+        `include_heavy` matters only when `only_source` is None (a full
+        sweep): the dashboard's "Run all collectors" button always calls
+        this with include_heavy=False so a collector whose normal runtime
+        exceeds 5 minutes never fires as part of that button (fleet
+        policy) -- it stays reachable only via its own only_source request.
         """
         if trigger == "manual" and not self.allow_manual:
             return False, "manual_crawl_disabled", self.status()
@@ -287,11 +295,34 @@ class CrawlController:
             })
             snap = self._snapshot_locked()
             self._thread = threading.Thread(
-                target=self._run, args=(force, only_source),
+                target=self._run, args=(force, only_source, include_heavy),
                 name="oem-radar-crawl", daemon=True,
             )
             self._thread.start()
         return True, "started", snap
+
+    def catalog(self) -> list[dict[str, Any]]:
+        """Static, enabled-only source list for the dashboard's per-collector
+        buttons: id, manufacturer, whether it's excluded from Run All
+        (`heavy`), and its runtime note. Loaded fresh (config is cheap and
+        can change between polls); never touches the network."""
+        try:
+            oems = load_oem_configs(self.config_dir / "oems")
+        except Exception:  # noqa: BLE001 -- a bad config must not break status polling
+            return []
+        out = []
+        for oem in oems.values():
+            for src in oem.sources:
+                if not src.enabled:
+                    continue
+                out.append({
+                    "id": src.id,
+                    "manufacturer": oem.manufacturer.name,
+                    "heavy": bool(src.heavy),
+                    "runtime_note": src.heavy_runtime_note,
+                })
+        out.sort(key=lambda s: (s["manufacturer"].lower(), s["id"]))
+        return out
 
     def join(self, timeout: float | None = None) -> None:
         """Wait for an in-flight crawl. Used by tests and by shutdown."""
@@ -330,10 +361,12 @@ class CrawlController:
                 self._state["current_source"] = None
                 self._state["message"] = "correlating stories"
 
-    def _run(self, force: bool, only_source: str | None) -> None:
+    def _run(self, force: bool, only_source: str | None,
+              include_heavy: bool = True) -> None:
         try:
             outcome = self._runner(
                 self.config_dir, force=force, only_source=only_source,
+                include_heavy=include_heavy,
                 on_progress=self._on_progress,
             )
         except LockError as exc:

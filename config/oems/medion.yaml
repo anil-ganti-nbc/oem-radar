@@ -51,3 +51,10 @@ sources:
     max_products: 700
     currency_default: EUR
     enabled: true
+    # Fleet audit 2026-08-27: measured 68m34s alone in the 2026-08-09
+    # Hetzner cloud-soak run (see comment above) -- far past the 5-minute
+    # "Run all collectors" cutoff. Excluded from the dashboard's Run All;
+    # still runs on its own min_interval via `oem-radar run` and remains
+    # individually runnable from the dashboard.
+    heavy: true
+    heavy_runtime_note: "~68 min"

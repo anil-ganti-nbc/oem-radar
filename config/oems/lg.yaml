@@ -21,5 +21,11 @@ sources:
     min_interval: 24h
     currency_default: USD
     enabled: true
+    # Fleet audit 2026-08-27: ~19 min P95 exceeds the 5-minute "Run all
+    # collectors" cutoff. Excluded from the dashboard's Run All; still runs
+    # on its own min_interval via `oem-radar run` and remains individually
+    # runnable from the dashboard.
+    heavy: true
+    heavy_runtime_note: "~19 min"
 
 

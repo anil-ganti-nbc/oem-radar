@@ -14,7 +14,7 @@ from .core.config import (
     load_oem_configs,
     load_radar_config,
 )
-from .core.crawl_service import build_fetcher, resolve_webhook
+from .core.crawl_service import CrawlController, build_fetcher, resolve_webhook
 from .core.registry import engines, stores
 
 # Imports for side effect: registry registration.
@@ -384,13 +384,23 @@ def build_dashboard_crawl_kwargs(radar: RadarConfig, config_dir: Path,
     database, and deciding to reach out to the internet is a separate
     authority that belongs to whoever launched the process and holds the
     config. `--no-crawl` on the command line always wins over config.
+
+    Two independent things are decided here, never conflated:
+      * auto_crawl -- ALWAYS False. There is no config value or CLI flag
+        that reaches this far; opening the dashboard (CLI or the .exe)
+        never starts a crawl by itself (fleet policy, Fleet Law 5). `serve`
+        itself hard-rejects auto_crawl=True as a second, independent check.
+      * manual crawl (the "Run all collectors" button and its per-source
+        variant) -- authorized by `dashboard.allow_manual_crawl` (default
+        on), unless `--no-crawl` overrides it off for this launch. This is
+        a human clicking a button once, the same authority as them typing
+        `oem-radar run` in a terminal.
     """
     dash = radar.dashboard
-    # Phase 0 has no authenticated dashboard mutation profile. CSRF is not
-    # authentication, so dashboard-triggered and launch-triggered crawls are
-    # disabled regardless of older configuration values.
+    no_crawl = bool(getattr(args, "no_crawl", False))
+    manual_ok = dash.allow_manual_crawl and not no_crawl
     return {
-        "crawl": None,
+        "crawl": CrawlController(config_dir, allow_manual=True) if manual_ok else None,
         "auto_crawl": False,
         "auto_crawl_force": False,
         "stale_after_hours": dash.stale_after_hours,

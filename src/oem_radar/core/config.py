@@ -33,6 +33,18 @@ class SourceConfig(BaseModel):
     min_interval: str | int = "6h"
     discovery: list[str] = Field(default_factory=list)
     enabled: bool = True
+    #: Fleet policy: a collector whose normal runtime exceeds 5 minutes
+    #: (census RuntimeClass HEAVY/DAILY, see core/census.py) must never fire
+    #: as part of the dashboard's "Run all collectors" sweep -- one slow
+    #: source would block a button a person expects to be quick. Set True
+    #: on sources with a documented multi-minute P95 (see the source's own
+    #: config comment for the measurement). It stays individually runnable
+    #: (only_source=<id>) and unaffected on the scheduled `oem-radar run`
+    #: path, which still honors every source's min_interval as before.
+    heavy: bool = False
+    #: Optional human-readable runtime estimate shown next to the "SLOW"
+    #: label in the dashboard when `heavy` is true, e.g. "~19 min".
+    heavy_runtime_note: str | None = None
 
     @field_validator("min_interval")
     @classmethod

@@ -146,6 +146,22 @@ _PAGE = r"""<!DOCTYPE html>
   .crawlbar button.primary{background:var(--accent);border-color:var(--accent);color:#0b1f12}
   .cprog{width:100%;height:4px;background:var(--panel2);border-radius:3px;overflow:hidden}
   .cprog > i{display:block;height:100%;background:var(--s3);transition:width .4s ease}
+  /* per-collector list — individual runs, and where the slow ones live
+     since they're excluded from the "Run all collectors" sweep above */
+  .crawlbar .ctoggle{width:100%;font-size:12px;color:var(--muted);cursor:pointer;
+    text-decoration:underline;text-underline-offset:2px;background:none;border:none;
+    padding:0;text-align:left}
+  .catalog{width:100%;display:flex;flex-direction:column;gap:4px;margin-top:4px}
+  .catrow{display:flex;align-items:center;gap:8px;font-size:12.5px;padding:5px 8px;
+    border-radius:7px;background:var(--panel2)}
+  .catrow .cid{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .catrow .cid b{font-weight:600}
+  .catrow .slow{font-size:10.5px;font-weight:700;color:#8a5a00;background:#f5c451;
+    border-radius:20px;padding:1px 7px;flex:none}
+  .catrow button{background:var(--panel);color:var(--fg);border:1px solid var(--line);
+    border-radius:7px;padding:4px 10px;font-size:12px;cursor:pointer;flex:none}
+  .catrow button:hover:not(:disabled){border-color:var(--accent)}
+  .catrow button:disabled{opacity:.45;cursor:default}
 
   .health-row{background:var(--panel);border:1px solid var(--line);border-radius:10px;
     padding:10px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
@@ -312,7 +328,7 @@ function card(e){
 // State lives on the server (core.crawl_service.CrawlController) and is
 // polled — never inferred from what this page happens to be showing.
 const CSRF = "__CSRF__";
-let crawlPollTimer = null, crawlWasRunning = false;
+let crawlPollTimer = null, crawlWasRunning = false, catalogOpen = false, lastCrawlState = null;
 
 const ago = s => {
   if(!s) return null;
@@ -336,6 +352,7 @@ function lastCrawlAgeHours(){
 function renderCrawl(st){
   const el = document.getElementById('crawlbar');
   if(!el) return;
+  lastCrawlState = st;
   const lr = DATA.summary && DATA.summary.last_run;
   const lastTxt = lr ? ('last successful crawl '+ago(lr)) : 'no successful crawl recorded yet';
 
@@ -357,7 +374,8 @@ function renderCrawl(st){
       (st.trigger==='auto'?' &middot; started automatically when you opened the dashboard':'')+
       ` &middot; started ${esc(ago(st.started_at)||'')}</div></div>`+
       `<div class="cbtns"><button disabled>Running&hellip;</button></div>`+
-      `<div class="cprog"><i style="width:${pct}%"></i></div>`;
+      `<div class="cprog"><i style="width:${pct}%"></i></div>`+
+      renderCatalog(st, true);
     return;
   }
 
@@ -387,15 +405,45 @@ function renderCrawl(st){
     sub = lastTxt + (stale && ageH!==null ? ` &mdash; older than the ${staleH}h freshness window` : '');
   }
 
+  const heavyCount = (st.catalog||[]).filter(c=>c.heavy).length;
   const btns = st.allow_manual
-    ? `<button class="primary" onclick="startCrawl(false)">Run collectors now</button>`+
-      `<button onclick="startCrawl(true)" title="Ignore each source's min_interval and re-crawl every catalog. Slow.">Force re-crawl all</button>`
+    ? `<button class="primary" onclick="startCrawl(false)">Run all collectors</button>`+
+      `<button onclick="startCrawl(true)" title="Ignore each source's min_interval and re-crawl every non-slow catalog.">Force re-crawl all</button>`
     : `<button disabled title="dashboard.allow_manual_crawl is false in config/radar.yaml">Manual crawl disabled</button>`;
+  if(heavyCount) sub += ` &middot; ${heavyCount} slow collector(s) excluded from "Run all" — run them individually below`;
 
   el.className = cls;
   el.innerHTML = `<span class="cdot"></span><div class="ctext">`+
     `<div class="ctitle">${title}</div><div class="csub">${sub}</div></div>`+
-    `<div class="cbtns">${btns}</div>`;
+    `<div class="cbtns">${btns}</div>`+
+    renderCatalog(st, false);
+}
+
+// One row per enabled collector, individually runnable regardless of the
+// `heavy` (>5min normal runtime) flag that excludes it from "Run all
+// collectors" above. Collapsed by default so the common case (click Run
+// all, walk away) stays a one-line bar.
+function renderCatalog(st, running){
+  const cat = st.catalog || [];
+  if(!cat.length) return '';
+  const label = catalogOpen ? 'Hide individual collectors &#9650;' : `Show individual collectors (${cat.length}) &#9660;`;
+  let rows = '';
+  if(catalogOpen){
+    rows = '<div class="catalog">' + cat.map(c => {
+      const busy = running && st.current_source === c.id;
+      const slow = c.heavy ? `<span class="slow" title="Normal runtime exceeds 5 minutes — excluded from Run all collectors">SLOW${c.runtime_note ? ' &middot; '+esc(c.runtime_note) : ''}</span>` : '';
+      const dis = running ? 'disabled' : '';
+      const btnLabel = busy ? 'Running&hellip;' : 'Run';
+      return `<div class="catrow"><span class="cid"><b>${esc(c.manufacturer)}</b> &middot; ${esc(c.id)}</span>${slow}`+
+        `<button ${dis} onclick="startCrawl(true,'${esc(c.id)}')" title="Run only this collector, ignoring its min_interval">${btnLabel}</button></div>`;
+    }).join('') + '</div>';
+  }
+  return `<button class="ctoggle" onclick="toggleCatalog()">${label}</button>${rows}`;
+}
+
+function toggleCatalog(){
+  catalogOpen = !catalogOpen;
+  renderCrawl(lastCrawlState || {enabled:false});
 }
 
 function crawlApply(st){
@@ -425,12 +473,14 @@ function crawlPoll(){
   fetch('/api/crawl/status').then(r=>r.json()).then(crawlApply).catch(()=>{});
 }
 
-function startCrawl(force){
+function startCrawl(force, source){
   document.querySelectorAll('.crawlbar button').forEach(b=>b.disabled=true);
+  const body = {force:!!force};
+  if(source) body.source = source;  // per-collector run: bypasses the "Run all" heavy-collector exclusion server-side
   fetch('/api/crawl', {
     method:'POST',
     headers:{'Content-Type':'application/json','X-OEM-Radar-CSRF':CSRF},
-    body:JSON.stringify({force:!!force}),
+    body:JSON.stringify(body),
   }).then(async r=>{
     const d = await r.json().catch(()=>({}));
     if(d.state) crawlApply(d.state); else crawlPoll();

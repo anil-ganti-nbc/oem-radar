@@ -47,6 +47,7 @@ def run_all(
     *,
     force: bool = False,
     only_source: str | None = None,
+    include_heavy: bool = True,
     on_progress: Callable[[dict[str, Any]], None] | None = None,
 ) -> list[SourceRunStats]:
     rules = radar_cfg.severity_rules or None
@@ -71,9 +72,15 @@ def run_all(
     # run will skip (disabled, not due, or filtered out by --source).
     sync_oem_registry(store, oems)
 
+    # include_heavy=False is how the dashboard's "Run all collectors" button
+    # excludes collectors whose normal runtime exceeds 5 minutes (fleet
+    # policy) without touching min_interval or the scheduled `oem-radar run`
+    # path (which always passes include_heavy=True). only_source always
+    # wins over the heavy filter: a slow source stays individually runnable.
     planned = [
         src for oem in oems.values() for src in oem.sources
         if src.enabled and not (only_source and src.id != only_source)
+        and (only_source or include_heavy or not src.heavy)
     ]
     emit(event="planned", sources_total=len(planned))
 
@@ -82,6 +89,13 @@ def run_all(
         man_id = store.ensure_manufacturer(man.name, man.country, man.aliases)
         for src in oem.sources:
             if not src.enabled or (only_source and src.id != only_source):
+                continue
+            if not only_source and not include_heavy and src.heavy:
+                # Silently excluded from this full sweep (fleet policy) --
+                # not even a "skipped" progress event, since it was never
+                # planned in the first place; `planned` above already
+                # reflects this and drives the progress total the caller
+                # sees.
                 continue
             if not force and not store.source_due(src.id, src.min_interval_s):
                 log.info("skip %s: crawled within min_interval", src.id)

@@ -5,15 +5,28 @@ default browser. No arguments, no console flags to remember. Bundled
 into a standalone .exe with PyInstaller (`build_dashboard_exe.cmd`) so it
 runs without a separate Python install.
 
-Opening this window is treated as "show me current data": unless
-`dashboard.auto_crawl_on_start` is false in `config/radar.yaml`, it kicks
-off a crawl in the background before the browser opens, and the page
-shows its progress live. The crawl is *not* forced — every source's own
-`min_interval` still applies, so launching repeatedly costs nothing. The
-"Run collectors now" button in the page triggers the same thing on
-demand. Same code path as `oem-radar run` (`core.crawl_service`), which
-means it also sends Discord notifications exactly as a scheduled crawl
-would.
+Opening this window never starts a crawl by itself (fleet policy, Fleet
+Law 5) — `dashboard.auto_crawl_on_start` is not wired to anything on this
+path at all, regardless of what it's set to in `config/radar.yaml`. What
+you get instead is a "Run collectors now" button on the page: a human
+click, same authority as typing `oem-radar run` in a terminal, gated by
+`dashboard.allow_manual_crawl` (on by default; `--no-crawl`-equivalent is
+setting that to false). It runs the same code path as `oem-radar run`
+(`core.crawl_service`), so it also sends Discord notifications exactly as
+a scheduled crawl would — same as running the CLI by hand. Crawls started
+this way are never forced; every source's own `min_interval` still
+applies. Collectors whose normal runtime exceeds 5 minutes are excluded
+from that button's "run everything" sweep and only run individually (see
+`SourceConfig.heavy`); this is built and enforced by
+`core.crawl_service.CrawlController`/`core.runner.run_all`, this file only
+decides whether the button exists at all.
+
+Uses `cli.build_dashboard_crawl_kwargs` — the exact function `oem-radar
+dashboard` uses — so this launcher can never drift from that decision the
+way it once did (see Fleet audit 2026-08-27: this file used to build its
+own crawl kwargs from `auto_crawl_on_start` directly and always
+constructed a controller, which made `serve()`'s auto_crawl/crawl guard
+raise on every launch and crash before the browser ever opened).
 """
 
 from __future__ import annotations
@@ -78,19 +91,18 @@ def main() -> int:
         print(f"note: OEM registry sync skipped ({exc}); "
               "the manufacturer filter may be incomplete")
 
-    # The crawl trigger. Built here, not inside `serve`, for the same
-    # reason the registry sync is: the entry point owns the config and
-    # therefore the decision to reach out to the network.
+    # The crawl trigger. Built via the same helper `oem-radar dashboard`
+    # uses (cli.build_dashboard_crawl_kwargs) so this launcher is a second
+    # *caller*, never a second, drifting *implementation* of the decision
+    # of whether/how the dashboard may crawl — that split is exactly what
+    # broke this file once (see the module docstring's 2026-08-27 note).
+    # auto_crawl is always False from that helper; only manual triggering
+    # (dashboard.allow_manual_crawl) can be authorized here.
     crawl_kwargs = {"stale_after_hours": radar.dashboard.stale_after_hours}
     try:
-        from oem_radar.core.crawl_service import CrawlController
+        from oem_radar.cli import build_dashboard_crawl_kwargs
 
-        crawl_kwargs |= {
-            "crawl": CrawlController(CONFIG_DIR,
-                                     allow_manual=radar.dashboard.allow_manual_crawl),
-            "auto_crawl": radar.dashboard.auto_crawl_on_start,
-            "auto_crawl_force": radar.dashboard.auto_crawl_force,
-        }
+        crawl_kwargs = build_dashboard_crawl_kwargs(radar, CONFIG_DIR)
     except Exception as exc:  # noqa: BLE001 — never block the window opening
         print(f"note: crawl trigger unavailable ({exc}); dashboard is read-only "
               "this session")

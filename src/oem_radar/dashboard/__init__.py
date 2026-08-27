@@ -84,13 +84,21 @@ class _Handler(BaseHTTPRequestHandler):
     raw_dir: str = ""
     max_body: int = 16384
     csrf_token: str = ""
-    review_writes_only: bool = False
-    #: A `core.crawl_service.CrawlController`, or None. None is the
-    #: read-only dashboard this project shipped through Stage 11.1 — the
-    #: crawl endpoints answer 503 and the UI says so. The controller is
-    #: built by the entry point (CLI or the .exe launcher), never here:
-    #: serving a database and deciding to crawl the internet are different
-    #: authorities, and only the entry point has the config to decide.
+    #: Two independent, orthogonal opt-ins -- each defaults off, each is
+    #: decided by the entry point (CLI flag / config), never guessed here.
+    #: Both still require `mutation_authorizer` to pass first, and both
+    #: still require their own per-request CSRF header on top of that.
+    review_writes_enabled: bool = False
+    crawl_mutations_enabled: bool = False
+    #: A `core.crawl_service.CrawlController`, or None. None means this
+    #: launch did not authorize manual crawl triggering (dashboard.
+    #: allow_manual_crawl is false, or `--no-crawl` / `--allow-manual-crawl`
+    #: was not passed) -- crawl endpoints answer 503 and the UI says so.
+    #: The controller is built by the entry point (CLI or the .exe
+    #: launcher), never here: serving a database and deciding to crawl the
+    #: internet are different authorities, and only the entry point has the
+    #: config to decide. Auto-crawl-on-launch is never wired through this
+    #: attribute at all -- see `serve()`'s hard rejection of auto_crawl.
     crawl = None
     mutation_authorizer = None
     stale_after_hours: float = 6.0
@@ -287,27 +295,36 @@ class _Handler(BaseHTTPRequestHandler):
         if authorizer is None or not authorizer(self.headers):
             _json_error(
                 self, 403, "authenticated_profile_required",
-                "Phase 0 dashboard is read-only; CSRF is not authentication.",
+                "This dashboard was launched with no mutation authorization "
+                "(dashboard.allow_manual_crawl / --allow-review-writes); "
+                "CSRF alone is not authentication.",
             )
             return
         path = urlparse(self.path).path
         try:
+            # mark-seen is a local-only DB write (no network call, no
+            # notification) -- gated on the same "some mutation capability
+            # is authorized" check as everything else, not on crawl
+            # specifically, so a --allow-review-writes-only launch can still
+            # use it.
             if path == "/api/mark-seen":
                 self._handle_mark_seen()
                 return
             if path == "/api/crawl":
+                # `self.crawl is None` (crawl_mutations_enabled False) is
+                # handled inside _handle_crawl_post, which answers 503 --
+                # that is the "disabled" signal the UI already reads.
                 self._handle_crawl_post()
                 return
 
             m = _API_REVIEW_RE.match(path)
             if m:
+                if not type(self).review_writes_enabled:
+                    _json_error(self, 403, "review_writes_disabled_launch",
+                                "This dashboard was launched without "
+                                "--allow-review-writes.")
+                    return
                 self._handle_review_post(int(m.group(1)))
-                return
-            if type(self).review_writes_only:
-                _json_error(self, 403, "review_writes_only_launch",
-                            "This dashboard was launched with "
-                            "--allow-review-writes: only alert-review writes "
-                            "are authorized.")
                 return
             self.send_error(404)
         except Exception as exc:
@@ -329,12 +346,16 @@ class _Handler(BaseHTTPRequestHandler):
             return {
                 "enabled": False, "allow_manual": False, "running": False,
                 "status": "disabled", "stale_after_hours": self.stale_after_hours,
+                "catalog": [],
                 "message": "This dashboard was opened read-only; crawls are not "
                            "triggered from here.",
             }
         state = self.crawl.status()
         state["enabled"] = True
         state["stale_after_hours"] = self.stale_after_hours
+        # Static per-collector list for the "run this one" buttons. Cheap
+        # (local YAML, no network) and only read on page load / while idle.
+        state["catalog"] = self.crawl.catalog()
         return state
 
     def _handle_crawl_post(self):
@@ -373,9 +394,16 @@ class _Handler(BaseHTTPRequestHandler):
             _json_error(self, 400, "invalid_source", "source must be a string or null")
             return
 
-        accepted, reason, state = self.crawl.trigger(force=force, only_source=source)
+        # A full sweep (no source named) is "Run all collectors": fleet
+        # policy excludes any collector whose normal runtime exceeds 5
+        # minutes from it (see SourceConfig.heavy). Naming a source
+        # explicitly always runs it, heavy or not -- that is the
+        # individually-runnable escape hatch the policy requires.
+        accepted, reason, state = self.crawl.trigger(
+            force=force, only_source=source, include_heavy=source is not None)
         state["enabled"] = True
         state["stale_after_hours"] = self.stale_after_hours
+        state["catalog"] = self.crawl.catalog()
         if accepted:
             self._send(202, json.dumps({"ok": True, "state": state}).encode("utf-8"),
                        "application/json")
@@ -520,37 +548,58 @@ def serve(
     allow_review_writes: bool = False,
 ) -> None:
     require_loopback_host(host)
-    if crawl is not None or auto_crawl:
+    # Fleet Law 5, hard requirement: the dashboard NEVER starts a crawl on
+    # its own just because it was opened. This is enforced independently at
+    # three layers -- config defaults to auto_crawl_on_start=False, no
+    # entry point (cli.py's build_dashboard_crawl_kwargs, launch_dashboard.py)
+    # ever wires that config value through to here, and this check rejects
+    # auto_crawl outright even if some future caller tries. There is no
+    # config value or flag that can make this True reach serve_forever().
+    if auto_crawl:
         raise ValueError(
-            "Phase 0 dashboard is read-only; crawl controllers and auto-crawl are not permitted"
+            "OEM Radar dashboard never auto-starts a crawl on launch "
+            "(fleet policy); auto_crawl/auto_crawl_force are not accepted here"
         )
     handler = partial(_Handler)
     _Handler.db_path = db_path
     _Handler.raw_dir = raw_dir or str(Path(db_path).parent / "raw")
     _Handler.max_body = max_body
     _Handler.csrf_token = _CSRF_TOKEN
-    _Handler.crawl = None
-    # M4.5 QC activation: review writes stay fail-closed by default. When the
-    # operator explicitly opts in, ONLY the alert-review POST path is
-    # authorized (crawl/mark-seen remain rejected below).
-    if allow_review_writes:
-        def _review_only_authorizer(headers, path=None) -> bool:
+    # `crawl` being non-None means the entry point explicitly authorized
+    # *manual* triggering (dashboard.allow_manual_crawl, minus --no-crawl).
+    # It is a human clicking a button in their own browser, once, same as
+    # them typing `oem-radar run` in a terminal -- not something opening
+    # the dashboard causes by itself.
+    _Handler.crawl = crawl
+    _Handler.crawl_mutations_enabled = crawl is not None
+    _Handler.review_writes_enabled = bool(allow_review_writes)
+    # M4.5 QC activation + manual-crawl activation: each capability is its
+    # own opt-in, each still requires its own per-request CSRF header
+    # (checked inside _handle_review_post / _handle_crawl_post). This gate
+    # only answers "is *any* mutation capability authorized for this
+    # launch" -- which one is decided per-path in do_POST.
+    if allow_review_writes or _Handler.crawl_mutations_enabled:
+        def _authorizer(headers) -> bool:
             return True
-        _Handler.mutation_authorizer = _review_only_authorizer
+        _Handler.mutation_authorizer = _authorizer
     else:
         _Handler.mutation_authorizer = None
-    _Handler.review_writes_only = bool(allow_review_writes)
     _Handler.stale_after_hours = stale_after_hours
     httpd = ThreadingHTTPServer((host, port), handler)
     url = f"http://{host}:{port}/"
     print(f"OEM Radar dashboard: {url}  (Ctrl+C to stop)")
-    print("  CSRF token active for review writes (localhost model)")
+    print("  CSRF token active for authorized writes (localhost model)")
 
-    # Opening the dashboard is the signal that someone wants current data.
-    # Started before serve_forever and in the background, so the browser
-    # opens now rather than after a crawl that can take over an hour.
-    # Not forced: each source's own min_interval still decides.
-    print("  Phase 0 read-only: review and crawl mutations are disabled")
+    # Opening the dashboard never starts anything by itself (see above). If
+    # manual crawl triggering is authorized, the button becomes live; if
+    # not, the crawl bar stays informational only.
+    if _Handler.crawl_mutations_enabled:
+        print("  crawl trigger available (Run all collectors excludes "
+              "collectors whose normal runtime exceeds 5 minutes; those "
+              "stay individually runnable)")
+    else:
+        print("  read-only: crawl mutations are disabled for this launch "
+              "(dashboard.allow_manual_crawl / --no-crawl)")
 
     if open_browser:
         try:

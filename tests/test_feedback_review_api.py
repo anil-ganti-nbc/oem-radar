@@ -130,12 +130,14 @@ def server(tmp_path):
     _Handler.max_body = 16384
     _Handler.csrf_token = _CSRF_TOKEN
     _Handler.mutation_authorizer = lambda _headers: True
+    _Handler.review_writes_enabled = True
     httpd = ThreadingHTTPServer(("127.0.0.1", port), _Handler)
     t = threading.Thread(target=httpd.serve_forever, daemon=True)
     t.start()
     yield {"port": port, "eid": eid, "csrf": _CSRF_TOKEN, "db": db, "raw": raw}
     httpd.shutdown()
     _Handler.mutation_authorizer = None
+    _Handler.review_writes_enabled = False
 
 
 def _req(port, method, path, body=None, headers=None):
