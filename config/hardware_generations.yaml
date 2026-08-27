@@ -1,0 +1,17 @@
+# Hardware generation seed -- deterministic restock knowledge layer.
+# Focused on CPUs first (mini-PC relevance is heavily CPU-generation bound).
+# status semantics: CURRENT | PREVIOUS | OLD | LEGACY | UNKNOWN
+# Extend rows; never edit statuses in place without evidence (docs/campaign).
+generation_schema_version: 1
+generations:
+  - {component_type: cpu, vendor: AMD, family: ryzen-mobile, model: "Ryzen AI 9 HX 370", generation: zen5-strix-point, generation_rank: 1, status: CURRENT, launch_date: "2024-07", announcement_date: "2024-06"}
+  - {component_type: cpu, vendor: AMD, family: ryzen-mobile, model: "Ryzen 7 8845HS", generation: zen4-hawk-point, generation_rank: 2, status: CURRENT, launch_date: "2024-01"}
+  - {component_type: cpu, vendor: AMD, family: ryzen-mobile, model: "Ryzen 7 7840HS", generation: zen4-phoenix, generation_rank: 3, status: PREVIOUS, successor: "Ryzen 7 8845HS", launch_date: "2023-01"}
+  - {component_type: cpu, vendor: AMD, family: ryzen-mobile, model: "Ryzen 7 7735HS", generation: zen3-plus-rembrandt-r, generation_rank: 4, status: OLD, successor: "Ryzen 7 7840HS", launch_date: "2023-01"}
+  - {component_type: cpu, vendor: AMD, family: ryzen-mobile, model: "Ryzen 5 5600U", generation: zen3-cezanne, generation_rank: 6, status: LEGACY, launch_date: "2021-01"}
+  - {component_type: cpu, vendor: Intel, family: core-ultra, model: "Ultra 9 185H", generation: meteor-lake, generation_rank: 1, status: CURRENT, launch_date: "2023-12"}
+  - {component_type: cpu, vendor: Intel, family: core-ultra, model: "Ultra 7 155H", generation: meteor-lake, generation_rank: 2, status: CURRENT, launch_date: "2023-12"}
+  - {component_type: cpu, vendor: Intel, family: core-mobile, model: "i7-13620H", generation: raptor-lake-h, generation_rank: 3, status: PREVIOUS, successor: "Ultra 7 155H", launch_date: "2023-01"}
+  - {component_type: cpu, vendor: Intel, family: soc, model: "N100", generation: alder-lake-n, generation_rank: 5, status: PREVIOUS, launch_date: "2023-01"}
+  - {component_type: cpu, vendor: Intel, family: soc, model: "N95", generation: alder-lake-n, generation_rank: 6, status: OLD, launch_date: "2022-09"}
+  - {component_type: cpu, vendor: Intel, family: soc, model: "N5095", generation: jasper-lake, generation_rank: 8, status: LEGACY, launch_date: "2021-01"}
