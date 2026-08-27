@@ -14,6 +14,9 @@ sources:
     engine: sitemap_jsonld
     base_url: https://snuc.com
     sitemap_url: https://snuc.com/product-sitemap.xml
-    min_interval: 12h
+    # Phase 10 census: production P95 ~110 min -> DAILY cadence (hard law)
+    min_interval: 24h
     currency_default: USD
     enabled: true
+
+

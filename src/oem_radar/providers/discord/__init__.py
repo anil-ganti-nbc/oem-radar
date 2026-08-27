@@ -152,6 +152,7 @@ class DiscordNotifier:
         sender: Callable[[str, dict], tuple[bool, str | None]] = _post_webhook,
         review_base_url: str | None = "http://127.0.0.1:8787",
         feedback_enabled: bool = True,
+        editorial_firewall: bool = False,
     ) -> None:
         self.store = store
         self.webhook_url = webhook_url
@@ -159,13 +160,20 @@ class DiscordNotifier:
         self.sender = sender
         self.review_base_url = review_base_url
         self.feedback_enabled = feedback_enabled
+        self.editorial_firewall = editorial_firewall
 
     def enqueue(self, event: ChangeEvent, product: NormalizedProduct | None = None) -> None:
         event_id = self.store.record_event(event)  # full audit trail regardless
         if event.meta.get("baseline"):
             status = "suppressed"  # first-ever crawl of a source: history, not news
-        else:
+        elif not self.editorial_firewall:
             status = "pending" if int(event.severity) >= self.min_severity else "suppressed"
+        else:
+            # OEM Radar 2.0 firewall: ordinary authority belongs to editorial
+            # events only. The event row above preserves the observation.
+            from ...core.editorial import notify_status
+            status = notify_status(
+                event, min_severity=self.min_severity, restock_enabled=True)
         review_url = self.review_base_url if self.feedback_enabled else None
         payload = build_embed(
             event, product, event_id=event_id, review_base_url=review_url,

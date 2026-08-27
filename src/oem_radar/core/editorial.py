@@ -131,3 +131,62 @@ def apply_firewall(events: list[ChangeEvent], policy: EditorialPolicy) -> list[C
     for e in events:
         (allowed if policy.discord_allowed(e) else withheld).append(e)
     return allowed, withheld
+
+
+#: Outbox status for a withheld event that should reach a human queue
+#: instead of Discord (Restock REVIEW items).
+REVIEW_STATUS = "review"
+
+
+def delivery_decision(event: ChangeEvent, *, restock_enabled: bool = True) -> str:
+    """Single source of truth for firewall enforcement at enqueue time.
+
+    Returns one of: "deliver" | "suppress" | "review".
+
+    Deliverable vocabulary under OEM Radar 2.0:
+      NEW_SKU              (NEW_PRODUCT + identity unknown_sku, not baseline)
+      NEW_HARDWARE_PLATFORM(hardware-bearing observation + PLATFORM_CHANGE)
+      RESTOCK_CANDIDATE    (AVAILABILITY + current-generation hardware)
+
+    Everything else is an observation: recorded, never delivered. Cosmetic
+    carriers (price/image/copy/availability without restock authority,
+    URL/rename churn) can never deliver, no matter what metadata rides on
+    them.
+    """
+    change_type = event.change_type
+    idd = event.meta.get("identity_decision")
+
+    if event.meta.get("baseline"):
+        return "suppress"
+
+    # Platform news requires a hardware-bearing carrier AND the decision.
+    if (idd == "platform_change"
+            and change_type in _PLATFORM_CARRIERS):
+        return "deliver"
+
+    if change_type == ChangeType.NEW_PRODUCT:
+        # The pipeline downgrades known-identity re-sightings to
+        # DUPLICATE_LISTING before this point; a surviving NEW_PRODUCT with
+        # no contradicting decision is an unresolved new SKU.
+        return "deliver" if idd in (None, "unknown_sku") else "suppress"
+
+    if (restock_enabled and change_type == ChangeType.AVAILABILITY_CHANGED):
+        decision = event.meta.get("restock_decision")
+        if decision == "ELIGIBLE":
+            return "deliver"
+        if decision == "REVIEW":
+            return "review"
+        return "suppress"
+
+    # Every other observation type: page mutations are evidence, not news.
+    return "suppress"
+
+
+def notify_status(event: ChangeEvent, *, min_severity: int, restock_enabled: bool = True) -> str:
+    """Map an event to its outbox status under the 2.0 firewall."""
+    d = delivery_decision(event, restock_enabled=restock_enabled)
+    if d == "deliver":
+        return "pending" if int(event.severity) >= min_severity else "suppressed"
+    if d == "review":
+        return REVIEW_STATUS
+    return "suppressed"

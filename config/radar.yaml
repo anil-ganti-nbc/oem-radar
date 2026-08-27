@@ -38,6 +38,15 @@ notify:
     min_severity: 3
     digest_below: 3
 
+# OEM Radar 2.0 editorial policy (Phase 10 activation).
+editorial:
+  # Ordinary Discord authority is reserved for NEW_SKU / NEW_SKU_CLUSTER /
+  # NEW_HARDWARE_PLATFORM / eligible RESTOCK_CANDIDATE. Page mutations are
+  # recorded as observations but never deliver on their own.
+  firewall: true
+  restock_watch: true      # deterministic hardware-age gates; UNKNOWN => review
+  launch_clustering: true  # sibling NEW_SKU pings coalesce into one alert
+
 ai:
   provider: anthropic
   summary_model: claude-haiku

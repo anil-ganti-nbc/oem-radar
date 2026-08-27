@@ -92,6 +92,7 @@ def build_store_and_notifier(radar: RadarConfig, config_dir: Path, *, dry_run: b
         store, webhook, min_sev,
         review_base_url=fb.dashboard_base_url,
         feedback_enabled=fb.enabled,
+        editorial_firewall=radar.editorial.firewall,
     )
     return store, notifier, wh_src, webhook is not None
 

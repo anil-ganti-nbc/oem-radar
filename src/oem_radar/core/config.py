@@ -93,6 +93,19 @@ class NotifyChannelConfig(BaseModel):
     digest_below: int | None = None
 
 
+class EditorialConfig(BaseModel):
+    """OEM Radar 2.0 editorial policy switches.
+
+    firewall: when enabled, ordinary Discord delivery requires an editorial
+    event (NEW_SKU / NEW_HARDWARE_PLATFORM / eligible RESTOCK_CANDIDATE).
+    Observations keep being recorded; they only lose delivery authority.
+    """
+
+    firewall: bool = False
+    restock_watch: bool = True     # hardware-age gating of availability events
+    launch_clustering: bool = True # sibling NEW_SKU coalescing per run
+
+
 
 class CollectorHealthConfig(BaseModel):
     """False-green protection for enabled collectors.
@@ -191,6 +204,7 @@ class RadarConfig(BaseModel):
     feedback: FeedbackConfig = Field(default_factory=FeedbackConfig)
     collector_health: CollectorHealthConfig = Field(default_factory=CollectorHealthConfig)
     dashboard: DashboardConfig = Field(default_factory=DashboardConfig)
+    editorial: EditorialConfig = Field(default_factory=EditorialConfig)
     # Single-instance lock for concurrent `oem-radar run` invocations.
     run_lock_path: str = "data/oem-radar.lock"
 

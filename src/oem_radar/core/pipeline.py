@@ -24,6 +24,86 @@ if TYPE_CHECKING:
 log = logging.getLogger("oem_radar.pipeline")
 
 
+def _generations():
+    """Lazy single-load of the deterministic hardware-generation seed used by
+    Restock Watch. Missing/invalid file degrades to an empty mapping, which
+    makes every restock REVIEW (never auto-Discord) rather than raising."""
+    global _GENERATIONS_CACHE
+    if _GENERATIONS_CACHE is None:
+        from pathlib import Path
+        from .restock import load_generations
+        candidates = [
+            Path.cwd() / "config" / "hardware_generations.yaml",
+            Path(__file__).resolve().parents[3] / "config" / "hardware_generations.yaml",
+        ]
+        seed = next((p for p in candidates if p.exists()), candidates[0])
+        try:
+            _GENERATIONS_CACHE = load_generations(seed)
+        except Exception:  # noqa: BLE001
+            log.warning("restock generation seed unavailable at %s", seed,
+                        exc_info=True)
+            _GENERATIONS_CACHE = {}
+    return _GENERATIONS_CACHE
+
+
+_GENERATIONS_CACHE = None
+
+
+def _stamp_editorial_meta(event: ChangeEvent, before, product) -> None:
+    """Attach the identity-plane decisions the 2.0 firewall enforces on.
+
+    - NEW_PRODUCT surviving resolution => identity_decision=unknown_sku.
+    - CPU/GPU string transitions between snapshots carry platform_change only
+      when the deterministic hardware signature actually changed.
+    - AVAILABILITY events get a restock_decision trace (ELIGIBLE / REVIEW /
+      SUPPRESSED) computed from the deterministic hardware-generation table.
+
+    Everything here is derivable from data already in hand; no network, no
+    clock reads, no LLM.
+    """
+    if event.change_type == ChangeType.NEW_PRODUCT:
+        event.meta.setdefault("identity_decision", "unknown_sku")
+        return
+
+    if event.change_type == ChangeType.COMPONENT_CHANGED and before is not None:
+        kind = event.field
+        if kind in ("cpu", "gpu"):
+            old = getattr(before, kind, None)
+            new = getattr(product, kind, None)
+            old_raw = old.raw if old is not None else None
+            new_raw = new.raw if new is not None else None
+            if not (old_raw and new_raw):
+                return  # no prior value: cannot claim reuse of identity
+            from .identity import cpu_generation_key
+            from .identity import _slug as ident_slug
+            if kind == "cpu":
+                go = cpu_generation_key(old_raw)
+                gn = cpu_generation_key(new_raw)
+                if go and gn and go != gn:
+                    event.meta["identity_decision"] = "platform_change"
+            elif ident_slug(old_raw) != ident_slug(new_raw):
+                event.meta["identity_decision"] = "platform_change"
+        return
+
+    if event.change_type == ChangeType.AVAILABILITY_CHANGED:
+        from .restock import (
+            GenerationStatus, RestockCandidate, generation_status,
+            restock_eligibility)
+        gens = _generations()
+        raw = product.cpu.raw if product.cpu is not None else None
+        status = generation_status(raw, gens)
+        if status == GenerationStatus.CURRENT:
+            event.meta["restock_decision"] = "ELIGIBLE"
+        elif status in (GenerationStatus.OLD, GenerationStatus.LEGACY):
+            event.meta["restock_decision"] = "SUPPRESSED"
+        else:
+            # PREVIOUS conditional gates need availability-window history the
+            # streaming diff does not retain; conservatively queue for review.
+            event.meta["restock_decision"] = "REVIEW"
+            event.meta["restock_cpu_status"] = status
+        return
+
+
 @dataclass
 class SourceRunStats:
     source_id: str
@@ -209,6 +289,7 @@ def run_source(
                     # First-ever crawl of this source: everything is "new" by
                     # definition. Record events for history, don't ping.
                     event.meta["baseline"] = True
+                _stamp_editorial_meta(event, before, product)
                 if event.change_type == ChangeType.NEW_PRODUCT:
                     if relation == "existing_product":
                         # A different listing already carries this identity:

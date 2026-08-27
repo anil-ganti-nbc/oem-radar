@@ -17,6 +17,9 @@ sources:
     base_url: https://www.lg.com
     sitemap_url: https://www.lg.com/us/sitemap.xml
     url_include_pattern: '/us/laptops/lg-[\w.-]+-gram-laptop$'
-    min_interval: 12h
+    # Phase 10 census: production P95 ~19 min -> DAILY cadence (hard law)
+    min_interval: 24h
     currency_default: USD
     enabled: true
+
+
