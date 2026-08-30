@@ -13,7 +13,7 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
 from .config import SeverityRule, SourceConfig
-from .diff import diff
+from .diff import diff, score
 from .interfaces import Fetcher, Notifier, SnapshotStore, SourceEngine
 from .knownhw import canonicalize
 from .models import ChangeEvent, ChangeType, FetchedDocument, NormalizedProduct, Severity
@@ -219,6 +219,8 @@ def run_source(
                         event.meta["hidden"] = True
                     if unseen:
                         event.meta["unseen_component"] = True
+                    if event.change_type == ChangeType.NEW_PRODUCT:
+                        event.severity = score(event, rules)
                 notifier.enqueue(event, product)
                 stats.events += 1
             _learn_components(product, store)
