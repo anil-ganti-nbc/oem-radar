@@ -215,11 +215,11 @@ def run_source(
                         # variant/duplicate, not a launch (ADR-3).
                         event.change_type = ChangeType.DUPLICATE_LISTING
                         event.severity = Severity.MINOR
-                    else:
-                        if ref.hidden:
-                            event.meta["hidden"] = True
-                        if unseen:
-                            event.meta["unseen_component"] = True
+                    if ref.hidden:
+                        event.meta["hidden"] = True
+                    if unseen:
+                        event.meta["unseen_component"] = True
+                    if event.change_type == ChangeType.NEW_PRODUCT:
                         event.severity = score(event, rules)
                 notifier.enqueue(event, product)
                 stats.events += 1

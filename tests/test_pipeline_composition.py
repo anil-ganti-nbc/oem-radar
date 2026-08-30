@@ -180,3 +180,41 @@ def test_new_product_unseen_component_rescores_severity():
     new_event = next(e for e in notifier.outbox if e.change_type == ChangeType.NEW_PRODUCT)
     assert new_event.meta.get("unseen_component") is True
     assert new_event.severity == Severity.BREAKING
+
+
+def test_new_product_hidden_rescores_severity():
+    from oem_radar.core.config import SeverityRule
+
+    rules = [
+        SeverityRule(match={"change_type": "new_product", "hidden": True}, severity=5),
+        SeverityRule(match={"change_type": "new_product"}, severity=3),
+    ]
+
+    store = MemoryStore(known={"ryzen-ai-max+-396"})
+    notifier, engine = CollectingNotifier(), FakeEngine()
+    catalog = {"/p/k13": {"model": "K13", "cpu": "Ryzen AI Max+ 396", "memory": "64 GB", "price": 799.0}}
+
+    stats = run_source(SOURCE, engine, FakeFetcher(catalog), store, notifier, rules=rules)
+    assert stats.snapshots_written == 1
+
+    new_event = next(e for e in notifier.outbox if e.change_type == ChangeType.NEW_PRODUCT)
+    assert new_event.meta.get("hidden") is True
+    assert new_event.meta.get("unseen_component") is not True
+    assert new_event.severity == Severity.BREAKING
+
+
+def test_duplicate_listing_preserves_meta():
+    class DuplicateListingStore(MemoryStore):
+        def resolve_prior(self, key, product):
+            if key == "fake-src:k13":
+                return None, "existing_product"
+            return super().resolve_prior(key, product)
+
+    store, notifier, engine = DuplicateListingStore(), CollectingNotifier(), FakeEngine()
+    catalog = {"/p/k13": {"model": "K13", "cpu": "Brand New CPU 999", "memory": "64 GB", "price": 799.0}}
+    run_source(SOURCE, engine, FakeFetcher(catalog), store, notifier)
+
+    dup_event = next(e for e in notifier.outbox if e.change_type == ChangeType.DUPLICATE_LISTING)
+    assert dup_event.severity == Severity.MINOR
+    assert dup_event.meta.get("hidden") is True
+    assert dup_event.meta.get("unseen_component") is True
