@@ -1,4 +1,11 @@
-"""oem-radar CLI: validate | run | status | probe."""
+"""oem-radar CLI: validate | run | status | probe.
+
+Exit codes: 0 success; 1 operational failure; 2 single-instance lock held
+by another run; 3 persistent-state compatibility refusal — the database
+state is unknown, corrupt, partial, or newer than this software understands
+(STD-DEPLOY-COM-002); normal work was refused before anything mutated and
+the refusal JSON carries the read-only compatibility evidence.
+"""
 
 from __future__ import annotations
 
@@ -16,6 +23,7 @@ from .core.config import (
 )
 from .core.crawl_service import build_fetcher, resolve_webhook
 from .core.registry import engines, stores
+from .providers.sqlite import IncompatibleDatabaseError
 
 # Imports for side effect: registry registration.
 from . import providers  # noqa: F401
@@ -34,6 +42,24 @@ def _load(config_dir: Path) -> tuple[RadarConfig, dict]:
     radar = load_radar_config(config_dir / "radar.yaml")
     oems = load_oem_configs(config_dir / "oems")
     return radar, oems
+
+
+def _open_store(radar: RadarConfig):
+    """Construct the configured store behind the persistent-state
+    compatibility barrier (STD-DEPLOY-COM-002). Returns the store, or None
+    after printing the machine-readable refusal (exit code 3) with the
+    read-only evidence — the caller must not touch the database then."""
+    from .providers.sqlite import IncompatibleDatabaseError
+
+    try:
+        return stores.get(radar.store)(radar.db_path, radar.raw_dir)
+    except IncompatibleDatabaseError as exc:
+        print(json.dumps({
+            "status": "state_incompatible",
+            "gate": "persistent_state_compatibility",
+            **exc.report.as_evidence(),
+        }, indent=2, default=str))
+        return None
 
 
 def cmd_version(args: argparse.Namespace) -> int:
@@ -140,6 +166,13 @@ def cmd_run(args: argparse.Namespace) -> int:
     except LockError as e:
         print(f"ERROR: {e}", file=sys.stderr)
         return 2
+    except IncompatibleDatabaseError as e:
+        print(json.dumps({
+            "status": "state_incompatible",
+            "gate": "persistent_state_compatibility",
+            **e.report.as_evidence(),
+        }, indent=2, default=str))
+        return 3
 
     print(f"done: {out.sources} source(s) crawled, {out.snapshots} snapshot(s), "
           f"{out.events} event(s)")
@@ -151,7 +184,9 @@ def cmd_run(args: argparse.Namespace) -> int:
 
 def cmd_status(args: argparse.Namespace) -> int:
     radar, _ = _load(Path(args.config))
-    store = stores.get(radar.store)(radar.db_path, radar.raw_dir)
+    store = _open_store(radar)
+    if store is None:
+        return 3
     rows = store.recent_runs(20)
     if not rows:
         print("no runs recorded yet")
@@ -329,7 +364,13 @@ def sync_registry_before_serve(radar: RadarConfig, oems: dict) -> int:
     number of OEMs synced, or 0 if the sync was skipped.
     """
     try:
-        store = stores.get(radar.store)(radar.db_path, radar.raw_dir)
+        store = _open_store(radar)
+    except IncompatibleDatabaseError as exc:
+        # Never masked as a mere "sync skipped": the compatibility refusal
+        # must name its gate; the dashboard's data surfaces will refuse too.
+        log.warning("OEM registry sync refused by the persistent-state "
+                    "compatibility gate (%s)", exc)
+        return 0
     except Exception as exc:  # noqa: BLE001 — never block the dashboard
         log.warning("OEM registry sync skipped (%s); "
                     "manufacturer list may be incomplete", exc)
@@ -400,7 +441,9 @@ def build_dashboard_crawl_kwargs(radar: RadarConfig, config_dir: Path,
 def cmd_outbox(args: argparse.Namespace) -> int:
     """Inspect the notification outbox; optionally suppress everything pending."""
     radar, _ = _load(Path(args.config))
-    store = stores.get(radar.store)(radar.db_path, radar.raw_dir)
+    store = _open_store(radar)
+    if store is None:
+        return 3
     if args.suppress_pending:
         n = store.db.execute(
             "UPDATE notifications SET status='suppressed' WHERE status='pending'"
@@ -456,7 +499,9 @@ def cmd_feedback_analyze(args: argparse.Namespace) -> int:
     """Deterministic offline analysis of reviewed alerts → suggestions."""
     from .core.feedback_analyze import analyze_reviews, persist_candidates
     radar, _ = _load(Path(args.config))
-    store = stores.get(radar.store)(radar.db_path, radar.raw_dir)
+    store = _open_store(radar)
+    if store is None:
+        return 3
     fb = radar.feedback
     min_samples = args.minimum_samples or fb.minimum_samples_for_suggestion
     min_noise = args.minimum_noise_ratio if args.minimum_noise_ratio is not None else fb.minimum_noise_ratio
@@ -517,7 +562,9 @@ def cmd_feedback_simulate(args: argparse.Namespace) -> int:
     from .core.feedback_simulate import simulate_rule
     from .core.feedback import FeedbackError
     radar, _ = _load(Path(args.config))
-    store = stores.get(radar.store)(radar.db_path, radar.raw_dir)
+    store = _open_store(radar)
+    if store is None:
+        return 3
     fb = radar.feedback
     try:
         result = simulate_rule(

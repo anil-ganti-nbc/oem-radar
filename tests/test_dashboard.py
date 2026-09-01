@@ -282,12 +282,12 @@ def test_v2_db_migrates_to_v3_creating_stories(tmp_path):
     import sqlite3 as _sq
     from oem_radar.providers.sqlite import SqliteStore, SCHEMA_VERSION
     db = tmp_path / "v2.db"
-    # minimal v2 marker
+    # honest v2 shape: the real v1 tables plus the canonical v2 migration
+    # SQL (see tests/legacy_db.py) — not a marker-only stub
+    from legacy_db import apply_legacy_schema
     con = _sq.connect(db)
-    con.execute("CREATE TABLE schema_migrations(version INTEGER PRIMARY KEY, applied_at TEXT)")
-    con.execute("INSERT INTO schema_migrations(version) VALUES (1)")
-    con.execute("INSERT INTO schema_migrations(version) VALUES (2)")
-    con.commit(); con.close()
+    apply_legacy_schema(con, 2)
+    con.close()
 
     store = SqliteStore(str(db), str(tmp_path / "raw"))  # migrate runs
     versions = [r["version"] for r in

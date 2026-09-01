@@ -32,6 +32,7 @@ from .knownhw import SEED_COMPONENTS
 from .registry import notifiers, stores
 from .run_lock import LockError, RunLock
 from .runner import run_all
+from ..providers.sqlite import IncompatibleDatabaseError
 
 log = logging.getLogger("oem_radar.crawl_service")
 
@@ -338,6 +339,19 @@ class CrawlController:
         except LockError as exc:
             self._finish(BLOCKED, str(exc))
             log.info("dashboard crawl blocked: %s", exc)
+            return
+        except IncompatibleDatabaseError as exc:
+            # Persistent-state gate (STD-DEPLOY-COM-002): the one-shot crawl
+            # refuses before touching incompatible state, however
+            # short-lived the process. The refusal is recorded as the
+            # crawl's outcome so the evidence survives in the dashboard.
+            self._finish(
+                FAILED,
+                f"persistent-state compatibility refused: {exc}",
+                outcome=exc.report.as_evidence(),
+            )
+            log.warning("dashboard crawl refused by the persistent-state "
+                        "compatibility gate: %s", exc)
             return
         except Exception as exc:  # noqa: BLE001 — a crawl failure must not kill the server
             self._finish(FAILED, f"{type(exc).__name__}: {exc}")

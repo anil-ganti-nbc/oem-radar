@@ -3,6 +3,15 @@
 Single writer (ADR-1), WAL mode, append-only snapshots with hash dedup
 (ADR-4), resolution v1 (ADR-3): URL identity → (manufacturer, model-key)
 match → new product.
+
+M15 / STD-DEPLOY-COM-002: constructing `SqliteStore` is the persistent-state
+compatibility barrier. The database is adjudicated read-only by
+`compatibility.inspect_schema` before anything mutates; only genuinely fresh
+state bootstraps and known-older state migrates, both through the canonical
+mechanism here, and both are re-verified before the store is admitted.
+Newer, unknown, corrupt, partial, and failed-migration state raises
+`IncompatibleDatabaseError` with full read-only evidence and is left
+untouched.
 """
 
 from __future__ import annotations
@@ -18,11 +27,22 @@ from pathlib import Path
 from ...core.knownhw import canonicalize
 from ...core.models import ChangeEvent, NormalizedProduct
 from ...core.registry import stores
+from .compatibility import (
+    EXPECTED_SCHEMA_VERSION,
+    UNADMITTABLE_STATES,
+    CompatibilityReport,
+    IncompatibleDatabaseError,
+    SchemaCompatibility,
+    inspect_schema,
+)
 
 _SCHEMA = (Path(__file__).parent / "schema.sql").read_text(encoding="utf-8")
 _MODEL_KEY_RE = re.compile(r"[^a-z0-9]+")
 
-SCHEMA_VERSION = 7
+# The expected persistent-state contract lives in compatibility.py (one
+# authority shared by the schema, the migrations, and the compatibility
+# gate); re-exported here under the historical name.
+SCHEMA_VERSION = EXPECTED_SCHEMA_VERSION
 # Idempotent-ish migrations for databases created at earlier versions.
 # Fresh databases get the current schema.sql directly and record all versions.
 _MIGRATIONS: dict[int, list[str]] = {
@@ -216,6 +236,24 @@ class SqliteStore:
         if db_path != ":memory:":
             Path(db_path).parent.mkdir(parents=True, exist_ok=True)
         self.raw_dir = Path(raw_dir)
+        # Phase 1 — read-only inspection before any read-write handle or
+        # file-mutating setup exists. A refused database is left
+        # byte-identical: not even the WAL pragma touches it. (mode=ro
+        # cannot open a not-yet-existing file and can fail on a hot WAL
+        # needing recovery; both fall through to the read-write open, which
+        # remains adjudicated in phase 2.)
+        pre_report: CompatibilityReport | None = None
+        if db_path != ":memory:" and Path(db_path).exists():
+            try:
+                ro = sqlite3.connect(f"file:{Path(db_path).as_posix()}?mode=ro", uri=True)
+                try:
+                    pre_report = inspect_schema(ro, expected_version=SCHEMA_VERSION)
+                finally:
+                    ro.close()
+            except sqlite3.Error:
+                pre_report = None
+        if pre_report is not None and pre_report.state in UNADMITTABLE_STATES:
+            raise IncompatibleDatabaseError(pre_report)
         self.raw_dir.mkdir(parents=True, exist_ok=True)
         self.db = sqlite3.connect(db_path)
         self.db.row_factory = sqlite3.Row
@@ -224,31 +262,97 @@ class SqliteStore:
         except sqlite3.OperationalError:
             pass  # some filesystems (network mounts) can't do WAL; default journal is fine
         self.db.execute("PRAGMA foreign_keys=ON")
-        self.migrate()
+        self._admit_compatibility(pre_report)
         self._source_ctx: int | None = None  # sources.id during a run
 
-    # -- lifecycle -----------------------------------------------------------
+    # -- compatibility barrier (M15 / STD-DEPLOY-COM-002) --------------------
+    #
+    # Construction is the barrier: normal work cannot begin on this store
+    # until the persistent state has been adjudicated against the expected
+    # contract. Inspection is read-only; mutation happens only after an
+    # explicit compatibility decision (canonical bootstrap for genuinely
+    # fresh state, canonical migration for known-older state), and the
+    # result is re-verified before the store is handed back. Every
+    # incompatible verdict raises IncompatibleDatabaseError with the full
+    # read-only evidence — the database is never deleted, stamped, layered
+    # over, or silently upgraded, and unadmittable state can never be
+    # laundered into "current" by opening it. One-shot execution changes
+    # nothing here: a run that lives for seconds still constructs a store,
+    # so it inherits the same gate as a long-lived process.
 
-    def migrate(self) -> None:
-        fresh = self.db.execute(
-            "SELECT 1 FROM sqlite_master WHERE type='table' AND name='schema_migrations'"
-        ).fetchone() is None
-        self.db.executescript(_SCHEMA)  # CREATE IF NOT EXISTS throughout
-        if fresh:
-            for v in range(1, SCHEMA_VERSION + 1):
-                self.db.execute("INSERT OR IGNORE INTO schema_migrations(version) VALUES (?)", (v,))
-        else:
-            current = self.db.execute(
-                "SELECT COALESCE(MAX(version), 0) v FROM schema_migrations"
-            ).fetchone()["v"]
-            for v in range(current + 1, SCHEMA_VERSION + 1):
+    def _admit_compatibility(self, pre_report: CompatibilityReport | None) -> None:
+        report = pre_report if pre_report is not None else inspect_schema(
+            self.db, expected_version=SCHEMA_VERSION
+        )
+        if report.state is SchemaCompatibility.COMPATIBLE:
+            self.compatibility_report = report
+            return
+        failure: str | None = None
+        try:
+            if report.state is SchemaCompatibility.FRESH:
+                self._bootstrap_fresh()
+            elif report.state is SchemaCompatibility.MIGRATION_REQUIRED:
+                self._migrate_incremental(report.observed_version)
+            # every other state falls through to the refusal below
+        except sqlite3.Error as exc:
+            failure = f"{type(exc).__name__}: {exc}"
+        post = self._post_admission_report(failure)
+        if post.state is SchemaCompatibility.COMPATIBLE:
+            self.compatibility_report = post
+            return
+        self.db.close()
+        raise IncompatibleDatabaseError(post)
+
+    def _post_admission_report(self, failure: str | None) -> CompatibilityReport:
+        """Re-verify after any mutating admission step (or after its
+        failure). A bootstrap/migration that did not actually produce
+        compatible state must not mark the state ready."""
+        try:
+            post = inspect_schema(self.db, expected_version=SCHEMA_VERSION)
+        except sqlite3.Error as exc:
+            post = CompatibilityReport(
+                state=SchemaCompatibility.CORRUPT,
+                expected_version=SCHEMA_VERSION,
+                observed_version=None,
+                reason=f"post-admission inspection failed: {exc}",
+            )
+        if failure:
+            post.evidence["admission_failure"] = failure
+        return post
+
+    def _bootstrap_fresh(self) -> None:
+        """Canonical fresh-state bootstrap: the current full schema, then
+        the version marker stamped 1..N at once (the historical fresh-
+        database path)."""
+        self.db.executescript(_SCHEMA)  # CREATE TABLE IF NOT EXISTS throughout
+        for v in range(1, SCHEMA_VERSION + 1):
+            self.db.execute("INSERT OR IGNORE INTO schema_migrations(version) VALUES (?)", (v,))
+        self.db.commit()
+
+    def _migrate_incremental(self, from_version: int) -> None:
+        """Canonical forward-only migration of known-older state, in one
+        transaction so a failure mid-way leaves the state exactly as it was
+        (still MIGRATION_REQUIRED, never half-stamped), followed by the
+        idempotent current-schema finalize. Unlike the pre-M15 migrate(),
+        duplicate-column failures are NOT swallowed: a column already
+        present at its migration's origin version means the marker and the
+        structure disagree — contradictory authority, which fails closed."""
+        try:
+            self.db.execute("BEGIN IMMEDIATE")
+            for v in range(from_version + 1, SCHEMA_VERSION + 1):
                 for stmt in _MIGRATIONS.get(v, []):
-                    try:
-                        self.db.execute(stmt)
-                    except sqlite3.OperationalError as exc:
-                        if "duplicate column" not in str(exc).lower():
-                            raise
-                self.db.execute("INSERT INTO schema_migrations(version) VALUES (?)", (v,))
+                    self.db.execute(stmt)
+                self.db.execute(
+                    "INSERT INTO schema_migrations(version) VALUES (?)", (v,)
+                )
+            self.db.commit()
+        except sqlite3.Error:
+            self.db.rollback()
+            raise
+        # Now safe: every column/table schema.sql's CREATE statements
+        # reference has just been created by the migrations above.
+        # Idempotent (IF NOT EXISTS throughout).
+        self.db.executescript(_SCHEMA)
         self.db.commit()
 
     def close(self) -> None:

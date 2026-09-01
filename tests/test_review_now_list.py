@@ -22,6 +22,7 @@ from oem_radar.core.models import (
 from oem_radar.engines.shopify import ShopifyEngine
 from oem_radar.providers.sqlite import SqliteStore
 from engine_harness import EngineHarness
+from legacy_db import apply_legacy_schema
 
 from test_models import make_product
 
@@ -152,33 +153,17 @@ def test_snapshots_stored_compressed(tmp_path):
     store.close()
 
 
-V1_DDL = """
-CREATE TABLE schema_migrations (version INTEGER PRIMARY KEY, applied_at TEXT DEFAULT '');
-INSERT INTO schema_migrations(version) VALUES (1);
-CREATE TABLE manufacturers (id INTEGER PRIMARY KEY, name TEXT UNIQUE, country TEXT,
-  aliases_json TEXT DEFAULT '[]', created_at TEXT DEFAULT '');
-CREATE TABLE sources (id INTEGER PRIMARY KEY, source_key TEXT UNIQUE, manufacturer_id INTEGER,
-  engine TEXT, base_url TEXT, config_json TEXT DEFAULT '{}', enabled INTEGER DEFAULT 1,
-  created_at TEXT DEFAULT '');
-CREATE TABLE products (id INTEGER PRIMARY KEY, manufacturer_id INTEGER, canonical_model TEXT,
-  series TEXT, category TEXT, status TEXT DEFAULT 'active', first_seen_at TEXT DEFAULT '',
-  UNIQUE(manufacturer_id, canonical_model));
-CREATE TABLE listings (id INTEGER PRIMARY KEY, source_id INTEGER, product_id INTEGER,
-  product_key TEXT UNIQUE, url TEXT, vendor_handle TEXT,
-  resolution_method TEXT DEFAULT 'url', resolution_confidence REAL DEFAULT 1.0,
-  needs_review INTEGER DEFAULT 0, first_seen_at TEXT DEFAULT '', last_seen_at TEXT DEFAULT '');
-CREATE TABLE snapshots (id INTEGER PRIMARY KEY, listing_id INTEGER, content_hash TEXT,
-  normalized_json TEXT NOT NULL, confidence REAL DEFAULT 1.0,
-  validation_issues_json TEXT DEFAULT '[]', raw_ref TEXT, captured_at TEXT DEFAULT '',
-  UNIQUE(listing_id, content_hash));
-"""
+# The honest v1 shape lives in tests/legacy_db.py and is applied per-test
+# via apply_legacy_schema(con, 1) — replays the project's own historical
+# DDL instead of a marker-only stub.
+
 
 
 def test_v1_database_migrates_and_old_snapshots_load(tmp_path):
     db_path = tmp_path / "old.db"
     old_product = _old_style(make_product())
     con = sqlite3.connect(db_path)
-    con.executescript(V1_DDL)
+    apply_legacy_schema(con, 1)
     con.execute("INSERT INTO manufacturers(name) VALUES ('GMKtec')")
     con.execute("INSERT INTO sources(source_key, manufacturer_id, engine, base_url) "
                 "VALUES ('src', 1, 'shopify', 'x')")

@@ -67,13 +67,18 @@ def main() -> int:
     # crawl happened to touch. Best-effort: never blocks the window opening.
     try:
         from oem_radar.core.runner import sync_oem_registry
-        from oem_radar.providers.sqlite import SqliteStore
+        from oem_radar.providers.sqlite import IncompatibleDatabaseError, SqliteStore
 
         store = SqliteStore(db_path, raw_dir or str(Path(db_path).parent / "raw"))
         try:
             sync_oem_registry(store, load_oem_configs(CONFIG_DIR / "oems"))
         finally:
             store.close()
+    except IncompatibleDatabaseError as exc:
+        # Never masked as a mere "sync skipped": the compatibility refusal
+        # must name its gate. The dashboard's data surfaces refuse too.
+        print(f"WARNING: OEM registry sync refused by the persistent-state "
+              f"compatibility gate ({exc}); data views will refuse as well")
     except Exception as exc:  # noqa: BLE001
         print(f"note: OEM registry sync skipped ({exc}); "
               "the manufacturer filter may be incomplete")

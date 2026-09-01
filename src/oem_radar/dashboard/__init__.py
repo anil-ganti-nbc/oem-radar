@@ -18,7 +18,13 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
 
-from ..providers.sqlite import SqliteStore, connect_readonly
+from ..providers.sqlite import (
+    SCHEMA_VERSION,
+    UNADMITTABLE_STATES,
+    IncompatibleDatabaseError,
+    SqliteStore,
+    connect_readonly,
+)
 from .data import (
     collect,
     collect_alert_detail,
@@ -44,6 +50,54 @@ def _json_error(handler: BaseHTTPRequestHandler, status: int, code: str, message
     handler.send_header("Content-Length", str(len(body)))
     handler.end_headers()
     handler.wfile.write(body)
+
+
+def _refuse_state(handler: BaseHTTPRequestHandler, report) -> None:
+    """503 + the read-only compatibility evidence (M15 / STD-DEPLOY-COM-002):
+    the dashboard never renders or writes against a state it could not
+    verify, and the refusal itself names compatibility gating as the cause."""
+    body = json.dumps({
+        "error": {"code": "state_incompatible",
+                  "gate": "persistent_state_compatibility",
+                  **report.as_evidence()},
+    }, default=str).encode("utf-8")
+    handler.send_response(503)
+    handler.send_header("Content-Type", "application/json")
+    handler.send_header("Content-Length", str(len(body)))
+    handler.end_headers()
+    handler.wfile.write(body)
+
+
+def _open_rw_store(handler):
+    """Construct a read-write store behind the compatibility barrier, or
+    send a 503 evidence refusal and return None."""
+    try:
+        return SqliteStore(handler.db_path, handler.raw_dir or str(Path(handler.db_path).parent / "raw"))
+    except IncompatibleDatabaseError as exc:
+        _refuse_state(handler, exc.report)
+        return None
+
+
+def _readonly_or_refuse(handler):
+    """Open the read-only connection only after the store's compatibility
+    has been inspected; refuse with evidence when the state is unadmittable
+    so the dashboard never presents schema-mismatched data as fact."""
+    from ..providers.sqlite.compatibility import inspect_schema
+    from ..providers.sqlite import SCHEMA_VERSION
+    try:
+        conn = connect_readonly(handler.db_path)
+    except Exception:
+        raise
+    try:
+        report = inspect_schema(conn, expected_version=SCHEMA_VERSION)
+    except Exception:
+        conn.close()
+        raise
+    if report.state in UNADMITTABLE_STATES:
+        conn.close()
+        _refuse_state(handler, report)
+        return None
+    return conn
 
 
 def _read_json_body(handler: BaseHTTPRequestHandler, max_bytes: int) -> dict | None:
@@ -105,7 +159,9 @@ class _Handler(BaseHTTPRequestHandler):
         try:
             path = urlparse(self.path).path
             if path.startswith("/api/data"):
-                conn = self._readonly()
+                conn = _readonly_or_refuse(self)
+                if conn is None:
+                    return
                 try:
                     body = json.dumps(collect(conn)).encode("utf-8")
                 finally:
@@ -125,7 +181,9 @@ class _Handler(BaseHTTPRequestHandler):
                     _json_error(self, 400, "invalid_limit", "limit must be an integer")
                     return
                 group_by = q1("group_by")
-                conn = self._readonly()
+                conn = _readonly_or_refuse(self)
+                if conn is None:
+                    return
                 try:
                     from ..core.feedback_analytics import build_metrics_payload
                     from ..core.feedback import FeedbackError
@@ -145,8 +203,9 @@ class _Handler(BaseHTTPRequestHandler):
                 return
 
             if path == "/api/feedback/suggestions":
-                raw_dir = self.raw_dir or str(Path(self.db_path).parent / "raw")
-                store = SqliteStore(self.db_path, raw_dir)
+                store = _open_rw_store(self)
+                if store is None:
+                    return
                 try:
                     rows = store.list_rule_suggestions(limit=100)
                 finally:
@@ -164,8 +223,9 @@ class _Handler(BaseHTTPRequestHandler):
                     metrics = {"error": str(exc)}
                 finally:
                     conn.close()
-                raw_dir = self.raw_dir or str(Path(self.db_path).parent / "raw")
-                store = SqliteStore(self.db_path, raw_dir)
+                store = _open_rw_store(self)
+                if store is None:
+                    return
                 try:
                     suggestions = store.list_rule_suggestions(limit=50)
                 finally:
@@ -405,8 +465,9 @@ class _Handler(BaseHTTPRequestHandler):
         except json.JSONDecodeError:
             _json_error(self, 400, "malformed_json", "Malformed JSON")
             return
-        raw_dir = self.raw_dir or str(Path(self.db_path).parent / "raw")
-        store = SqliteStore(self.db_path, raw_dir)
+        store = _open_rw_store(self)
+        if store is None:
+            return
         try:
             names = None if payload.get("all") else payload.get("names")
             changed = store.mark_component_seen(names)
@@ -449,8 +510,9 @@ class _Handler(BaseHTTPRequestHandler):
                         "reason_codes must be an array of strings")
             return
 
-        raw_dir = self.raw_dir or str(Path(self.db_path).parent / "raw")
-        store = SqliteStore(self.db_path, raw_dir)
+        store = _open_rw_store(self)
+        if store is None:
+            return
         try:
             from ..core.feedback import FeedbackError
             try:
@@ -479,7 +541,9 @@ class _Handler(BaseHTTPRequestHandler):
         finally:
             store.close()
 
-        hist_store = SqliteStore(self.db_path, raw_dir)
+        hist_store = _open_rw_store(self)
+        if hist_store is None:
+            return
         try:
             history = hist_store.list_review_history(alert_id)
         finally:

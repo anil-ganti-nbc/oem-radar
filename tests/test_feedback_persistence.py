@@ -10,6 +10,8 @@ from pathlib import Path
 
 import pytest
 
+from legacy_db import apply_legacy_schema
+
 from oem_radar.core.feedback import (
     FeedbackError,
     REASON_CODES,
@@ -243,32 +245,11 @@ def test_clean_db_gets_v4_tables(tmp_path):
 def test_v3_db_migrates_to_v4_preserving_events(tmp_path):
     """Populate a schema-v3 database, reopen with current code, events intact."""
     db = tmp_path / "v3.db"
-    # Build a minimal v3 DB the same way older tests do.
+    # Build an honest v3 DB: the real v1 table shapes plus the canonical
+    # v2/v3 migration SQL (see tests/legacy_db.py). A marker-only stub is
+    # contradictory state the M15 barrier rightly refuses.
     con = sqlite3.connect(db)
-    con.executescript(
-        """
-        CREATE TABLE schema_migrations (version INTEGER PRIMARY KEY, applied_at TEXT DEFAULT '');
-        INSERT INTO schema_migrations(version) VALUES (1);
-        INSERT INTO schema_migrations(version) VALUES (2);
-        INSERT INTO schema_migrations(version) VALUES (3);
-        CREATE TABLE change_events (
-            id INTEGER PRIMARY KEY,
-            product_key TEXT NOT NULL,
-            change_type TEXT NOT NULL,
-            field TEXT,
-            old_value_json TEXT,
-            new_value_json TEXT,
-            severity INTEGER NOT NULL,
-            meta_json TEXT NOT NULL DEFAULT '{}',
-            detected_at TEXT NOT NULL DEFAULT (datetime('now'))
-        );
-        CREATE TABLE stories (
-            id INTEGER PRIMARY KEY, rule_id TEXT, story_key TEXT, dedup_key TEXT UNIQUE,
-            title TEXT, score INTEGER, manufacturers_json TEXT, evidence_json TEXT,
-            score_reasons_json TEXT, created_at TEXT
-        );
-        """
-    )
+    apply_legacy_schema(con, 3)
     con.execute(
         "INSERT INTO change_events(product_key, change_type, severity) VALUES (?,?,?)",
         ("gmktec:k12", "new_product", 5),
