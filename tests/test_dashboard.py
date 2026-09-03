@@ -296,3 +296,113 @@ def test_v2_db_migrates_to_v3_creating_stories(tmp_path):
     # stories table now usable
     assert store.recent_stories() == []
     store.close()
+
+
+def _minimal_db_with_delivery_states(tmp_path, states):
+    """Build the smallest DB `collect()` accepts, with one change_event per
+    delivery state in `states`. A state of None means the notifier never
+    created a notifications row for that event at all.
+    """
+    import sqlite3 as _sq
+
+    db = tmp_path / "deliv.db"
+    con = _sq.connect(db)
+    con.executescript(
+        "CREATE TABLE manufacturers(id INTEGER PRIMARY KEY, name TEXT);"
+        "CREATE TABLE products(id INTEGER PRIMARY KEY, manufacturer_id INT, canonical_model TEXT);"
+        "CREATE TABLE listings(id INTEGER PRIMARY KEY, product_key TEXT, url TEXT, product_id INT);"
+        "CREATE TABLE snapshots(id INTEGER PRIMARY KEY, listing_id INT, normalized_json TEXT, normalized_zjson BLOB);"
+        "CREATE TABLE change_events(id INTEGER PRIMARY KEY, product_key TEXT, change_type TEXT, field TEXT, "
+        "old_value_json TEXT, new_value_json TEXT, severity INT, meta_json TEXT, detected_at TEXT);"
+        "CREATE TABLE notifications(id INTEGER PRIMARY KEY, change_event_id INT, status TEXT);"
+        "CREATE TABLE components(id INTEGER PRIMARY KEY, kind TEXT, canonical_name TEXT, first_raw TEXT, source TEXT, first_seen_at TEXT);"
+        "CREATE TABLE crawler_runs(id INTEGER PRIMARY KEY, source_key TEXT, started_at TEXT, finished_at TEXT, status TEXT, stats_json TEXT);"
+    )
+    for i, state in enumerate(states, start=1):
+        con.execute(
+            "INSERT INTO change_events(id, product_key, change_type, field, severity, meta_json, detected_at)"
+            " VALUES (?,?,?,?,?,?,?)",
+            (i, f"k{i}", "new_product", None, 3, "{}", f"2026-09-03T00:0{i}:00Z"),
+        )
+        if state is not None:
+            con.execute(
+                "INSERT INTO notifications(change_event_id, status) VALUES (?,?)", (i, state)
+            )
+    con.commit()
+    con.close()
+    return str(db)
+
+
+def test_delivery_state_is_not_collapsed_into_one_boolean(tmp_path):
+    """STD-UI-COM-011: the notifications table records four genuinely distinct
+    outcomes plus 'no row at all'. The data layer must carry each through
+    rather than folding them into a single notified boolean, which made
+    'queued' indistinguishable from 'delivered'."""
+    from oem_radar.dashboard.data import collect
+    from oem_radar.providers.sqlite import connect_readonly
+
+    db = _minimal_db_with_delivery_states(
+        tmp_path, ["sent", "pending", "failed", "suppressed", None]
+    )
+    conn = connect_readonly(db)
+    data = collect(conn)
+    conn.close()
+
+    by_id = {e["id"]: e for e in data["events"]}
+    assert by_id[1]["delivery_state"] == "sent"
+    assert by_id[2]["delivery_state"] == "pending"
+    assert by_id[3]["delivery_state"] == "failed"
+    assert by_id[4]["delivery_state"] == "suppressed"
+    # No notifications row at all is its own honest state, not a silent false.
+    assert by_id[5]["delivery_state"] == "not_attempted"
+
+    # All five are mutually distinguishable — the property the old boolean lost.
+    assert len({e["delivery_state"] for e in data["events"]}) == 5
+
+
+def test_failed_and_suppressed_are_visually_distinct_from_never_attempted(tmp_path):
+    """STD-UI-COM-011 acceptance: 'A failed or suppressed delivery is visually
+    distinguishable from an item that was never eligible for delivery.'
+    Previously both rendered with no badge whatsoever."""
+    from oem_radar.dashboard.data import collect
+    from oem_radar.dashboard.render import render
+    from oem_radar.providers.sqlite import connect_readonly
+
+    db = _minimal_db_with_delivery_states(
+        tmp_path, ["sent", "pending", "failed", "suppressed", None]
+    )
+    conn = connect_readonly(db)
+    html = render(collect(conn))
+    conn.close()
+
+    # Each distinct outcome has its own label and its own badge class.
+    for state, label in (("sent", "delivered"), ("pending", "queued"),
+                         ("failed", "delivery failed"), ("suppressed", "delivery suppressed")):
+        assert f"deliv-{state}" in html, f"missing badge class for {state}"
+        assert label in html, f"missing operator-facing label for {state}"
+
+    # 'not_attempted' deliberately has no badge: that absence is what makes a
+    # failed/suppressed delivery distinguishable from one never attempted.
+    assert "deliv-not_attempted" not in html
+
+
+def test_notified_field_is_preserved_for_existing_consumers(tmp_path):
+    """The fix adds delivery_state; it must not change the meaning of the
+    pre-existing notified field that other consumers of this payload may
+    still read."""
+    from oem_radar.dashboard.data import collect
+    from oem_radar.providers.sqlite import connect_readonly
+
+    db = _minimal_db_with_delivery_states(
+        tmp_path, ["sent", "pending", "failed", "suppressed", None]
+    )
+    conn = connect_readonly(db)
+    data = collect(conn)
+    conn.close()
+
+    by_id = {e["id"]: e for e in data["events"]}
+    assert by_id[1]["notified"] is True    # sent
+    assert by_id[2]["notified"] is True    # pending
+    assert by_id[3]["notified"] is False   # failed
+    assert by_id[4]["notified"] is False   # suppressed
+    assert by_id[5]["notified"] is False   # never attempted

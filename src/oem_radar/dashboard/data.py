@@ -143,7 +143,17 @@ def collect(conn: sqlite3.Connection, limit: int = 300) -> dict:
             "new": _loads(r["new_value_json"]),
             "severity": r["severity"],
             "detected_at": r["detected_at"],
+            # STD-UI-COM-011: the notifications table records four genuinely
+            # distinct outcomes (pending / sent / suppressed / failed — see
+            # providers/discord/__init__.py), plus SQL NULL when the notifier
+            # never created a row for this event at all. Collapsing those into
+            # one boolean made "queued" indistinguishable from "delivered",
+            # and made a failed or deliberately-suppressed delivery render
+            # identically to one that was never attempted. Carry the real
+            # state through; `notified` is retained unchanged for any existing
+            # consumer of this payload, but is no longer what the UI renders.
             "notified": r["notif_status"] in ("pending", "sent"),
+            "delivery_state": r["notif_status"] or "not_attempted",
             "unseen_component": bool(meta.get("unseen_component")),
             "hidden": bool(meta.get("hidden")),
             "magnitude_pct": meta.get("magnitude_pct"),

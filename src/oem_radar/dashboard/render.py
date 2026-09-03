@@ -74,6 +74,10 @@ _PAGE = r"""<!DOCTYPE html>
   .badge.unseen{color:#fff;background:#c0392b;border-color:#c0392b;font-weight:600}
   .badge.hidden{color:#1a1a1a;background:#e0b93c;border-color:#e0b93c;font-weight:600}
   .badge.notified{color:var(--accent);border-color:#2c5c38}
+  .badge.deliv-sent{color:var(--accent);border-color:#2c5c38}
+  .badge.deliv-pending{color:#1a1a1a;background:#e0b93c;border-color:#e0b93c;font-weight:600}
+  .badge.deliv-failed{color:#fff;background:#c0392b;border-color:#a93226;font-weight:600}
+  .badge.deliv-suppressed{color:#fff;background:#6b7684;border-color:#5f6b78}
   .badge.type{color:var(--fg)}
   .badge.rev-UNREVIEWED{color:#1a1a1a;background:#e0b93c;border-color:#e0b93c;font-weight:600}
   .badge.rev-HIT{color:#fff;background:#2ecc71;border-color:#27ae60;font-weight:600}
@@ -252,6 +256,14 @@ const TYPE = {new_product:"New product",component_changed:"Component changed",
   regional_variant:"Regional variant",duplicate_listing:"Duplicate listing",
   product_removed:"Removed",support_artifact_added:"Support artifact",source_degraded:"Source degraded"};
 
+// STD-UI-COM-011: one label per genuinely distinct delivery outcome. An event
+// the notifier never created a row for ("not_attempted") deliberately has NO
+// entry here and therefore renders no badge at all — that absence is what
+// makes a failed or suppressed delivery visually distinguishable from one that
+// was never attempted, which a single "notified" badge could not do.
+const DELIVERY = {sent:"delivered",pending:"queued",failed:"delivery failed",
+  suppressed:"delivery suppressed"};
+
 function changeLine(e){
   if(e.type==='price_changed' && e.magnitude_pct!=null){
     const dir=e.direction==='up'?'up':'down';
@@ -281,7 +293,7 @@ function card(e){
     `<span class="alert-id"><a href="/alerts/${e.id}">#${e.id}</a></span>`];
   if(e.unseen_component) tags.unshift('<span class="badge unseen">⚠ previously unseen</span>');
   if(e.hidden) tags.unshift('<span class="badge hidden">hidden listing</span>');
-  if(e.notified) tags.push('<span class="badge notified">notified</span>');
+  if(DELIVERY[e.delivery_state]) tags.push(`<span class="badge deliv-${esc(e.delivery_state)}">${esc(DELIVERY[e.delivery_state])}</span>`);
   if(e.confidence!=null && e.confidence<0.8) tags.push('<span class="badge">low confidence</span>');
 
   const specs=[e.cpu&&('CPU '+esc(e.cpu)+(e.cpu_unseen?' <span class="warn">⚠</span>':'')),
