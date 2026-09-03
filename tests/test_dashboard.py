@@ -447,3 +447,75 @@ def test_local_zone_label_never_silently_omits_the_conversion(tmp_path):
     fn = fn[: fn.index("\n}")]
     assert 'return "your local timezone"' in fn
     assert "return ''" not in fn and 'return ""' not in fn
+
+
+def _db_with_two_failed_runs(tmp_path):
+    """A crashed run and a catalog-health failure. The runner writes {} for
+    stats_json in the crash case (core/runner.py) and puts the exception in
+    run_errors; the gate failure keeps stats but carries health_reason."""
+    import sqlite3 as _sq
+
+    db = tmp_path / "runs.db"
+    con = _sq.connect(db)
+    con.executescript(
+        "CREATE TABLE manufacturers(id INTEGER PRIMARY KEY, name TEXT);"
+        "CREATE TABLE products(id INTEGER PRIMARY KEY, manufacturer_id INT, canonical_model TEXT);"
+        "CREATE TABLE listings(id INTEGER PRIMARY KEY, product_key TEXT, url TEXT, product_id INT);"
+        "CREATE TABLE snapshots(id INTEGER PRIMARY KEY, listing_id INT, normalized_json TEXT, normalized_zjson BLOB);"
+        "CREATE TABLE change_events(id INTEGER PRIMARY KEY, product_key TEXT, change_type TEXT, field TEXT, "
+        "old_value_json TEXT, new_value_json TEXT, severity INT, meta_json TEXT, detected_at TEXT);"
+        "CREATE TABLE notifications(id INTEGER PRIMARY KEY, change_event_id INT, status TEXT);"
+        "CREATE TABLE components(id INTEGER PRIMARY KEY, kind TEXT, canonical_name TEXT, first_raw TEXT, source TEXT, first_seen_at TEXT);"
+        "CREATE TABLE crawler_runs(id INTEGER PRIMARY KEY, source_key TEXT, started_at TEXT, finished_at TEXT, status TEXT, stats_json TEXT);"
+        "CREATE TABLE run_errors(id INTEGER PRIMARY KEY, run_id INT, message TEXT);"
+    )
+    con.execute(
+        "INSERT INTO crawler_runs(id, source_key, started_at, status, stats_json) VALUES (1,'acme','2026-09-03T00:00:00Z','failed','{}')"
+    )
+    con.execute("INSERT INTO run_errors(run_id, message) VALUES (1, ?)",
+                ("ConnectionResetError('peer reset')",))
+    con.execute(
+        "INSERT INTO crawler_runs(id, source_key, started_at, status, stats_json) VALUES (2,'acme','2026-09-03T01:00:00Z','failed',?)",
+        (json.dumps({"discovered": 0, "snapshots_written": 0, "events": 0,
+                     "errors": 0, "health": "failed",
+                     "health_reason": "UNEXPECTED_ZERO"}),),
+    )
+    con.commit()
+    con.close()
+    return db
+
+
+def test_com009_failed_runs_carry_their_distinguishing_cause(tmp_path):
+    """STD-UI-COM-009: a run that crashed outright and a run the catalog-health
+    gate failed both persist status='failed'. The backend already tells them
+    apart — run_errors for the crash, health_reason for the gate — and those
+    are different operator actions, so the data layer must carry both."""
+    conn = connect_readonly(_db_with_two_failed_runs(tmp_path))
+    data = collect(conn)
+    conn.close()
+
+    by_start = {r["started_at"]: r for r in data["runs"]}
+    crashed = by_start["2026-09-03T00:00:00Z"]
+    gated = by_start["2026-09-03T01:00:00Z"]
+
+    assert crashed["status"] == gated["status"] == "failed"
+    # The crash case has no stats at all, so run_errors is the only evidence.
+    assert crashed["error_messages"] == ["ConnectionResetError('peer reset')"]
+    assert crashed["health_reason"] is None
+    # The gate case is named by health_reason rather than an exception.
+    assert gated["health_reason"] == "UNEXPECTED_ZERO"
+    assert gated["error_messages"] == []
+
+
+def test_com009_runs_table_renders_the_cause_column(tmp_path):
+    """The distinction has to reach the primary run surface, not just the
+    payload — COM-009 forbids stage data that exists but is never shown."""
+    conn = connect_readonly(_db_with_two_failed_runs(tmp_path))
+    data = collect(conn)
+    conn.close()
+
+    page = render(data)
+    assert "Cause / phase" in page
+    assert "function runCause" in page
+    assert "ConnectionResetError" in page
+    assert "UNEXPECTED_ZERO" in page

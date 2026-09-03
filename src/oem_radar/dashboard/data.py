@@ -202,9 +202,23 @@ def collect(conn: sqlite3.Connection, limit: int = 300) -> dict:
 
     # ---- run telemetry ----
     run_rows = conn.execute(
-        "SELECT source_key, started_at, finished_at, status, stats_json "
+        "SELECT id, source_key, started_at, finished_at, status, stats_json "
         "FROM crawler_runs ORDER BY id DESC LIMIT 40"
     ).fetchall()
+    # STD-UI-COM-009: a run that crashed outright and a run the catalog-health
+    # gate failed both land on status='failed', and the runner writes {} for
+    # stats_json in the crash case -- so health_reason is absent exactly when
+    # the operator most needs to know why. run_errors already holds the
+    # per-run message; carry it so the Runs table can tell the two apart.
+    run_error_map: dict[int, list[str]] = {}
+    try:
+        error_rows = conn.execute(
+            "SELECT run_id, message FROM run_errors ORDER BY id"
+        ).fetchall()
+    except sqlite3.OperationalError:
+        error_rows = []  # older DB predating run_errors
+    for er in error_rows:
+        run_error_map.setdefault(er["run_id"], []).append(er["message"])
     runs = []
     for r in run_rows:
         stats = _loads(r["stats_json"], {})
@@ -217,6 +231,7 @@ def collect(conn: sqlite3.Connection, limit: int = 300) -> dict:
             "errors": stats.get("errors"),
             "health": stats.get("health"),
             "health_reason": stats.get("health_reason"),
+            "error_messages": run_error_map.get(r["id"], []),
         })
 
     # ---- collector health: most recent run per enabled source ----

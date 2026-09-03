@@ -625,12 +625,26 @@ function renderOems(){
     '</table>';
 }
 
+// STD-UI-COM-009: `status` alone is only ok/failed, and the backend already
+// distinguishes *why* a run failed -- health_reason (UNEXPECTED_ZERO,
+// CATALOG_FAILURE_THRESHOLD, CATALOG_WARN_THRESHOLD, ...) for a gate failure,
+// and the run_errors message for a run that crashed before producing stats at
+// all. Those are different operator actions, so the Runs table names the
+// phase inline rather than showing one undifferentiated "failed".
+function runCause(r){
+  const parts = [];
+  if (r.health_reason && r.health_reason !== 'HEALTHY_CATALOG') parts.push(r.health_reason);
+  (r.error_messages||[]).forEach(m=>parts.push(m));
+  return parts.length ? parts.map(esc).join(' · ') : '—';
+}
+
 function renderRuns(){
   document.getElementById('runs-list').innerHTML = DATA.runs.length
-    ? '<table><tr><th>Source</th><th>Started</th><th>Status</th><th>Snapshots</th><th>Changes</th><th>Errors</th></tr>'+
+    ? '<table><tr><th>Source</th><th>Started</th><th>Status</th><th>Snapshots</th><th>Changes</th><th>Errors</th><th>Cause / phase</th></tr>'+
       DATA.runs.map(r=>`<tr><td>${esc(r.source)}</td><td class="when">${when(r.started_at)}</td>`+
         `<td>${esc(r.status)}</td><td class="mono">${r.snapshots??''}</td>`+
-        `<td class="mono">${r.events??''}</td><td class="mono">${r.errors??''}</td></tr>`).join('')+
+        `<td class="mono">${r.events??''}</td><td class="mono">${r.errors??''}</td>`+
+        `<td>${runCause(r)}</td></tr>`).join('')+
       '</table>'
     : '<div class="empty">No runs recorded yet.</div>';
 }
