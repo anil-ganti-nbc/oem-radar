@@ -406,3 +406,44 @@ def test_notified_field_is_preserved_for_existing_consumers(tmp_path):
     assert by_id[3]["notified"] is False   # failed
     assert by_id[4]["notified"] is False   # suppressed
     assert by_id[5]["notified"] is False   # never attempted
+
+
+def test_timezone_convention_is_stated_on_the_dashboard(tmp_path):
+    """STD-UI-COM-010: the dashboard renders every timestamp through
+    toLocaleString(), i.e. it silently converts into the viewer's own zone.
+    A stated surface-level convention is required so that conversion is not
+    invisible; per-value zone markers are explicitly NOT required."""
+    from oem_radar.dashboard.data import collect
+    from oem_radar.dashboard.render import render
+    from oem_radar.providers.sqlite import connect_readonly
+
+    db = _minimal_db_with_delivery_states(tmp_path, ["sent"])
+    conn = connect_readonly(db)
+    html = render(collect(conn))
+    conn.close()
+
+    # The convention is stated once, in the always-visible header line.
+    assert "all times shown in" in html
+    # And it names the actual resolved zone rather than saying nothing.
+    assert "localZoneLabel" in html
+    assert "your local timezone" in html
+
+
+def test_local_zone_label_never_silently_omits_the_conversion(tmp_path):
+    """The forbidden case is a browser-local conversion with NO indication.
+    Even when the browser cannot resolve an IANA zone name, a label must
+    still be emitted."""
+    from oem_radar.dashboard.render import render
+    from oem_radar.dashboard.data import collect
+    from oem_radar.providers.sqlite import connect_readonly
+
+    db = _minimal_db_with_delivery_states(tmp_path, ["sent"])
+    conn = connect_readonly(db)
+    html = render(collect(conn))
+    conn.close()
+
+    # The fallback branch exists and is itself a label, not an empty string.
+    fn = html[html.index("function localZoneLabel"):]
+    fn = fn[: fn.index("\n}")]
+    assert 'return "your local timezone"' in fn
+    assert "return ''" not in fn and 'return ""' not in fn

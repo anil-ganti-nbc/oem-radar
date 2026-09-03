@@ -249,6 +249,14 @@ const esc = s => (s==null?"":String(s)).replace(/[&<>"]/g,
   c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const stars = n => "★".repeat(n)+"☆".repeat(5-n);
 const when = s => { if(!s) return ""; const d=new Date(s); return isNaN(d)?esc(s):d.toLocaleString(); };
+// STD-UI-COM-010: name the zone when() converts into. Falls back to a plain
+// "local time" label only if the browser cannot resolve an IANA zone name --
+// never silently, which is the case the standard forbids.
+function localZoneLabel(){
+  try{ const z=Intl.DateTimeFormat().resolvedOptions().timeZone; if(z) return z+" (your local timezone)"; }
+  catch(_){}
+  return "your local timezone";
+}
 const short = (v,n=48) => { const s=(v==null?"":String(v)); return s.length>n?esc(s.slice(0,n))+"…":esc(s); };
 const TYPE = {new_product:"New product",component_changed:"Component changed",
   spec_changed:"Spec changed",price_changed:"Price changed",availability_changed:"Availability",
@@ -454,8 +462,16 @@ function renderStats(){
   const items=[["enabled_sources","Active OEMs"],["events","Alerts total"],
     ["unreviewed_events","Unreviewed"],[null,null],
     ["stories","Stories"],["unseen_components","Unseen parts"]];
+  // STD-UI-COM-010: when() renders through toLocaleString(), i.e. it silently
+  // converts every timestamp on this page into the viewer's own timezone.
+  // Stating that convention once, in the always-visible header, is what makes
+  // the conversion visible; the standard explicitly does NOT require repeating
+  // a zone marker on every value. The resolved IANA zone is named rather than
+  // saying a vague "local time", so an operator reading a run time can tell
+  // exactly which zone it is in.
   document.getElementById('gen').textContent = when(DATA.generated_at)+
-    (s.last_run?(" · last crawl "+when(s.last_run)):"");
+    (s.last_run?(" · last crawl "+when(s.last_run)):"")+
+    " · all times shown in "+localZoneLabel();
 
   const pct = v => v==null ? '—' : Math.round(v*100)+'%';
   const fbItems = [
