@@ -5,15 +5,16 @@ default browser. No arguments, no console flags to remember. Bundled
 into a standalone .exe with PyInstaller (`build_dashboard_exe.cmd`) so it
 runs without a separate Python install.
 
-Opening this window is treated as "show me current data": unless
-`dashboard.auto_crawl_on_start` is false in `config/radar.yaml`, it kicks
-off a crawl in the background before the browser opens, and the page
-shows its progress live. The crawl is *not* forced — every source's own
-`min_interval` still applies, so launching repeatedly costs nothing. The
-"Run collectors now" button in the page triggers the same thing on
-demand. Same code path as `oem-radar run` (`core.crawl_service`), which
-means it also sends Discord notifications exactly as a scheduled crawl
-would.
+Opening this window is READ-ONLY. Phase 0 has no authenticated dashboard
+mutation profile, so `dashboard.serve` refuses a crawl controller and
+this launcher does not build one: no crawl is started, and no Discord
+notification can be sent, merely by opening the dashboard. To collect,
+run `oem-radar run` (or scripts/run-collection.cmd).
+
+Packaging note: config/ is bundled into the build and read back through
+sys._MEIPASS, while the database, raw store, lock file and log stay
+relative to the executable's own directory — a --onefile build does not
+put those two roots in the same place.
 """
 
 from __future__ import annotations
@@ -102,22 +103,17 @@ def main() -> int:
         print(f"note: OEM registry sync skipped ({exc}); "
               "the manufacturer filter may be incomplete")
 
-    # The crawl trigger. Built here, not inside `serve`, for the same
-    # reason the registry sync is: the entry point owns the config and
-    # therefore the decision to reach out to the network.
-    crawl_kwargs = {"stale_after_hours": radar.dashboard.stale_after_hours}
-    try:
-        from oem_radar.core.crawl_service import CrawlController
+    # Phase 0 has no authenticated dashboard mutation profile, so `serve`
+    # refuses a crawl controller outright. This entry point used to build
+    # a CrawlController from radar.dashboard.* and pass it anyway, which
+    # made every frozen launch die with "Phase 0 dashboard is read-only".
+    # Defer to the same authority the CLI uses instead of re-deciding it
+    # here: build_dashboard_crawl_kwargs owns whether this process may
+    # crawl, and today it always answers "no". Opening the window is
+    # therefore read-only and never starts a crawl or a notification.
+    from oem_radar.cli import build_dashboard_crawl_kwargs
 
-        crawl_kwargs |= {
-            "crawl": CrawlController(CONFIG_DIR,
-                                     allow_manual=radar.dashboard.allow_manual_crawl),
-            "auto_crawl": radar.dashboard.auto_crawl_on_start,
-            "auto_crawl_force": radar.dashboard.auto_crawl_force,
-        }
-    except Exception as exc:  # noqa: BLE001 — never block the window opening
-        print(f"note: crawl trigger unavailable ({exc}); dashboard is read-only "
-              "this session")
+    crawl_kwargs = build_dashboard_crawl_kwargs(radar, CONFIG_DIR)
 
     try:
         serve(db_path, open_browser=True, max_body=fb.max_review_request_bytes,

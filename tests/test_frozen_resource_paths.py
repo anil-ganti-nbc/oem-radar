@@ -88,3 +88,28 @@ def test_build_script_actually_bundles_the_config_directory():
     script = (REPO / "build_dashboard_exe.cmd").read_text(encoding="utf-8")
     assert "--add-data" in script
     assert "config;config" in script.replace('"', "")
+
+
+def test_launcher_never_hands_serve_a_crawl_controller():
+    """COM-001 / Phase 0: `serve` rejects crawl controllers outright, so the
+    frozen entry point must not build one. It used to, which made every
+    packaged launch die with "Phase 0 dashboard is read-only" the moment it
+    got past config loading."""
+    from oem_radar.cli import build_dashboard_crawl_kwargs
+    from oem_radar.core.config import load_radar_config
+
+    radar = load_radar_config(REPO / "config" / "radar.yaml")
+    kwargs = build_dashboard_crawl_kwargs(radar, REPO / "config")
+    assert kwargs["crawl"] is None
+    assert kwargs["auto_crawl"] is False
+    assert kwargs["auto_crawl_force"] is False
+
+    # The launcher must defer to that authority, not re-decide it locally.
+    # Ignore comments: only real code counts.
+    src = (REPO / "launch_dashboard.py").read_text(encoding="utf-8")
+    code = chr(10).join(
+        line for line in src.splitlines() if not line.lstrip().startswith("#")
+    )
+    assert "build_dashboard_crawl_kwargs" in code
+    assert "CrawlController" not in code
+    assert "crawl_service" not in code
