@@ -1,5 +1,5 @@
 """Render the dashboard payload into a single self-contained HTML page.
-No external assets or CDNs — works fully offline. Data is embedded as JSON
+No external assets or CDNs &mdash; works fully offline. Data is embedded as JSON
 and filtered client-side with vanilla JS, so 'reload' just re-fetches the
 page and the server re-queries the DB."""
 
@@ -7,160 +7,72 @@ from __future__ import annotations
 
 import json
 
+from .collector_ui import CSS as UI_CSS  # noqa: F401  (design system v1)
+
+# OEM Radar domain accent (the only visual token this Clank overrides).
+OEM_ACCENT, OEM_ACCENT_SOFT = "#3fb950", "#12261a"
+
+# This Clank is a single-page tabbed app rather than a multi-page console, so
+# its own tab strip stays the navigation. The adapter maps its long-standing
+# class names onto the shared surfaces instead of rewriting the SPA.
+_ADAPTER = """
+header{display:flex;align-items:center;gap:var(--s4);padding:0 var(--s5);height:52px;
+  background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
+header h1{font-size:15px;font-weight:700;margin:0;letter-spacing:-0.01em}
+header .gen{margin-left:auto;font-size:var(--fs-meta);color:var(--muted)}
+nav.crumbs{display:flex;gap:var(--s1);padding:var(--s2) var(--s5);
+  background:var(--surface);border-bottom:1px solid var(--line)}
+nav.crumbs a{padding:5px var(--s3);border-radius:var(--r2);color:var(--text-dim);font-size:var(--fs-body)}
+nav.crumbs a.here{background:var(--accent-soft);color:var(--accent);font-weight:650}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:var(--s5)}
+.tabs{display:flex;gap:var(--s1);margin-bottom:var(--s4);border-bottom:1px solid var(--line)}
+.tab{padding:7px var(--s3);cursor:pointer;color:var(--text-dim);font-size:var(--fs-body);
+  font-weight:500;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:650}
+.stats{display:grid;gap:var(--s3);margin-bottom:var(--s4);
+  grid-template-columns:repeat(auto-fit,minmax(178px,1fr))}
+.stats>div,.health-grid>div{background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--r3);padding:var(--s3) var(--s4)}
+.health-grid{display:grid;gap:var(--s3);margin-bottom:var(--s4);
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.lead{color:var(--muted);font-size:var(--fs-meta);margin:0 0 var(--s3)}
+.list>*{background:var(--surface);border:1px solid var(--line);border-radius:var(--r3);
+  padding:var(--s3) var(--s4);margin-bottom:var(--s2)}
+table{width:100%;border-collapse:collapse;font-size:var(--fs-body)}
+table th{background:var(--surface-2);color:var(--muted);font-size:var(--fs-label);
+  text-transform:uppercase;letter-spacing:.06em;text-align:left;padding:var(--s2) var(--s3);
+  border-bottom:1px solid var(--line)}
+table td{padding:9px var(--s3);border-bottom:1px solid var(--line)}
+table tr:hover td{background:var(--surface-2)}
+.empty{padding:var(--s6);text-align:center;color:var(--muted)}
+.health-grid>div{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s2)}
+.health-grid>div>*{min-width:0}
+/* STD-UI-COM-011: each delivery outcome keeps its own distinct badge class.
+   not_attempted deliberately has none - that absence is what separates a
+   failed or suppressed delivery from one never attempted. */
+.deliv{display:inline-flex;align-items:center;padding:1px var(--s2);border-radius:999px;
+  font-size:var(--fs-label);font-weight:650;border:1px solid var(--line)}
+.deliv-sent{color:var(--ok);background:var(--ok-soft);border-color:#1e4429}
+.deliv-pending{color:var(--info);background:var(--info-soft);border-color:#1d3a5c}
+.deliv-failed{color:var(--bad);background:var(--bad-soft);border-color:#4d2225}
+.deliv-suppressed{color:var(--warn);background:var(--warn-soft);border-color:#4a3a15}
+.hide{display:none}
+.mono,.when{font-family:var(--mono);font-size:var(--fs-meta)}
+.dot{color:var(--accent)}
+.crawlbar,.cta{margin-bottom:var(--s3)}
+"""
+
 _PAGE = r"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OEM Radar</title>
-<style>
-  :root{
-    --bg:#0d1017; --panel:#161b22; --panel2:#1c232c; --line:#2a323d;
-    --fg:#e6edf3; --muted:#8b98a5; --faint:#5f6b78; --accent:#3fb950;
-    --s5:#2ecc71; --s4:#e8912d; --s3:#3f8cd6; --s2:#6b7684; --s1:#4a535f;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0}
-  body{background:var(--bg);color:var(--fg);
-    font:14px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-    -webkit-font-smoothing:antialiased}
-  a{color:var(--s3);text-decoration:none}a:hover{text-decoration:underline}
-
-  header{position:sticky;top:0;z-index:5;background:rgba(13,16,23,.92);
-    backdrop-filter:blur(6px);border-bottom:1px solid var(--line);
-    padding:14px 24px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-  header h1{margin:0;font-size:17px;font-weight:650;letter-spacing:.4px}
-  header h1 .dot{color:var(--accent)}
-  .gen{color:var(--muted);font-size:12px}
-  .reload{cursor:pointer}
-
-  .wrap{max-width:1080px;margin:0 auto;padding:22px 24px 60px}
-
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
-    gap:12px;margin-bottom:22px}
-  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
-  .stat .n{font-size:23px;font-weight:650;line-height:1}
-  .stat .l{color:var(--muted);font-size:12px;margin-top:6px}
-
-  .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:18px;flex-wrap:wrap}
-  .tab{padding:9px 15px;cursor:pointer;color:var(--muted);font-weight:500;
-    border-bottom:2px solid transparent;margin-bottom:-1px}
-  .tab:hover{color:var(--fg)}
-  .tab.active{color:var(--fg);border-bottom-color:var(--accent)}
-  .lead{color:var(--muted);font-size:13px;margin:0 2px 14px}
-
-  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-  select,input{background:var(--panel2);color:var(--fg);border:1px solid var(--line);
-    border-radius:9px;padding:8px 11px;font-size:13px;outline:none}
-  select:focus,input:focus{border-color:var(--accent)}
-  input.q{flex:1;min-width:200px}
-
-  /* the fix: explicit vertical stack, cards always full width */
-  .list{display:flex;flex-direction:column;gap:10px}
-  .card{display:grid;grid-template-columns:76px 1fr;gap:14px;width:100%;
-    background:var(--panel);border:1px solid var(--line);border-left-width:4px;
-    border-radius:12px;padding:13px 16px}
-  .card.s5{border-left-color:var(--s5)}.card.s4{border-left-color:var(--s4)}
-  .card.s3{border-left-color:var(--s3)}.card.s2{border-left-color:var(--s2)}
-  .card.s1{border-left-color:var(--s1)}
-  .thumb{width:76px;height:76px;border-radius:9px;background:var(--panel2);
-    object-fit:cover;display:block}
-  .body{min-width:0;overflow-wrap:anywhere}
-  .row1{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
-  .title{font-weight:600;font-size:15px}
-  .title .man{color:var(--muted);font-weight:400;font-size:13px}
-  .when{color:var(--faint);font-size:12px;white-space:nowrap;flex:none}
-  .tags{margin:7px 0 2px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-  .badge{font-size:11px;padding:2px 8px;border-radius:20px;background:var(--panel2);
-    border:1px solid var(--line);color:var(--muted);white-space:nowrap}
-  .badge.unseen{color:#fff;background:#c0392b;border-color:#c0392b;font-weight:600}
-  .badge.hidden{color:#1a1a1a;background:#e0b93c;border-color:#e0b93c;font-weight:600}
-  .badge.notified{color:var(--accent);border-color:#2c5c38}
-  .badge.deliv-sent{color:var(--accent);border-color:#2c5c38}
-  .badge.deliv-pending{color:#1a1a1a;background:#e0b93c;border-color:#e0b93c;font-weight:600}
-  .badge.deliv-failed{color:#fff;background:#c0392b;border-color:#a93226;font-weight:600}
-  .badge.deliv-suppressed{color:#fff;background:#6b7684;border-color:#5f6b78}
-  .badge.type{color:var(--fg)}
-  .badge.rev-UNREVIEWED{color:#1a1a1a;background:#e0b93c;border-color:#e0b93c;font-weight:600}
-  .badge.rev-HIT{color:#fff;background:#2ecc71;border-color:#27ae60;font-weight:600}
-  .badge.rev-INTERESTING{color:#fff;background:#3f8cd6;border-color:#2980b9;font-weight:600}
-  .badge.rev-NOISE{color:#fff;background:#6b7684;border-color:#5f6b78;font-weight:600}
-  .badge.rev-BUG{color:#fff;background:#c0392b;border-color:#a93226;font-weight:600}
-  .alert-id a{font-family:ui-monospace,monospace;font-size:12px}
-  .stars{color:var(--s4);letter-spacing:2px;font-size:12px}
-  .specs{color:var(--muted);font-size:12.5px;margin-top:5px}
-  .specs .warn{color:#e8912d}
-  .change{font-size:13px;margin-top:6px;color:var(--fg)}
-  .change .old{color:var(--faint)}
-  .change .arrow{color:var(--muted);margin:0 5px}
-  .change .up{color:#e05c5c}.change .down{color:#4fb36f}
-  .listing{display:inline-block;margin-top:8px;font-weight:600;font-size:13px}
-
-  table{width:100%;border-collapse:collapse}
-  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);font-size:13px}
-  th{color:var(--muted);font-weight:500}
-  tr:hover td{background:var(--panel)}
-  .mono{font-variant-numeric:tabular-nums}
-  .empty{color:var(--muted);padding:44px;text-align:center;
-    border:1px dashed var(--line);border-radius:12px}
-  .hide{display:none}
-  .count{color:var(--faint);font-size:12px;margin:2px 2px 12px}
-  .btn{background:var(--panel2);color:var(--fg);border:1px solid var(--line);
-    border-radius:8px;padding:6px 12px;font-size:12.5px;cursor:pointer}
-  .btn:hover{border-color:var(--accent);color:var(--accent)}
-  .btn.small{padding:3px 10px;font-size:12px}
-  .hwbar{display:flex;justify-content:space-between;align-items:center;
-    gap:12px;margin-bottom:12px;flex-wrap:wrap}
-  td.act{text-align:right;white-space:nowrap}
-
-  nav.crumbs{max-width:1080px;margin:0 auto;padding:10px 24px 0;
-    display:flex;gap:8px;flex-wrap:wrap}
-  nav.crumbs a{background:var(--panel);border:1px solid var(--line);
-    border-radius:20px;padding:6px 14px;font-size:12.5px;color:var(--fg)}
-  nav.crumbs a:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
-  nav.crumbs a.here{border-color:var(--accent);color:var(--accent)}
-
-  .cta{background:var(--panel);border:1px solid var(--line);border-radius:12px;
-    padding:14px 16px;margin-bottom:16px;display:flex;justify-content:space-between;
-    align-items:center;gap:14px;flex-wrap:wrap}
-  .cta .msg{font-size:13.5px;color:var(--muted)}
-  .cta .msg b{color:var(--fg)}
-
-  .health-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-    gap:10px;margin-bottom:16px}
-  /* crawl control bar — the dashboard's one write-side control */
-  .crawlbar{background:var(--panel);border:1px solid var(--line);border-radius:12px;
-    padding:12px 16px;margin-bottom:18px;display:flex;align-items:center;
-    gap:12px;flex-wrap:wrap}
-  .crawlbar.running{border-color:var(--s3)}
-  .crawlbar.stale{border-color:var(--s4)}
-  .crawlbar.bad{border-color:#c0392b}
-  .crawlbar .cdot{width:9px;height:9px;border-radius:50%;background:var(--faint);flex:none}
-  .crawlbar.running .cdot{background:var(--s3);animation:pulse 1.1s ease-in-out infinite}
-  .crawlbar.good .cdot{background:var(--accent)}
-  .crawlbar.stale .cdot{background:var(--s4)}
-  .crawlbar.bad .cdot{background:#c0392b}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-  .crawlbar .ctext{flex:1;min-width:220px}
-  .crawlbar .ctitle{font-weight:600}
-  .crawlbar .csub{color:var(--muted);font-size:12px;margin-top:2px}
-  .crawlbar .cbtns{display:flex;gap:8px;flex-wrap:wrap}
-  .crawlbar button{background:var(--panel2);color:var(--fg);border:1px solid var(--line);
-    border-radius:9px;padding:8px 14px;font-size:13px;font-weight:550;cursor:pointer}
-  .crawlbar button:hover:not(:disabled){border-color:var(--accent);color:var(--fg)}
-  .crawlbar button:disabled{opacity:.45;cursor:default}
-  .crawlbar button.primary{background:var(--accent);border-color:var(--accent);color:#0b1f12}
-  .cprog{width:100%;height:4px;background:var(--panel2);border-radius:3px;overflow:hidden}
-  .cprog > i{display:block;height:100%;background:var(--s3);transition:width .4s ease}
-
-  .health-row{background:var(--panel);border:1px solid var(--line);border-radius:10px;
-    padding:10px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-  .hstatus{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:650;white-space:nowrap}
-  .hstatus.ok{color:#fff;background:#27ae60}
-  .hstatus.degraded{color:#1a1a1a;background:#e8912d}
-  .hstatus.failed{color:#fff;background:#c0392b}
-</style></head>
+<style>__UI_CSS__</style></style></head>
 <body>
-<header>
-  <h1>OEM&nbsp;<span class="dot">&#9673;</span>&nbsp;Radar</h1>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">OR</span>
+    <span class="brand-name">OEM Radar</span>
+    <span class="brand-suite">Clank Fleet</span></div>
   <span class="gen">updated <span id="gen"></span> &middot;
     <a class="reload" onclick="location.reload()">reload</a></span>
 </header>
@@ -187,7 +99,7 @@ _PAGE = r"""<!DOCTYPE html>
   </div>
 
     <section id="stories">
-    <p class="lead">Cross-OEM stories \u2014 the same unseen silicon or spec jump appearing across multiple makers. Your "before it's news" feed.</p>
+    <p class="lead">Cross-OEM stories &mdash; the same unseen silicon or spec jump appearing across multiple makers. Your "before it's news" feed.</p>
     <div id="stories-list" class="list"></div>
   </section>
 
@@ -266,7 +178,7 @@ const TYPE = {new_product:"New product",component_changed:"Component changed",
 
 // STD-UI-COM-011: one label per genuinely distinct delivery outcome. An event
 // the notifier never created a row for ("not_attempted") deliberately has NO
-// entry here and therefore renders no badge at all — that absence is what
+// entry here and therefore renders no badge at all &mdash; that absence is what
 // makes a failed or suppressed delivery visually distinguishable from one that
 // was never attempted, which a single "notified" badge could not do.
 const DELIVERY = {sent:"delivered",pending:"queued",failed:"delivery failed",
@@ -315,7 +227,7 @@ function card(e){
 
   return `<div class="card s${e.severity}">${thumb}<div class="body">
     <div class="row1">
-      <div class="title">${esc(e.model||e.product_key)} <span class="man">— ${esc(e.manufacturer||'')}</span></div>
+      <div class="title">${esc(e.model||e.product_key)} <span class="man">&mdash; ${esc(e.manufacturer||'')}</span></div>
       <div class="when">${when(e.detected_at)}</div>
     </div>
     <div class="tags">${tags.join('')}</div>
@@ -330,7 +242,7 @@ function card(e){
 // it re-queried a database nothing was updating. This bar is the one
 // place that starts a crawl, and the one place that reports on it.
 // State lives on the server (core.crawl_service.CrawlController) and is
-// polled — never inferred from what this page happens to be showing.
+// polled &mdash; never inferred from what this page happens to be showing.
 const CSRF = "__CSRF__";
 let crawlPollTimer = null, crawlWasRunning = false;
 
@@ -427,7 +339,7 @@ function crawlApply(st){
   }
   if(crawlPollTimer){ clearInterval(crawlPollTimer); crawlPollTimer = null; }
   // The whole point of the button is fresh data on the page. Reload only
-  // when the crawl actually wrote something — a quiet crawl (every source
+  // when the crawl actually wrote something &mdash; a quiet crawl (every source
   // within its min_interval) should not throw away your scroll position.
   if(crawlWasRunning){
     crawlWasRunning = false;
@@ -473,14 +385,14 @@ function renderStats(){
     (s.last_run?(" · last crawl "+when(s.last_run)):"")+
     " · all times shown in "+localZoneLabel();
 
-  const pct = v => v==null ? '—' : Math.round(v*100)+'%';
+  const pct = v => v==null ? '&mdash;' : Math.round(v*100)+'%';
   const fbItems = [
     ["HIT", fb.hit_count, fb.hit_rate],
     ["Interesting", fb.interesting_count, fb.interesting_rate],
     ["Noise", fb.noise_count, fb.noise_rate],
     ["Bug", fb.bug_count, fb.bug_rate],
   ];
-  const signalRate = fb.reviewed_alerts ? pct((fb.hit_count+fb.interesting_count)/fb.reviewed_alerts) : '—';
+  const signalRate = fb.reviewed_alerts ? pct((fb.hit_count+fb.interesting_count)/fb.reviewed_alerts) : '&mdash;';
 
   const cells = [
     `<div class="stat"><div class="n mono">${s.enabled_sources??0}</div><div class="l">Active OEMs</div></div>`,
@@ -513,7 +425,7 @@ function renderCta(){
   const base = DATA.summary.baseline_events||0;
   const note = document.getElementById('baseline-note');
   if(note) note.innerHTML = base
-    ? `${base} baseline record${base===1?'':'s'} from initial source crawl(s) — `+
+    ? `${base} baseline record${base===1?'':'s'} from initial source crawl(s) &mdash; `+
       `excluded from the counts and lists above (not signal). `+
       `<a href="/api/baseline-events" target="_blank" rel="noopener">Inspect raw &rarr;</a>`
     : '';
@@ -573,11 +485,11 @@ function renderEvents(){
     rows.length+" of "+DATA.events.length+" product changes";
   const emptyMsg = (man && DATA.events.length>=300)
     ? `No product changes for ${esc(man)} in the most recent ${DATA.events.length} shown here `+
-      `— a larger, more recent crawl elsewhere may have pushed ${esc(man)}'s changes off this page. `+
+      `&mdash; a larger, more recent crawl elsewhere may have pushed ${esc(man)}'s changes off this page. `+
       `Its products still show under the Manufacturers view.`
     : (man
         ? `No product changes recorded for ${esc(man)} yet. It may be configured but not `+
-          `crawled, or its source may be disabled — check the Runs and Manufacturers views.`
+          `crawled, or its source may be disabled &mdash; check the Runs and Manufacturers views.`
         : 'No product changes match these filters.');
   document.getElementById('events-list').innerHTML = rows.length?rows.map(card).join('')
     :`<div class="empty">${emptyMsg}</div>`;
@@ -635,7 +547,7 @@ function runCause(r){
   const parts = [];
   if (r.health_reason && r.health_reason !== 'HEALTHY_CATALOG') parts.push(r.health_reason);
   (r.error_messages||[]).forEach(m=>parts.push(m));
-  return parts.length ? parts.map(esc).join(' · ') : '—';
+  return parts.length ? parts.map(esc).join(' · ') : '&mdash;';
 }
 
 function renderRuns(){
@@ -653,7 +565,7 @@ function renderRuns(){
 // dashboard/data.py::collect_oem_registry, which reads the manufacturers
 // registry that core.runner.sync_oem_registry keeps in step with
 // config/oems/*.yaml. Never derive an OEM list from DATA.events (LIMIT-
-// bounded), from filtered rows, from rendered cards, or from evidence —
+// bounded), from filtered rows, from rendered cards, or from evidence &mdash;
 // any of those silently drops OEMs that are quiet right now.
 function oemRegistry(){ return (DATA.manufacturers||[]).map(m=>m.name); }
 
@@ -661,7 +573,7 @@ function initFilters(){
   const mans=oemRegistry();
   const oemOptions='<option value="">All OEMs</option>'+
     mans.map(m=>`<option>${esc(m)}</option>`).join('');
-  // Both manufacturer controls are filled from the same call — there is
+  // Both manufacturer controls are filled from the same call &mdash; there is
   // no second, almost-identical implementation to drift out of sync.
   document.getElementById('f-man').innerHTML=oemOptions;
   const evMan=document.getElementById('f-ev-man');
@@ -686,8 +598,8 @@ function initFilters(){
 function activateTab(name){
   document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active', x.dataset.tab===name));
   document.querySelectorAll('.wrap > section').forEach(x=>x.classList.toggle('hide', x.id!==name));
-  // Put the tab in the URL so reload — including the automatic one after
-  // a crawl finishes — brings you back to the tab you were reading,
+  // Put the tab in the URL so reload &mdash; including the automatic one after
+  // a crawl finishes &mdash; brings you back to the tab you were reading,
   // instead of dumping you on Stories.
   try{
     const u = new URL(location.href);
@@ -713,7 +625,7 @@ function renderEvidence(){
   if(cnt) cnt.textContent=items.length+" of "+all.length+" evidence records"+
     (DATA.summary && DATA.summary.evidence_items>all.length
       ? " (most recent "+all.length+" of "+DATA.summary.evidence_items+" stored)" : "");
-  // Every row links to /evidence/{id} — no dead cards, no rows that open
+  // Every row links to /evidence/{id} &mdash; no dead cards, no rows that open
   // an alert page they were never going to have facts for.
   document.getElementById('evidence-list').innerHTML = items.length
     ? '<table><tr><th>Manufacturer</th><th>Kind</th><th>Provenance</th><th>Model / Title</th>'+
@@ -756,7 +668,10 @@ def render(data: dict, *, csrf_token: str = "") -> str:
     # csrf_token is server-generated (secrets.token_urlsafe) so it has no
     # quote characters to escape, but json.dumps it anyway rather than
     # trusting that of a value the caller supplies.
-    return (_PAGE.replace("__DATA__", payload)
+    style = (UI_CSS + chr(10) + ":root{--accent:" + OEM_ACCENT
+             + ";--accent-soft:" + OEM_ACCENT_SOFT + ";}" + chr(10) + _ADAPTER)
+    return (_PAGE.replace("__UI_CSS__", style)
+            .replace("__DATA__", payload)
                  .replace('"__CSRF__"', json.dumps(csrf_token)))
 
 
@@ -819,9 +734,9 @@ def render_review_page(detail: dict, csrf_token: str = "") -> str:
         for h in history:
             lines.append(
                 f"<li><time>{_esc(h.get('changed_at'))}</time> "
-                f"{_esc(h.get('previous_outcome') or '—')} → <strong>{_esc(h.get('new_outcome'))}</strong> "
+                f"{_esc(h.get('previous_outcome') or '&mdash;')} → <strong>{_esc(h.get('new_outcome'))}</strong> "
                 f"by {_esc(h.get('changed_by') or 'unknown')}"
-                + (f" — {_esc(h.get('change_note'))}" if h.get("change_note") else "")
+                + (f" &mdash; {_esc(h.get('change_note'))}" if h.get("change_note") else "")
                 + "</li>"
             )
         hist_html = "<ul class='hist'>" + "".join(lines) + "</ul>"
@@ -838,7 +753,7 @@ def render_review_page(detail: dict, csrf_token: str = "") -> str:
 
     def fmt_val(v):
         if v is None:
-            return "—"
+            return "&mdash;"
         if isinstance(v, (dict, list)):
             import json as _json
             return _esc(_json.dumps(v, ensure_ascii=False)[:800])
@@ -907,7 +822,7 @@ def render_review_page(detail: dict, csrf_token: str = "") -> str:
       <div><div class="k">Detected</div><div class="v">{_esc(d.get('detected_at'))}</div></div>
       <div><div class="k">Confidence</div><div class="v">{_esc(d.get('confidence'))}</div></div>
       <div><div class="k">Severity</div><div class="v">{_esc(d.get('severity'))}</div></div>
-      <div><div class="k">Listing</div><div class="v">{"<a href='"+_esc(d.get('url'))+"' target='_blank' rel='noopener'>open</a>" if d.get('url') else "—"}</div></div>
+      <div><div class="k">Listing</div><div class="v">{"<a href='"+_esc(d.get('url'))+"' target='_blank' rel='noopener'>open</a>" if d.get('url') else "&mdash;"}</div></div>
     </div>
     <div style="margin-top:12px">
       <div class="k">Change</div>
@@ -1040,7 +955,7 @@ def render_evidence_page(detail: dict) -> str:
 
     def field(k, v, mono=False):
         cls = "v mono" if mono else "v"
-        return f'<div><div class="k">{_esc(k)}</div><div class="{cls}">{v or "—"}</div></div>'
+        return f'<div><div class="k">{_esc(k)}</div><div class="{cls}">{v or "&mdash;"}</div></div>'
 
     ident = "".join([
         field("Evidence ID", f"#{_esc(d.get('id'))}"),
@@ -1083,14 +998,14 @@ def render_evidence_page(detail: dict) -> str:
         links_html = (
             "<p class='muted'>Not linked to any tracked product"
             + (f" (correlation method attempted: <code>{_esc(method)}</code>)" if method else "")
-            + ". This is a deliberate outcome, not a failure — identity linking is exact-match "
+            + ". This is a deliberate outcome, not a failure &mdash; identity linking is exact-match "
               "only (SKU, MPN, exact model string, or explicit alias). A guess here would "
               "attach an official record to the wrong machine.</p>"
         )
 
     if history:
         hist_html = "<ul class='hist'>" + "".join(
-            f"<li><time>{_esc(h.get('detected_at'))}</time> — "
+            f"<li><time>{_esc(h.get('detected_at'))}</time> &mdash; "
             f"<strong>{_esc(h.get('event_type'))}</strong></li>" for h in history
         ) + "</ul>"
     else:
@@ -1098,7 +1013,7 @@ def render_evidence_page(detail: dict) -> str:
                      "predates the evidence event log (schema v7).</p>")
 
     raw = d.get("raw_data") or {}
-    raw_html = _esc(_json.dumps(raw, indent=2, ensure_ascii=False)[:8000]) if raw else "—"
+    raw_html = _esc(_json.dumps(raw, indent=2, ensure_ascii=False)[:8000]) if raw else "&mdash;"
 
     prev_link = (f"<a href='/evidence/{int(d['prev_id'])}'>&larr; Prev</a>"
                  if d.get("prev_id") else "")
@@ -1178,7 +1093,7 @@ def render_evidence_page(detail: dict) -> str:
     <h2>Why there is no review form here</h2>
     <p class="note">HIT / INTERESTING / NOISE / BUG rate whether a <b>product alert</b> earned
       your attention. An evidence record is a statement that an official source lists
-      something — it makes no editorial claim to rate. Forcing it through the alert review
+      something &mdash; it makes no editorial claim to rate. Forcing it through the alert review
       queue would corrupt the signal-rate metrics that queue exists to produce.</p>
   </div>
 </div>
@@ -1260,7 +1175,7 @@ table{{width:100%;border-collapse:collapse}} td,th{{padding:6px 8px;border-botto
 </style></head><body>
 <header><h1><a href="/">OEM Radar</a> · Feedback analytics</h1>
 <p class="muted">Signal = HIT + INTERESTING. BUG is not noise. Suggestions never auto-activate.
-Status IMPLEMENTED is recordkeeping only — it does not modify collectors.</p>
+Status IMPLEMENTED is recordkeeping only &mdash; it does not modify collectors.</p>
 </header>
 <nav class="crumbs">
   <a href="/">&larr; Overview</a>
@@ -1269,13 +1184,13 @@ Status IMPLEMENTED is recordkeeping only — it does not modify collectors.</p>
 </nav>
 <div class="wrap">
   <div class="stats">{cards()}</div>
-  <h2 style="font-size:14px;margin:18px 0 4px">Analytics <span class="muted" style="font-weight:400">— observed outcomes, no rule changes</span></h2>
+  <h2 style="font-size:14px;margin:18px 0 4px">Analytics <span class="muted" style="font-weight:400">&mdash; observed outcomes, no rule changes</span></h2>
   {rank_table("Noisiest collectors", rankings.get("noisiest_collectors") or [])}
   {rank_table("Highest-HIT collectors", rankings.get("highest_hit_rate_collectors") or [])}
   {rank_table("Common NOISE reasons", rankings.get("most_common_noise_reasons") or [])}
   {rank_table("Common BUG reasons", rankings.get("most_common_bug_reasons") or [])}
   {rank_table("Oldest unreviewed", rankings.get("oldest_unreviewed_alerts") or [], key="id")}
-  <h2 style="font-size:14px;margin:18px 0 4px">Proposed rules <span class="muted" style="font-weight:400">— deterministic suggestions, never auto-activated</span></h2>
+  <h2 style="font-size:14px;margin:18px 0 4px">Proposed rules <span class="muted" style="font-weight:400">&mdash; deterministic suggestions, never auto-activated</span></h2>
   <div class="panel">
     <h3>Rule suggestions</h3>
     <p class="warn">No Activate control. Accept/Reject is manual approval only.</p>
