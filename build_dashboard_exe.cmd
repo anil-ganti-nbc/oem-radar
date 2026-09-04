@@ -19,6 +19,7 @@ if not defined PY (
 
 %PY% -m PyInstaller --onefile --console --name "OEM Radar Dashboard" --paths src ^
   --add-data "%~dp0src\oem_radar\providers\sqlite\schema.sql;oem_radar\providers\sqlite" ^
+  --add-data "%~dp0config;config" ^
   --distpath dist --workpath build --specpath build launch_dashboard.py
 
 if exist "dist\OEM Radar Dashboard.exe" (

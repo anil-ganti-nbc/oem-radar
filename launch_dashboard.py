@@ -22,16 +22,35 @@ import os
 import sys
 from pathlib import Path
 
-# When frozen by PyInstaller, everything is unpacked next to the exe
-# (see build_dashboard_exe.cmd's --add-data); when run as a plain script,
-# resolve relative to this file so it works from any working directory.
+# Two different roots, which a --onefile build does NOT put in the same
+# place — conflating them is why a frozen dashboard died looking for
+# a config/radar.yaml that sat beside the exe rather than in the bundle:
+#
+#   RESOURCE_ROOT  read-only files baked into the build (config/). Under
+#                  --onefile, PyInstaller extracts --add-data into a temp
+#                  dir exposed as sys._MEIPASS, NOT next to the exe.
+#   ROOT           the persistent project root that every relative path in
+#                  radar.yaml (db_path, raw_dir, run_lock_path, the HTTP
+#                  cache, the log) hangs off. That must be real, stable
+#                  storage, so it stays the exe's own directory — never
+#                  _MEIPASS, which is deleted on exit.
+#
+# build_dashboard_exe.cmd copies the built exe to the project root for
+# exactly this reason: beside config/ and data/, the two roots coincide.
 if getattr(sys, "frozen", False):
     ROOT = Path(sys.executable).resolve().parent
+    RESOURCE_ROOT = Path(getattr(sys, "_MEIPASS", ROOT))
 else:
     ROOT = Path(__file__).resolve().parent
+    RESOURCE_ROOT = ROOT
     sys.path.insert(0, str(ROOT / "src"))
 
+# Prefer bundled config, but let a real config/ beside the exe win, so an
+# operator can still point a frozen build at edited local policy without
+# rebuilding it.
 CONFIG_DIR = ROOT / "config"
+if not (CONFIG_DIR / "radar.yaml").exists():
+    CONFIG_DIR = RESOURCE_ROOT / "config"
 
 
 def main() -> int:
