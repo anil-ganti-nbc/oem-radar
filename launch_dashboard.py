@@ -6,10 +6,15 @@ into a standalone .exe with PyInstaller (`build_dashboard_exe.cmd`) so it
 runs without a separate Python install.
 
 Opening this window is READ-ONLY. Phase 0 has no authenticated dashboard
-mutation profile, so `dashboard.serve` refuses a crawl controller and
-this launcher does not build one: no crawl is started, and no Discord
-notification can be sent, merely by opening the dashboard. To collect,
-run `oem-radar run` (or scripts/run-collection.cmd).
+mutation profile for *automatic* crawling, so `dashboard.serve` refuses
+auto-crawl outright: opening this window starts no crawl, and no Discord
+notification can be sent, merely by opening the dashboard.
+
+Collection is an explicit operator action: this launcher authorizes the
+GUI's "run collectors now" control, which calls the canonical
+core.crawl_service.execute_crawl under the canonical run lock, against the
+canonical database -- the same path the scheduled `oem-radar run` uses.
+Nothing collects until that control is clicked.
 
 Packaging note: config/ is bundled into the build and read back through
 sys._MEIPASS, while the database, raw store, lock file and log stay
@@ -103,17 +108,23 @@ def main() -> int:
         print(f"note: OEM registry sync skipped ({exc}); "
               "the manufacturer filter may be incomplete")
 
-    # Phase 0 has no authenticated dashboard mutation profile, so `serve`
-    # refuses a crawl controller outright. This entry point used to build
-    # a CrawlController from radar.dashboard.* and pass it anyway, which
-    # made every frozen launch die with "Phase 0 dashboard is read-only".
-    # Defer to the same authority the CLI uses instead of re-deciding it
-    # here: build_dashboard_crawl_kwargs owns whether this process may
-    # crawl, and today it always answers "no". Opening the window is
-    # therefore read-only and never starts a crawl or a notification.
+    # Defer to the same authority the CLI uses rather than re-deciding here:
+    # build_dashboard_crawl_kwargs owns whether this process may crawl, and
+    # builds the canonical CrawlController when it may.
+    #
+    # The desktop launcher is an operator sitting at the machine, so it opts
+    # into explicit manual collection: the GUI gets a working "run collectors
+    # now" control that calls the same core.crawl_service.execute_crawl the
+    # scheduled `oem-radar run` uses, under the same run lock, against the
+    # same database. Auto-crawl remains refused unconditionally inside
+    # `serve`, so opening this window still never starts a crawl.
+    from argparse import Namespace
+
     from oem_radar.cli import build_dashboard_crawl_kwargs
 
-    crawl_kwargs = build_dashboard_crawl_kwargs(radar, CONFIG_DIR)
+    crawl_kwargs = build_dashboard_crawl_kwargs(
+        radar, CONFIG_DIR, Namespace(allow_manual_collection=True, no_crawl=False),
+    )
 
     try:
         serve(db_path, open_browser=True, max_body=fb.max_review_request_bytes,

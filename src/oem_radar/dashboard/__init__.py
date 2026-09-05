@@ -147,6 +147,7 @@ class _Handler(BaseHTTPRequestHandler):
     #: authorities, and only the entry point has the config to decide.
     crawl = None
     mutation_authorizer = None
+    manual_collection_only = False
     stale_after_hours: float = 6.0
 
     def log_message(self, *a):
@@ -353,6 +354,12 @@ class _Handler(BaseHTTPRequestHandler):
         path = urlparse(self.path).path
         try:
             if path == "/api/mark-seen":
+                if type(self).manual_collection_only:
+                    _json_error(self, 403, "manual_collection_only_launch",
+                                "This dashboard was launched with "
+                                "--allow-manual-collection: only operator-triggered "
+                                "collection is authorized.")
+                    return
                 self._handle_mark_seen()
                 return
             if path == "/api/crawl":
@@ -368,6 +375,12 @@ class _Handler(BaseHTTPRequestHandler):
                             "This dashboard was launched with "
                             "--allow-review-writes: only alert-review writes "
                             "are authorized.")
+                return
+            if type(self).manual_collection_only:
+                _json_error(self, 403, "manual_collection_only_launch",
+                            "This dashboard was launched with "
+                            "--allow-manual-collection: only operator-triggered "
+                            "collection is authorized.")
                 return
             self.send_error(404)
         except Exception as exc:
@@ -582,28 +595,50 @@ def serve(
     auto_crawl_force: bool = False,
     stale_after_hours: float = 6.0,
     allow_review_writes: bool = False,
+    allow_manual_collection: bool = False,
 ) -> None:
     require_loopback_host(host)
-    if crawl is not None or auto_crawl:
+    # Auto-crawl is refused unconditionally and permanently: loading or
+    # launching the GUI must never start a collector run (STD-UI-COM-001).
+    # Nothing below can opt back into it.
+    if auto_crawl or auto_crawl_force:
         raise ValueError(
-            "Phase 0 dashboard is read-only; crawl controllers and auto-crawl are not permitted"
+            "auto-crawl is not permitted: opening the dashboard must never start a crawl"
+        )
+    # A crawl controller is still refused unless the launcher explicitly
+    # opted in, so the historical read-only contract is unchanged for every
+    # caller that does not ask for manual collection.
+    if crawl is not None and not allow_manual_collection:
+        raise ValueError(
+            "Phase 0 dashboard is read-only; pass allow_manual_collection=True to "
+            "authorize explicit operator-triggered collection"
+        )
+    if allow_manual_collection and crawl is None:
+        raise ValueError(
+            "allow_manual_collection=True requires a crawl controller "
+            "(core.crawl_service.CrawlController)"
         )
     handler = partial(_Handler)
     _Handler.db_path = db_path
     _Handler.raw_dir = raw_dir or str(Path(db_path).parent / "raw")
     _Handler.max_body = max_body
     _Handler.csrf_token = _CSRF_TOKEN
-    _Handler.crawl = None
+    _Handler.crawl = crawl if allow_manual_collection else None
     # M4.5 QC activation: review writes stay fail-closed by default. When the
     # operator explicitly opts in, ONLY the alert-review POST path is
     # authorized (crawl/mark-seen remain rejected below).
-    if allow_review_writes:
-        def _review_only_authorizer(headers, path=None) -> bool:
+    #
+    # Manual collection is the same shape of decision, made separately: it
+    # authorizes ONLY POST /api/crawl, still behind the existing CSRF gate
+    # and the loopback bind. mark-seen stays rejected in both cases.
+    if allow_review_writes or allow_manual_collection:
+        def _opt_in_authorizer(headers, path=None) -> bool:
             return True
-        _Handler.mutation_authorizer = _review_only_authorizer
+        _Handler.mutation_authorizer = _opt_in_authorizer
     else:
         _Handler.mutation_authorizer = None
-    _Handler.review_writes_only = bool(allow_review_writes)
+    _Handler.review_writes_only = bool(allow_review_writes) and not allow_manual_collection
+    _Handler.manual_collection_only = bool(allow_manual_collection) and not allow_review_writes
     _Handler.stale_after_hours = stale_after_hours
     httpd = ThreadingHTTPServer((host, port), handler)
     url = f"http://{host}:{port}/"
@@ -614,7 +649,10 @@ def serve(
     # Started before serve_forever and in the background, so the browser
     # opens now rather than after a crawl that can take over an hour.
     # Not forced: each source's own min_interval still decides.
-    print("  Phase 0 read-only: review and crawl mutations are disabled")
+    if allow_manual_collection:
+        print("  Manual collection ENABLED: POST /api/crawl (explicit operator action only)")
+    else:
+        print("  Phase 0 read-only: crawl mutations are disabled")
 
     if open_browser:
         try:

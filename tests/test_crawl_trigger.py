@@ -346,8 +346,14 @@ def test_serve_rejects_auto_crawl_on_start(fake_httpd, tmp_path):
     from oem_radar.dashboard import serve
 
     ctl = RecordingController()
-    with pytest.raises(ValueError, match="read-only"):
+    # Auto-crawl is refused unconditionally and cannot be opted into, even
+    # alongside the manual-collection opt-in: opening the GUI must never
+    # start a crawl.
+    with pytest.raises(ValueError, match="auto-crawl is not permitted"):
         serve(str(tmp_path / "x.db"), open_browser=False, crawl=ctl, auto_crawl=True)
+    with pytest.raises(ValueError, match="auto-crawl is not permitted"):
+        serve(str(tmp_path / "x.db"), open_browser=False, crawl=ctl,
+              auto_crawl=True, allow_manual_collection=True)
     assert ctl.calls == []
 
 
@@ -358,8 +364,14 @@ def test_serve_rejects_crawl_controller_even_without_force(fake_httpd, tmp_path)
     from oem_radar.dashboard import serve
 
     ctl = RecordingController()
-    with pytest.raises(ValueError, match="read-only"):
+    # Auto-crawl is refused unconditionally and cannot be opted into, even
+    # alongside the manual-collection opt-in: opening the GUI must never
+    # start a crawl.
+    with pytest.raises(ValueError, match="auto-crawl is not permitted"):
         serve(str(tmp_path / "x.db"), open_browser=False, crawl=ctl, auto_crawl=True)
+    with pytest.raises(ValueError, match="auto-crawl is not permitted"):
+        serve(str(tmp_path / "x.db"), open_browser=False, crawl=ctl,
+              auto_crawl=True, allow_manual_collection=True)
     assert ctl.calls == []
 
 
@@ -571,3 +583,172 @@ def test_crawl_bar_polls_the_server_rather_than_guessing(tmp_path):
     html = _page(tmp_path)
     assert "function crawlPoll()" in html
     assert "setInterval(crawlPoll" in html
+
+
+# ---------------------------------------------------------------------------
+# Stage 11.3: the manual-collection opt-in is actually wired end to end.
+#
+# The button, the endpoint and the controller all existed and were all
+# tested before this — and manual collection still did not work, because
+# three authority gates upstream of them were hardcoded shut:
+# build_dashboard_crawl_kwargs always returned crawl=None, serve() raised on
+# any controller, and the launcher passed no controller. Endpoint-level tests
+# could not see that. These tests pin the wiring itself.
+# ---------------------------------------------------------------------------
+
+
+def test_build_crawl_kwargs_opts_out_by_default(tmp_path):
+    """A: default remains read-only — no controller, no auto-crawl."""
+    from argparse import Namespace
+
+    from oem_radar.cli import build_dashboard_crawl_kwargs
+
+    from oem_radar.core.config import load_radar_config
+
+    radar = load_radar_config(Path("config/radar.yaml"))
+    kwargs = build_dashboard_crawl_kwargs(radar, Path("config"), Namespace())
+    assert kwargs["crawl"] is None
+    assert kwargs["auto_crawl"] is False
+    assert kwargs["allow_manual_collection"] is False
+
+
+def test_build_crawl_kwargs_builds_canonical_controller_when_opted_in():
+    """B + I: opting in yields the canonical CrawlController, bound to the
+    same config directory the scheduler resolves its source registry from."""
+    from argparse import Namespace
+
+    from oem_radar.cli import build_dashboard_crawl_kwargs
+    from oem_radar.core.config import load_radar_config
+    from oem_radar.core.crawl_service import CrawlController, execute_crawl
+
+    radar = load_radar_config(Path("config/radar.yaml"))
+    kwargs = build_dashboard_crawl_kwargs(
+        radar, Path("config"), Namespace(allow_manual_collection=True, no_crawl=False),
+    )
+    ctl = kwargs["crawl"]
+    assert isinstance(ctl, CrawlController)
+    assert ctl.allow_manual is True
+    # Same execution service the scheduled `oem-radar run` path uses: no
+    # second collector implementation behind the GUI.
+    assert ctl._runner is execute_crawl
+    assert Path(ctl.config_dir) == Path("config")
+    # Auto-crawl is never enabled by opting into manual collection.
+    assert kwargs["auto_crawl"] is False
+    assert kwargs["allow_manual_collection"] is True
+
+
+def test_no_crawl_flag_still_overrides_the_manual_opt_in():
+    """--no-crawl remains the operator's off switch."""
+    from argparse import Namespace
+
+    from oem_radar.cli import build_dashboard_crawl_kwargs
+    from oem_radar.core.config import load_radar_config
+
+    radar = load_radar_config(Path("config/radar.yaml"))
+    kwargs = build_dashboard_crawl_kwargs(
+        radar, Path("config"), Namespace(allow_manual_collection=True, no_crawl=True),
+    )
+    assert kwargs["crawl"] is None
+    assert kwargs["allow_manual_collection"] is False
+
+
+def test_serve_accepts_a_controller_only_with_the_explicit_opt_in(fake_httpd, tmp_path):
+    """B: the gate that blocked every previous fix attempt."""
+    from oem_radar.dashboard import _Handler, serve
+
+    ctl = RecordingController()
+    # Without the opt-in: still refused (historical contract preserved).
+    with pytest.raises(ValueError, match="allow_manual_collection"):
+        serve(str(tmp_path / "x.db"), open_browser=False, crawl=ctl)
+    # With it: accepted, and the handler actually receives the controller.
+    serve(str(tmp_path / "x.db"), open_browser=False, crawl=ctl,
+          allow_manual_collection=True)
+    assert _Handler.crawl is ctl
+    assert _Handler.mutation_authorizer is not None
+    assert ctl.calls == []          # A: still nothing collected on load
+    _Handler.crawl = None
+    _Handler.mutation_authorizer = None
+    _Handler.manual_collection_only = False
+
+
+def test_opting_in_without_a_controller_is_refused(fake_httpd, tmp_path):
+    from oem_radar.dashboard import serve
+
+    with pytest.raises(ValueError, match="requires a crawl controller"):
+        serve(str(tmp_path / "x.db"), open_browser=False, allow_manual_collection=True)
+
+
+def test_manual_collection_launch_does_not_authorize_mark_seen(fake_httpd, tmp_path):
+    """The opt-in authorizes collection only — not every mutation."""
+    from oem_radar.dashboard import _Handler, serve
+
+    ctl = RecordingController()
+    serve(str(tmp_path / "x.db"), open_browser=False, crawl=ctl,
+          allow_manual_collection=True)
+    try:
+        assert _Handler.manual_collection_only is True
+        assert _Handler.review_writes_only is False
+    finally:
+        _Handler.crawl = None
+        _Handler.mutation_authorizer = None
+        _Handler.manual_collection_only = False
+
+
+def test_desktop_launcher_opts_into_manual_collection():
+    """The operator-facing entry point is the one that must work. Reads the
+    launcher source rather than executing it (it opens a browser and serves
+    forever), pinning that it passes the opt-in and never auto-crawls."""
+    src = Path("launch_dashboard.py").read_text(encoding="utf-8")
+    assert "allow_manual_collection=True" in src
+    assert "auto_crawl=True" not in src
+
+
+def test_gui_trigger_reaches_execute_crawl_under_the_canonical_lock(tmp_path, monkeypatch):
+    """B + C + D + E + H: an explicit POST runs the canonical service, takes
+    the canonical run lock, targets the canonical database, and the result
+    is durable in the controller's inspectable state."""
+    from oem_radar.core import crawl_service
+
+    seen = {}
+
+    def fake_execute_crawl(config_dir, *, force=False, only_source=None,
+                           dry_run=False, use_lock=True, on_progress=None):
+        # Prove the canonical signature is what the GUI path calls, and that
+        # exclusivity is requested rather than bypassed.
+        seen["config_dir"] = Path(config_dir)
+        seen["use_lock"] = use_lock
+        seen["force"] = force
+        if on_progress:
+            on_progress({"event": "planned", "sources_total": 1})
+        return crawl_service.CrawlOutcome(
+            sources=1, snapshots=0, events=0, errors=0, duration_s=0.1,
+        )
+
+    ctl = crawl_service.CrawlController(
+        Path("config"), runner=fake_execute_crawl, allow_manual=True,
+    )
+    accepted, reason, _ = ctl.trigger(trigger="manual")
+    assert accepted, reason
+    ctl.join(timeout=30)
+
+    assert seen["config_dir"] == Path("config")   # D: canonical config/DB resolution
+    assert seen["use_lock"] is True               # C: canonical exclusivity, not bypassed
+    state = ctl.status()
+    assert state["trigger"] == "manual"           # F/provenance: manual vs auto
+    assert state["running"] is False
+    assert state["status"] in ("ok", "failed", "blocked")
+    assert state["outcome"] is not None           # E: durable, inspectable result
+
+
+def test_manual_and_scheduled_share_one_execution_path():
+    """H + G: exactly one collector implementation; the scheduled CLI path is
+    untouched by the GUI opt-in."""
+    import inspect
+
+    from oem_radar.core.crawl_service import CrawlController, execute_crawl
+    from oem_radar import cli
+
+    # The controller's default runner IS the canonical service.
+    assert inspect.signature(CrawlController.__init__).parameters["runner"].default is execute_crawl
+    # cmd_run still calls execute_crawl directly — unchanged by this work.
+    assert "execute_crawl" in inspect.getsource(cli.cmd_run)

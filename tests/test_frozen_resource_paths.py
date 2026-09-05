@@ -90,26 +90,53 @@ def test_build_script_actually_bundles_the_config_directory():
     assert "config;config" in script.replace('"', "")
 
 
-def test_launcher_never_hands_serve_a_crawl_controller():
-    """COM-001 / Phase 0: `serve` rejects crawl controllers outright, so the
-    frozen entry point must not build one. It used to, which made every
-    packaged launch die with "Phase 0 dashboard is read-only" the moment it
-    got past config loading."""
+def test_launcher_defers_crawl_authority_and_never_auto_crawls():
+    """The frozen entry point must not decide crawl policy locally, and must
+    never auto-crawl.
+
+    History: it used to build a CrawlController itself and hand it to
+    `serve`, which made every packaged launch die with "Phase 0 dashboard is
+    read-only". The fix was to defer to `build_dashboard_crawl_kwargs`. That
+    authority now grants an explicit, operator-triggered-only controller when
+    asked (Stage 11.3) — so this pins *deferral and no auto-crawl*, which is
+    the real invariant, rather than "never any controller", which was only
+    ever a symptom of the Phase 0 posture.
+    """
+    from argparse import Namespace
+
     from oem_radar.cli import build_dashboard_crawl_kwargs
     from oem_radar.core.config import load_radar_config
 
     radar = load_radar_config(REPO / "config" / "radar.yaml")
+
+    # Default (no args): unchanged read-only posture.
     kwargs = build_dashboard_crawl_kwargs(radar, REPO / "config")
     assert kwargs["crawl"] is None
     assert kwargs["auto_crawl"] is False
     assert kwargs["auto_crawl_force"] is False
 
-    # The launcher must defer to that authority, not re-decide it locally.
-    # Ignore comments: only real code counts.
-    src = (REPO / "launch_dashboard.py").read_text(encoding="utf-8")
-    code = chr(10).join(
-        line for line in src.splitlines() if not line.lstrip().startswith("#")
+    # Opted in: a controller, but still never auto-crawl.
+    opted = build_dashboard_crawl_kwargs(
+        radar, REPO / "config",
+        Namespace(allow_manual_collection=True, no_crawl=False),
     )
+    assert opted["crawl"] is not None
+    assert opted["auto_crawl"] is False
+    assert opted["auto_crawl_force"] is False
+
+    # The launcher must defer to that authority rather than re-deciding it,
+    # and must never enable auto-crawl. Ignore comments AND the module
+    # docstring: only real code counts.
+    import ast
+
+    src = (REPO / "launch_dashboard.py").read_text(encoding="utf-8")
+    tree = ast.parse(src)
+    tree.body = [n for n in tree.body
+                 if not (isinstance(n, ast.Expr) and isinstance(n.value, ast.Constant)
+                         and isinstance(n.value.value, str))]
+    code = ast.unparse(tree)
     assert "build_dashboard_crawl_kwargs" in code
-    assert "CrawlController" not in code
-    assert "crawl_service" not in code
+    # It does not construct a collector or a controller of its own.
+    assert "CrawlController(" not in code
+    assert "execute_crawl(" not in code
+    assert "auto_crawl=True" not in code

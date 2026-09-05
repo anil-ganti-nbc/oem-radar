@@ -427,14 +427,28 @@ def build_dashboard_crawl_kwargs(radar: RadarConfig, config_dir: Path,
     config. `--no-crawl` on the command line always wins over config.
     """
     dash = radar.dashboard
-    # Phase 0 has no authenticated dashboard mutation profile. CSRF is not
-    # authentication, so dashboard-triggered and launch-triggered crawls are
-    # disabled regardless of older configuration values.
+    # Auto-crawl stays off unconditionally: opening the dashboard must never
+    # start a crawl, regardless of older configuration values.
+    #
+    # Explicit operator-triggered collection is a separate decision, and it
+    # is opt-in per launch (`--allow-manual-collection`, or the desktop
+    # launcher which passes it). When opted in we hand `serve` the canonical
+    # CrawlController, which runs the same `core.crawl_service.execute_crawl`
+    # the scheduled `oem-radar run` path uses -- same lock, same registry,
+    # same database. There is deliberately no second collector here.
+    allow_manual = bool(getattr(args, "allow_manual_collection", False)) if args else False
+    if getattr(args, "no_crawl", False):
+        allow_manual = False
+    crawl = None
+    if allow_manual:
+        from .core.crawl_service import CrawlController
+        crawl = CrawlController(config_dir, allow_manual=True)
     return {
-        "crawl": None,
+        "crawl": crawl,
         "auto_crawl": False,
         "auto_crawl_force": False,
         "stale_after_hours": dash.stale_after_hours,
+        "allow_manual_collection": allow_manual,
     }
 
 
@@ -658,6 +672,11 @@ def main(argv: list[str] | None = None) -> int:
     p_dash.add_argument("--no-crawl", action="store_true",
                         help="serve read-only: no auto-crawl on start, no "
                              "'run collectors now' button (overrides config)")
+    p_dash.add_argument("--allow-manual-collection", action="store_true",
+                        help="authorize explicit operator-triggered collection "
+                             "from the GUI (POST /api/crawl). Runs the canonical "
+                             "execute_crawl path under the canonical run lock; "
+                             "opening the dashboard still never crawls. Default off.")
     p_dash.add_argument("--allow-review-writes", action="store_true",
                         help="M4.5 QC activation: authorize ONLY the "
                              "alert-review POST path (loopback still enforced; "
