@@ -5,13 +5,26 @@ fake fetchers/stores/notifiers."""
 from __future__ import annotations
 
 import logging
-from typing import Any, Callable
+from typing import Any, Callable, Iterable
 
-from .config import OemConfig, RadarConfig
+from .config import OemConfig, RadarConfig, SourceConfig
 from .interfaces import Fetcher, Notifier
 from .pipeline import SourceRunStats, run_source
 from .registry import engines
 from .story import detect as detect_stories
+
+
+class ManualScopeError(ValueError):
+    """A manual run was asked for a scope the canonical registry cannot
+    honor (e.g. no routine collectors configured). Carries a machine-
+    readable code so an operator surface can show actionable evidence
+    instead of a bare failure."""
+
+    def __init__(self, code: str, message: str, *, detail: dict | None = None):
+        super().__init__(message)
+        self.code = code
+        self.message = message
+        self.detail = detail or {}
 
 log = logging.getLogger("oem_radar.runner")
 
@@ -47,10 +60,41 @@ def run_all(
     *,
     force: bool = False,
     only_source: str | None = None,
+    only_sources: Iterable[str] | None = None,
+    routine_scope: bool = False,
     on_progress: Callable[[dict[str, Any]], None] | None = None,
 ) -> list[SourceRunStats]:
     rules = radar_cfg.severity_rules or None
     all_stats: list[SourceRunStats] = []
+
+    # Scope and freshness are separate dimensions. `only_source` (singular,
+    # the CLI's --source) and `only_sources` (an explicit collector set,
+    # e.g. an operator's deep-crawl selection) narrow WHICH collectors run.
+    # `routine_scope` (the dashboard's default manual action) resolves the
+    # routine set — every enabled collector NOT classified long_running —
+    # so a manual click stays bounded even when new deep sources are added
+    # to the registry. No dimension of this touches force, enablement,
+    # maturity or health.
+    scope: frozenset[str] | None
+    if only_sources is not None:
+        scope = frozenset(only_sources)
+    elif only_source is not None:
+        scope = frozenset({only_source})
+    elif routine_scope:
+        scope = frozenset(
+            src.id
+            for oem in oems.values() for src in oem.sources
+            if src.enabled and src.manual_class == "routine"
+        )
+        if not scope:
+            raise ManualScopeError(
+                "no_routine_collectors",
+                "no routine collectors are configured; the default manual "
+                "action would silently run nothing — use the long-running "
+                "collector selection explicitly",
+            )
+    else:
+        scope = None
 
     def emit(**ev: Any) -> None:
         """Report progress to an observer (the dashboard's crawl bar).
@@ -68,12 +112,12 @@ def run_all(
             log.warning("progress observer raised; continuing crawl", exc_info=True)
 
     # Every configured OEM becomes visible immediately — including ones this
-    # run will skip (disabled, not due, or filtered out by --source).
+    # run will skip (disabled, not due, or filtered out by scope).
     sync_oem_registry(store, oems)
 
     planned = [
         src for oem in oems.values() for src in oem.sources
-        if src.enabled and not (only_source and src.id != only_source)
+        if src.enabled and (scope is None or src.id in scope)
     ]
     emit(event="planned", sources_total=len(planned))
 
@@ -81,7 +125,7 @@ def run_all(
         man = oem.manufacturer
         man_id = store.ensure_manufacturer(man.name, man.country, man.aliases)
         for src in oem.sources:
-            if not src.enabled or (only_source and src.id != only_source):
+            if not src.enabled or (scope is not None and src.id not in scope):
                 continue
             if not force and not store.source_due(src.id, src.min_interval_s):
                 log.info("skip %s: crawled within min_interval", src.id)

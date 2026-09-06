@@ -137,7 +137,7 @@ def test_controller_starts_idle(tmp_path):
 def test_controller_runs_and_reports_outcome(tmp_path):
     calls = {}
 
-    def runner(config_dir, *, force, only_source, on_progress):
+    def runner(config_dir, *, force, only_source, only_sources=None, routine_scope=False, on_progress):
         calls.update(config_dir=config_dir, force=force, only_source=only_source)
         on_progress({"event": "planned", "sources_total": 4})
         on_progress({"event": "source_start", "source": "medion"})
@@ -162,7 +162,7 @@ def test_controller_runs_and_reports_outcome(tmp_path):
 def test_controller_is_single_flight(tmp_path):
     release = threading.Event()
 
-    def runner(config_dir, *, force, only_source, on_progress):
+    def runner(config_dir, *, force, only_source, only_sources=None, routine_scope=False, on_progress):
         release.wait(5)
         return FakeOutcome()
 
@@ -186,7 +186,7 @@ def test_controller_reports_lock_held_as_blocked_not_failed(tmp_path):
     The scheduled hourly task and the dashboard share one lock; a user who
     opens the dashboard mid-crawl should be told that, not shown a failure.
     """
-    def runner(config_dir, *, force, only_source, on_progress):
+    def runner(config_dir, *, force, only_source, only_sources=None, routine_scope=False, on_progress):
         raise LockError("another oem-radar run is active (pid=4242)")
 
     c = CrawlController(tmp_path, runner=runner)
@@ -198,7 +198,7 @@ def test_controller_reports_lock_held_as_blocked_not_failed(tmp_path):
 
 
 def test_controller_survives_a_crawl_that_raises(tmp_path):
-    def runner(config_dir, *, force, only_source, on_progress):
+    def runner(config_dir, *, force, only_source, only_sources=None, routine_scope=False, on_progress):
         raise ValueError("network exploded")
 
     c = CrawlController(tmp_path, runner=runner)
@@ -309,8 +309,11 @@ class RecordingController:
     def running(self):
         return self._running
 
-    def trigger(self, *, force=False, only_source=None, trigger="manual"):
-        self.calls.append({"force": force, "source": only_source, "trigger": trigger})
+    def trigger(self, *, force=False, only_source=None, sources=None,
+                scope=None, trigger="manual"):
+        self.calls.append({"force": force, "source": only_source,
+                           "sources": sources, "scope": scope,
+                           "trigger": trigger})
         if self._running:
             return False, "already_running", self.status()
         return True, "started", self.status()
@@ -321,7 +324,7 @@ class RecordingController:
                 "sources_done": 0, "sources_total": 0, "sources": [],
                 "outcome": None, "message": None, "trigger": None,
                 "started_at": None, "finished_at": None, "current_source": None,
-                "force": False}
+                "force": False, "scope": None, "requested_sources": None}
 
 
 @pytest.fixture()
@@ -479,7 +482,8 @@ def test_post_crawl_starts_a_run(server):
     assert status == 202 and data["ok"] is True
     assert data["state"]["enabled"] is True
     assert server["crawl"].calls == [
-        {"force": False, "source": None, "trigger": "manual"}]
+        {"force": False, "source": None, "sources": None,
+         "scope": "routine", "trigger": "manual"}]
 
 
 @pytest.mark.parametrize("server", [RecordingController()], indirect=True)
@@ -524,8 +528,173 @@ def test_crawl_endpoint_rejects_get_and_put(server):
 
 
 # ---------------------------------------------------------------------------
-# page
+# manual scope: routine default vs explicit deep-crawl selection
 # ---------------------------------------------------------------------------
+
+
+def _deep_server(tmp_path, request):
+    """A RecordingController whose config_dir points at a scratch registry:
+    routine-a/routine-b enabled routine, deep-x long-running, sleeping off."""
+    config_dir = tmp_path / "config"
+    (config_dir / "oems").mkdir(parents=True)
+    for sid, manual_class, enabled in [
+        ("routine-a", "routine", True),
+        ("routine-b", "routine", True),
+        ("deep-x", "long_running", True),
+        ("sleeping", "long_running", False),
+    ]:
+        (config_dir / "oems" / f"{sid}.yaml").write_text(
+            "manufacturer:\n"
+            f"  name: {sid.title()}\n  aliases: []\n  country: XX\n"
+            "sources:\n"
+            f"  - id: {sid}\n"
+            "    engine: shopify\n"
+            f"    base_url: https://example.com/{sid}\n"
+            f"    enabled: {enabled}\n"
+            f"    manual_class: {manual_class}\n",
+            encoding="utf-8",
+        )
+    ctl = RecordingController(config_dir=str(config_dir))
+    return ctl
+
+
+def test_routine_default_resolves_server_side_excluding_deep(tmp_path, monkeypatch):
+    """The default action submits NO source list: the routine roster is
+    resolved inside the canonical runner from the registry's own
+    classification — the GUI never sends a list of ids."""
+    from oem_radar.core.config import load_oem_configs as _load
+
+    radar = RadarConfig(db_path=str(tmp_path / "r.db"), raw_dir=str(tmp_path / "raw"))
+    store = SqliteStore(radar.db_path, radar.raw_dir)
+    oems = {"A": OemConfig(
+        manufacturer=ManufacturerConfig(name="A", country="XX"),
+        sources=[
+            SourceConfig(id="routine-a", engine="shopify", base_url=BASE, discovery=["products_json"]),
+            SourceConfig(id="routine-b", engine="shopify", base_url=BASE, discovery=["products_json"]),
+            SourceConfig(id="deep-x", engine="shopify", base_url=BASE, discovery=["products_json"],
+                         manual_class="long_running"),
+        ],
+    )}
+    try:
+        seen = []
+        run_all(radar, oems, store, DiscordNotifier(store, None, 3),
+                RouteFetcher(FIXTURE), routine_scope=True, force=True,
+                on_progress=seen.append)
+        assert seen[0]["sources_total"] == 2
+        starts = [e["source"] for e in seen if e["event"] == "source_start"]
+        assert starts == ["routine-a", "routine-b"]
+    finally:
+        store.close()
+
+
+def test_deep_selection_runs_exactly_the_selected_set(tmp_path, monkeypatch):
+    """S34/S35: selecting one (or two) deep sources executes exactly those —
+    not the whole deep roster, not everything."""
+    radar = RadarConfig(db_path=str(tmp_path / "r.db"), raw_dir=str(tmp_path / "raw"))
+    store = SqliteStore(radar.db_path, radar.raw_dir)
+    oems = {"A": OemConfig(
+        manufacturer=ManufacturerConfig(name="A", country="XX"),
+        sources=[
+            SourceConfig(id="routine-a", engine="shopify", base_url=BASE, discovery=["products_json"]),
+            SourceConfig(id="deep-x", engine="shopify", base_url=BASE, discovery=["products_json"],
+                         manual_class="long_running"),
+            SourceConfig(id="deep-y", engine="shopify", base_url=BASE, discovery=["products_json"],
+                         manual_class="long_running"),
+        ],
+    )}
+    try:
+        seen = []
+        run_all(radar, oems, store, DiscordNotifier(store, None, 3),
+                RouteFetcher(FIXTURE), only_sources={"deep-x"}, force=True,
+                on_progress=seen.append)
+        assert seen[0]["sources_total"] == 1
+        assert [e["source"] for e in seen if e["event"] == "source_start"] == ["deep-x"]
+
+        seen = []
+        run_all(radar, oems, store, DiscordNotifier(store, None, 3),
+                RouteFetcher(FIXTURE), only_sources={"deep-x", "deep-y"},
+                force=True, on_progress=seen.append)
+        assert seen[0]["sources_total"] == 2
+        assert [e["source"] for e in seen if e["event"] == "source_start"] == [
+            "deep-x", "deep-y"]
+    finally:
+        store.close()
+
+
+def test_force_never_expands_scope(tmp_path, monkeypatch):
+    """S36: force=true with a routine selection stays routine — force must
+    not silently pull the deep roster into the run."""
+    radar = RadarConfig(db_path=str(tmp_path / "r.db"), raw_dir=str(tmp_path / "raw"))
+    store = SqliteStore(radar.db_path, radar.raw_dir)
+    oems = {"A": OemConfig(
+        manufacturer=ManufacturerConfig(name="A", country="XX"),
+        sources=[
+            SourceConfig(id="routine-a", engine="shopify", base_url=BASE, discovery=["products_json"]),
+            SourceConfig(id="routine-b", engine="shopify", base_url=BASE, discovery=["products_json"]),
+            SourceConfig(id="deep-x", engine="shopify", base_url=BASE, discovery=["products_json"],
+                         manual_class="long_running"),
+        ],
+    )}
+    try:
+        seen = []
+        run_all(radar, oems, store, DiscordNotifier(store, None, 3),
+                RouteFetcher(FIXTURE), only_sources={"routine-a", "routine-b"},
+                force=True, on_progress=seen.append)
+        assert seen[0]["sources_total"] == 2
+        assert [e["source"] for e in seen if e["event"] == "source_start"] == [
+            "routine-a", "routine-b"]
+    finally:
+        store.close()
+
+
+def test_routine_scope_never_implies_force(tmp_path, monkeypatch):
+    """S37: an ordinary manual run without force skips sources crawled
+    within their own min_interval — manual never costs more than needed."""
+    radar = RadarConfig(db_path=str(tmp_path / "r.db"), raw_dir=str(tmp_path / "raw"))
+    store = SqliteStore(radar.db_path, radar.raw_dir)
+    oems = {"A": OemConfig(
+        manufacturer=ManufacturerConfig(name="A", country="XX"),
+        sources=[
+            SourceConfig(id="routine-a", engine="shopify", base_url=BASE, discovery=["products_json"],
+                         min_interval="6h"),
+            SourceConfig(id="deep-x", engine="shopify", base_url=BASE, discovery=["products_json"],
+                         manual_class="long_running"),
+        ],
+    )}
+    try:
+        run_all(radar, oems, store, DiscordNotifier(store, None, 3),
+                RouteFetcher(FIXTURE), routine_scope=True, force=True)
+        seen = []
+        run_all(radar, oems, store, DiscordNotifier(store, None, 3),
+                RouteFetcher(FIXTURE), routine_scope=True, force=False,
+                on_progress=seen.append)
+        assert [e["event"] for e in seen] == [
+            "planned", "source_skipped", "finished"]
+    finally:
+        store.close()
+
+
+def test_scheduled_path_still_includes_deep_sources(tmp_path, monkeypatch):
+    """S44: the scheduled/default backend behavior is unchanged — with no
+    scope arguments, long-running sources are included."""
+    radar = RadarConfig(db_path=str(tmp_path / "r.db"), raw_dir=str(tmp_path / "raw"))
+    store = SqliteStore(radar.db_path, radar.raw_dir)
+    oems = {"A": OemConfig(
+        manufacturer=ManufacturerConfig(name="A", country="XX"),
+        sources=[
+            SourceConfig(id="routine-a", engine="shopify", base_url=BASE, discovery=["products_json"]),
+            SourceConfig(id="deep-x", engine="shopify", base_url=BASE, discovery=["products_json"],
+                         manual_class="long_running"),
+        ],
+    )}
+    try:
+        seen = []
+        run_all(radar, oems, store, DiscordNotifier(store, None, 3),
+                RouteFetcher(FIXTURE), force=False, on_progress=seen.append)
+        assert seen[0]["sources_total"] == 2
+    finally:
+        store.close()
+
 
 def _page(tmp_path, csrf="tok-123"):
     from oem_radar.dashboard.data import collect
@@ -712,6 +881,7 @@ def test_gui_trigger_reaches_execute_crawl_under_the_canonical_lock(tmp_path, mo
     seen = {}
 
     def fake_execute_crawl(config_dir, *, force=False, only_source=None,
+                           only_sources=None, routine_scope=False,
                            dry_run=False, use_lock=True, on_progress=None):
         # Prove the canonical signature is what the GUI path calls, and that
         # exclusivity is requested rather than bypassed.

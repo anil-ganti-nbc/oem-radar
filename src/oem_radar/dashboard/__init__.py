@@ -25,6 +25,11 @@ from ..providers.sqlite import (
     SqliteStore,
     connect_readonly,
 )
+from ..core.crawl_service import (
+    ManualScopeError,
+    manual_roster,
+    resolve_manual_sources,
+)
 from .data import (
     collect,
     collect_alert_detail,
@@ -43,13 +48,65 @@ _EVIDENCE_PATH_RE = re.compile(r"^/evidence/(\d+)/?$")
 _API_EVIDENCE_RE = re.compile(r"^/api/evidence/(\d+)/?$")
 
 
-def _json_error(handler: BaseHTTPRequestHandler, status: int, code: str, message: str) -> None:
-    body = json.dumps({"error": {"code": code, "message": message}}).encode("utf-8")
+def _json_error(
+    handler: BaseHTTPRequestHandler, status: int, code: str, message: str,
+    detail: dict | None = None,
+) -> None:
+    error: dict = {"code": code, "message": message}
+    if detail:
+        error.update(detail)
+    body = json.dumps({"error": error}).encode("utf-8")
     handler.send_response(status)
     handler.send_header("Content-Type", "application/json")
     handler.send_header("Content-Length", str(len(body)))
     handler.end_headers()
     handler.wfile.write(body)
+
+
+def _recent_runtime_hint(db_path: str) -> dict[str, str]:
+    """Median duration of each source's most recent completed runs — a
+    human-readable cost hint for the manual roster, derived once per page
+    load from the tiny crawler_runs table, never on GUI polls. Honest
+    vocabulary only: a hint appears when history exists, and none is
+    invented when it does not."""
+    from datetime import datetime
+
+    hints: dict[str, str] = {}
+    try:
+        conn = connect_readonly(db_path)
+    except Exception:  # noqa: BLE001 — a hint must never break the roster
+        return hints
+    try:
+        rows = conn.execute(
+            "SELECT source_key, started_at, finished_at FROM crawler_runs "
+            "WHERE status = 'ok' AND finished_at IS NOT NULL "
+            "ORDER BY started_at"
+        ).fetchall()
+    except Exception:  # noqa: BLE001
+        conn.close()
+        return hints
+    finally:
+        conn.close()
+    per: dict[str, list[float]] = {}
+    for key, started, finished in rows:
+        try:
+            delta = (datetime.fromisoformat(finished)
+                     - datetime.fromisoformat(started)).total_seconds()
+        except (TypeError, ValueError):
+            continue
+        if delta and delta > 0:
+            per.setdefault(key, []).append(delta)
+    for key, durations in per.items():
+        recent = durations[-5:]
+        recent.sort()
+        median = recent[len(recent) // 2]
+        if median >= 3600:
+            hints[key] = f"~{median / 3600:.1f} h"
+        elif median >= 60:
+            hints[key] = f"~{median / 60:.0f} min"
+        else:
+            hints[key] = f"~{median:.0f} s"
+    return hints
 
 
 def _refuse_state(handler: BaseHTTPRequestHandler, report) -> None:
@@ -252,6 +309,28 @@ class _Handler(BaseHTTPRequestHandler):
                            "application/json")
                 return
 
+            if path == "/api/manual-sources":
+                # The manual-collection roster, straight from the canonical
+                # config registry: routine sources (the default manual
+                # action's scope) and long-running sources (individually
+                # selectable). IDs/labels only — no webhook, no secrets.
+                if self.crawl is None:
+                    _json_error(self, 503, "crawl_disabled",
+                                "This dashboard was opened read-only; manual "
+                                "collection is not offered from here.")
+                    return
+                try:
+                    roster = manual_roster(self.crawl.config_dir)
+                except Exception as exc:  # noqa: BLE001 — evidence, not a traceback
+                    log.warning("manual roster unavailable: %s", exc)
+                    _json_error(self, 503, "roster_unavailable",
+                                f"manual roster unavailable: {exc}")
+                    return
+                roster["runtime_hints"] = _recent_runtime_hint(self.db_path)
+                self._send(200, json.dumps(roster).encode("utf-8"),
+                           "application/json")
+                return
+
             if path == "/api/feedback/reasons":
                 from ..core.feedback import reason_taxonomy, OUTCOMES
                 payload = {
@@ -431,22 +510,60 @@ class _Handler(BaseHTTPRequestHandler):
                         "or csrf_token field)")
             return
 
-        unknown = set(data.keys()) - {"force", "source", "csrf_token"}
+        unknown = set(data.keys()) - {"force", "source", "sources", "csrf_token"}
         if unknown:
             _json_error(self, 400, "unknown_fields",
                         f"Unknown fields: {', '.join(sorted(unknown))}")
+            return
+        if data.get("source") is not None and data.get("sources") is not None:
+            _json_error(self, 400, "ambiguous_scope",
+                        "pass either 'source' (singular) or 'sources', not both")
             return
 
         force = data.get("force", False)
         if not isinstance(force, bool):
             _json_error(self, 400, "invalid_force", "force must be a boolean")
             return
-        source = data.get("source")
-        if source is not None and not isinstance(source, str):
-            _json_error(self, 400, "invalid_source", "source must be a string or null")
+        raw_sources = data.get("sources")
+        if data.get("source") is not None and data.get("sources") is not None:
+            _json_error(self, 400, "ambiguous_scope",
+                        "pass either 'source' (singular) or 'sources', not both")
             return
+        if raw_sources is not None:
+            if not isinstance(raw_sources, list) or not raw_sources:
+                _json_error(self, 400, "invalid_sources",
+                            "sources must be a non-empty list of source ids; "
+                            "omit it entirely to run the routine default")
+                return
+            if not all(isinstance(s, str) and s.strip() for s in raw_sources):
+                _json_error(self, 400, "invalid_sources",
+                            "every entry in sources must be a non-empty string")
+                return
+            source_ids: list[str] | None = [s.strip() for s in raw_sources]
+        elif isinstance(data.get("source"), str):
+            source_ids = [data["source"]]
+        else:
+            source_ids = None
 
-        accepted, reason, state = self.crawl.trigger(force=force, only_source=source)
+        # Explicit selections are validated against the canonical registry
+        # BEFORE enqueueing anything: an unknown id is a client error, not a
+        # background no-op; a disabled collector is not manually eligible.
+        # The routine default is NOT resolved here — it travels as a mode and
+        # is resolved inside the canonical runner from the same fresh config
+        # load the crawl itself uses, so the two can never disagree.
+        if source_ids is None:
+            accepted, reason, state = self.crawl.trigger(force=force, scope="routine")
+        else:
+            try:
+                scope_set, _kind = resolve_manual_sources(
+                    self.crawl.config_dir, source_ids,
+                )
+            except ManualScopeError as exc:
+                _json_error(self, 400, exc.code, exc.message, detail=exc.detail)
+                return
+            accepted, reason, state = self.crawl.trigger(
+                force=force, sources=sorted(scope_set), scope="selected",
+            )
         state["enabled"] = True
         state["stale_after_hours"] = self.stale_after_hours
         if accepted:

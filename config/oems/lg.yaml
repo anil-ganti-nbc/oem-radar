@@ -7,6 +7,13 @@
 # docs/ENTERPRISE_OEM_ARCHITECTURE.md §7. url_include_pattern scopes the
 # 6,220-URL full US sitemap down to the 182 real gram-laptop product pages.
 # Fixtures: tests/fixtures/sitemap_jsonld/lg_*.
+#
+# manual_class long_running (operator decision 2026-09-06): every crawl
+# fetches all 182 product pages one at a time (one fetch per product — see
+# the sitemap_jsonld engine), and lg.com is the slowest host in the fleet:
+# the one completed local run took 19 min, and four later runs were killed
+# in flight during testing without finishing. Outside the routine manual
+# action; scheduled `oem-radar run` unchanged.
 manufacturer:
   name: LG
   aliases: [LG Electronics, LG gram]
@@ -18,5 +25,6 @@ sources:
     sitemap_url: https://www.lg.com/us/sitemap.xml
     url_include_pattern: '/us/laptops/lg-[\w.-]+-gram-laptop$'
     min_interval: 12h
+    manual_class: long_running
     currency_default: USD
     enabled: true

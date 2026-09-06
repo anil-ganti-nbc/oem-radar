@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import yaml
 from pydantic import BaseModel, Field, ValidationError, model_validator, field_validator
@@ -33,6 +33,15 @@ class SourceConfig(BaseModel):
     min_interval: str | int = "6h"
     discovery: list[str] = Field(default_factory=list)
     enabled: bool = True
+    # How this source participates in a MANUAL dashboard collection. This is
+    # a run-cost classification, NOT maturity, NOT health, and NOT enablement:
+    #   routine      belongs in the dashboard's default manual action
+    #   long_running excluded from the default manual action; individually
+    #                selectable from its own explicit GUI surface (a single
+    #                crawl can take many minutes to hours: per-product page
+    #                fetches at catalogue scale). Scheduled `oem-radar run`
+    #                includes long-running sources exactly as before.
+    manual_class: Literal["routine", "long_running"] = "routine"
 
     @field_validator("min_interval")
     @classmethod

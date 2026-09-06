@@ -6,6 +6,13 @@
 # with capital letters instead of the documented `offers`/`availability`,
 # which is exactly why the engine does case-insensitive field lookups.
 # Fixtures: tests/fixtures/sitemap_jsonld/khadas_*.
+#
+# manual_class long_running (operator decision 2026-09-06, borderline —
+# documented): 78 product pages fetched one at a time per crawl; two
+# completed local runs at 8.4 min each, ~2x the slowest routine collector
+# (morefine, ~4 min) and ~20x the routine-body median (~26 s). Excluded
+# from the routine manual action so a routine click stays bounded;
+# scheduled `oem-radar run` unchanged.
 manufacturer:
   name: Khadas
   country: CN
@@ -15,5 +22,6 @@ sources:
     base_url: https://www.khadas.com
     sitemap_url: https://www.khadas.com/store-products-sitemap.xml
     min_interval: 12h
+    manual_class: long_running
     currency_default: USD
     enabled: true

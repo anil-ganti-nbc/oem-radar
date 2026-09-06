@@ -5,6 +5,12 @@
 # "$0 = request a quote" placeholders across this vendor's catalog (a real,
 # observed limitation, not a bug) — tracked anyway for spec/SKU/availability
 # signal. Fixtures: tests/fixtures/sitemap_jsonld/simplynuc_*.
+#
+# manual_class long_running (operator decision 2026-09-06): the whole
+# 137-URL product sitemap is fetched one page per product on every crawl;
+# the completed local run took 14 min — ~3x the slowest routine collector
+# (morefine, ~4 min) and ~30x the routine-body median (~26 s). Outside the
+# routine manual action; scheduled `oem-radar run` unchanged.
 manufacturer:
   name: SimplyNUC
   aliases: [SNUC]
@@ -15,5 +21,6 @@ sources:
     base_url: https://snuc.com
     sitemap_url: https://snuc.com/product-sitemap.xml
     min_interval: 12h
+    manual_class: long_running
     currency_default: USD
     enabled: true

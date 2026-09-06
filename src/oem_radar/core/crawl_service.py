@@ -22,6 +22,7 @@ import logging
 import os
 import threading
 import time
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -31,12 +32,108 @@ from .config import RadarConfig, load_oem_configs, load_radar_config, parse_inte
 from .knownhw import SEED_COMPONENTS
 from .registry import notifiers, stores
 from .run_lock import LockError, RunLock
-from .runner import run_all
+from .runner import ManualScopeError, run_all  # ManualScopeError re-exported
 from ..providers.sqlite import IncompatibleDatabaseError
 
 log = logging.getLogger("oem_radar.crawl_service")
 
 ProgressFn = Callable[[dict], None]
+
+__all__ = [
+    "CrawlOutcome", "CrawlController", "execute_crawl", "manual_roster",
+    "resolve_manual_sources", "ManualScopeError",
+]
+
+#: The manual-run classification that lands a collector in the dashboard's
+#: default (routine) manual action. The complement is SourceConfig's
+#: `manual_class: long_running`, which keeps an expensive collector out of
+#: the default action while keeping it scheduled and individually runnable.
+MANUAL_CLASS_ROUTINE = "routine"
+MANUAL_CLASS_LONG_RUNNING = "long_running"
+
+
+def manual_roster(config_dir: str | Path) -> dict[str, list[dict]]:
+    """The manual-collection roster from the canonical registry — ONE truth.
+
+    Reads config/oems/*.yaml fresh (the same authority execute_crawl crawls
+    against) and splits every source by its configured manual class and
+    enabled state. The dashboard renders from this payload; no JS list
+    decides which collectors are expensive.
+    """
+    oems = load_oem_configs(Path(config_dir) / "oems")
+    routine: list[dict] = []
+    long_running: list[dict] = []
+    for oem in oems.values():
+        for src in oem.sources:
+            entry = {
+                "source_id": src.id,
+                "manufacturer": oem.manufacturer.name,
+                "engine": src.engine,
+                "enabled": src.enabled,
+                "min_interval": str(src.min_interval),
+                "manual_class": src.manual_class,
+            }
+            (long_running if src.manual_class == MANUAL_CLASS_LONG_RUNNING else routine).append(entry)
+    return {
+        "routine": sorted(routine, key=lambda e: e["source_id"]),
+        "long_running": sorted(long_running, key=lambda e: e["source_id"]),
+    }
+
+
+def resolve_manual_sources(
+    config_dir: str | Path, requested: Iterable[str] | None,
+) -> tuple[frozenset[str], str]:
+    """Resolve a manual POST into the exact collector set the canonical
+    runner should execute, from backend registry truth.
+
+    - No requested ids: the ROUTINE default — every ENABLED source whose
+      manual_class is `routine`. Long-running sources are excluded by
+      classification, not by enablement; they stay scheduled exactly as
+      before.
+    - Requested ids: every id must be known AND enabled. An unknown id is
+      refused rather than silently accepted as a 202 no-op; a disabled id
+      is refused because manual eligibility requires an enabled collector.
+
+    Returns (scope, scope_kind) where scope_kind is 'routine' or 'selected'.
+    Raises ManualScopeError before anything is enqueued.
+    """
+    roster = manual_roster(config_dir)
+    enabled_by_id = {
+        entry["source_id"]: entry
+        for entry in roster["routine"] + roster["long_running"]
+    }
+    if requested is None:
+        routine_ids = frozenset(
+            e["source_id"] for e in roster["routine"] if e["enabled"]
+        )
+        if not routine_ids:
+            raise ManualScopeError(
+                "no_routine_collectors",
+                "no routine collectors are configured; the default manual "
+                "action would silently run nothing — use the long-running "
+                "collector selection explicitly",
+            )
+        return frozenset(routine_ids), "routine"
+
+    requested_set = list(dict.fromkeys(requested))
+    unknown = sorted(set(requested_set) - set(enabled_by_id))
+    if unknown:
+        raise ManualScopeError(
+            "unknown_source",
+            f"unknown source id(s): {', '.join(unknown)}",
+            detail={"unknown_sources": unknown},
+        )
+    disabled = sorted(
+        sid for sid in requested_set if not enabled_by_id[sid]["enabled"]
+    )
+    if disabled:
+        raise ManualScopeError(
+            "source_disabled",
+            f"source(s) are disabled and cannot be collected manually: "
+            f"{', '.join(disabled)}",
+            detail={"disabled_sources": disabled},
+        )
+    return frozenset(requested_set), "selected"
 
 
 def _now() -> str:
@@ -149,6 +246,8 @@ def execute_crawl(
     *,
     force: bool = False,
     only_source: str | None = None,
+    only_sources: Iterable[str] | None = None,
+    routine_scope: bool = False,
     dry_run: bool = False,
     use_lock: bool = True,
     on_progress: ProgressFn | None = None,
@@ -158,6 +257,16 @@ def execute_crawl(
     Config is loaded fresh on every call, so editing `config/oems/*.yaml`
     takes effect on the next crawl without restarting a long-lived
     dashboard process.
+
+    Scope and freshness are separate dimensions: `only_source` (singular,
+    the CLI's --source) and `only_sources` (an explicit collector set, e.g.
+    an operator's deep-crawl selection) narrow which collectors run;
+    `force` only bypasses min_interval freshness and never widens scope.
+    `routine_scope=True` (the dashboard's default manual action) resolves
+    the routine set here — every enabled collector NOT classified
+    long_running — from the same config load the crawl uses, and raises
+    ManualScopeError when no routine collector is configured rather than
+    silently crawling nothing.
     """
     _ensure_registries()
     config_dir = Path(config_dir)
@@ -172,6 +281,8 @@ def execute_crawl(
         store.seed_components(SEED_COMPONENTS)
         stats = run_all(radar, oems, store, notifier, build_fetcher(radar),
                         force=force, only_source=only_source,
+                        only_sources=only_sources,
+                        routine_scope=routine_scope,
                         on_progress=on_progress)
         outcome = CrawlOutcome(
             sources=len(stats),
@@ -247,6 +358,10 @@ class CrawlController:
             "outcome": None,
             "message": None,
             "force": False,
+            # Which collector set was REQUESTED — inspectable provenance for
+            # the routine default vs an explicit operator selection.
+            "scope": None,            # "routine" | "selected"
+            "requested_sources": None,  # None | [source ids]
         }
 
     # -- public API --------------------------------------------------------
@@ -266,6 +381,8 @@ class CrawlController:
 
     def trigger(
         self, *, force: bool = False, only_source: str | None = None,
+        sources: Iterable[str] | None = None,
+        scope: str | None = None,
         trigger: str = "manual",
     ) -> tuple[bool, str, dict]:
         """Start a crawl in the background.
@@ -273,9 +390,18 @@ class CrawlController:
         Returns (accepted, reason, status). `accepted` is False when a
         crawl is already in flight, or when manual triggering is disabled
         and this is a manual request.
+
+        Scope is explicit and orthogonal to force: `sources` requests an
+        exact collector set; `scope` records HOW the run is scoped
+        ('routine' = the routine default, resolved inside the canonical
+        runner from the fresh config it loads — long-running collectors are
+        excluded there by classification; 'selected' = an explicit operator
+        selection) so the run's provenance is inspectable.
         """
         if trigger == "manual" and not self.allow_manual:
             return False, "manual_crawl_disabled", self.status()
+        requested = list(sources) if sources is not None else None
+        scope_kind = scope or ("selected" if requested is not None else "routine")
         with self._lock:
             if self._state["status"] == RUNNING:
                 return False, "already_running", self._snapshot_locked()
@@ -283,11 +409,14 @@ class CrawlController:
             self._state.update({
                 "status": RUNNING, "trigger": trigger,
                 "started_at": _now(), "force": force,
+                "scope": scope_kind,
+                "requested_sources": list(requested) if requested is not None else None,
                 "message": "starting…",
             })
             snap = self._snapshot_locked()
             self._thread = threading.Thread(
-                target=self._run, args=(force, only_source),
+                target=self._run, args=(force, only_source, requested,
+                                        scope_kind == "routine"),
                 name="oem-radar-crawl", daemon=True,
             )
             self._thread.start()
@@ -330,10 +459,13 @@ class CrawlController:
                 self._state["current_source"] = None
                 self._state["message"] = "correlating stories"
 
-    def _run(self, force: bool, only_source: str | None) -> None:
+    def _run(self, force: bool, only_source: str | None, sources: list[str] | None,
+             routine_scope: bool = False) -> None:
         try:
             outcome = self._runner(
                 self.config_dir, force=force, only_source=only_source,
+                only_sources=frozenset(sources) if sources is not None else None,
+                routine_scope=routine_scope,
                 on_progress=self._on_progress,
             )
         except LockError as exc:

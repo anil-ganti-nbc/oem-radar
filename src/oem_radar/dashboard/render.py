@@ -61,6 +61,12 @@ table tr:hover td{background:var(--surface-2)}
 .mono,.when{font-family:var(--mono);font-size:var(--fs-meta)}
 .dot{color:var(--accent)}
 .crawlbar,.cta{margin-bottom:var(--s3)}
+.deepbar{margin:-6px 0 var(--s3) 0;padding:10px 14px;border:1px dashed var(--muted,#889);border-radius:10px}
+.deepbar .dtitle{font-weight:600;font-size:13px}
+.deepbar .dsub{color:var(--muted,#889);font-size:12px;margin:2px 0 8px}
+.deepbar label{margin-right:14px;white-space:nowrap;cursor:pointer}
+.deepbar .dbadge{display:inline-block;padding:0 6px;margin-left:6px;border-radius:8px;font-size:11px;border:1px solid var(--muted,#889);color:var(--muted,#889)}
+.deepbar .dactions{margin-top:8px}
 """
 
 _PAGE = r"""<!DOCTYPE html>
@@ -84,6 +90,7 @@ _PAGE = r"""<!DOCTYPE html>
 </nav>
 <div class="wrap">
   <div class="crawlbar" id="crawlbar"></div>
+  <div class="deepbar" id="deepbar"></div>
   <div class="cta" id="review-cta"></div>
   <div class="lead" id="baseline-note"></div>
   <div class="stats" id="stats"></div>
@@ -320,14 +327,65 @@ function renderCrawl(st){
   }
 
   const btns = st.allow_manual
-    ? `<button class="primary" onclick="startCrawl(false)">Run collectors now</button>`+
-      `<button onclick="startCrawl(true)" title="Ignore each source's min_interval and re-crawl every catalog. Slow.">Force re-crawl all</button>`
+    ? `<button class="primary" onclick="startCrawl(false)" `+
+      `title="Routine manual collection: the routine collector set resolved from the config registry. Long-running/deep collectors are separate, below.">Run collectors now</button>`+
+      `<button onclick="startCrawl(true)" title="Re-crawl the ROUTINE collectors now, ignoring each one's min_interval. Does NOT widen scope: long-running/deep collectors are never included by force — run those from their own panel below.">Force re-crawl routine</button>`
     : `<button disabled title="dashboard.allow_manual_crawl is false in config/radar.yaml">Manual crawl disabled</button>`;
 
   el.className = cls;
   el.innerHTML = `<span class="cdot"></span><div class="ctext">`+
     `<div class="ctitle">${title}</div><div class="csub">${sub}</div></div>`+
     `<div class="cbtns">${btns}</div>`;
+}
+
+// -- long-running / deep collectors ------------------------------------------
+// The roster is the SERVER'S truth (GET /api/manual-sources, resolved from
+// config/oems/*.yaml). This page never hardcodes which collectors are
+// expensive: a newly classified source shows up here with no JS change.
+
+let DEEP = null;
+
+function loadDeepRoster(){
+  const el = document.getElementById('deepbar');
+  if(!el) return;
+  fetch('/api/manual-sources').then(r=>r.json()).then(roster=>{
+    const deep = (roster.long_running||[]).filter(s=>s.enabled);
+    if(!deep.length){ el.className='deepbar hide'; return; }
+    const hints = roster.runtime_hints||{};
+    const rows = deep.map(s=>{
+      const hint = hints[s.source_id] ? ' &middot; recent runs '+esc(hints[s.source_id]) : '';
+      return `<label><input type="checkbox" class="deepsel" value="${esc(s.source_id)}"> `+
+        `${esc(s.source_id)} <span class="dbadge">Long-running</span>${hint}</label>`;
+    }).join('');
+    el.innerHTML =
+      `<div class="dtitle">Long-running collectors `+
+      `<span class="dbadge">excluded from routine manual runs</span></div>`+
+      `<div class="dsub">These collectors are deliberately outside "Run collectors now": one crawl can take a long `+
+      `time. Select exactly the ones you want; they stay scheduled as usual.</div>`+
+      rows+
+      `<div class="dactions">`+
+      `<label style="cursor:pointer"><input type="checkbox" id="deepforce"> also ignore min_interval (force)</label> `+
+      `<button class="primary" id="runDeepBtn" onclick="startDeepCrawl()" disabled `+
+      `title="Runs exactly the checked long-running collector(s) through the same crawl service, run lock and database. A deep crawl can take a long time.">Run selected deep collector(s)</button>`+
+      `</div>`;
+    el.querySelectorAll('input.deepsel,.deepsel').forEach(cb=>cb.addEventListener('change', deepSelectionChanged));
+    deepSelectionChanged();
+  }).catch(()=>{
+    el.innerHTML = `<div class="dsub">Long-running collector list unavailable.</div>`;
+  });
+}
+
+function deepSelectionChanged(){
+  const n = document.querySelectorAll('.deepsel:checked').length;
+  const b = document.getElementById('runDeepBtn');
+  if(b) b.disabled = n === 0;
+}
+
+function startDeepCrawl(){
+  const ids = Array.from(document.querySelectorAll('.deepsel:checked')).map(cb=>cb.value);
+  if(!ids.length) return;
+  const force = !!(document.getElementById('deepforce') && document.getElementById('deepforce').checked);
+  startCrawl(force, ids);
 }
 
 function crawlApply(st){
@@ -357,12 +415,14 @@ function crawlPoll(){
   fetch('/api/crawl/status').then(r=>r.json()).then(crawlApply).catch(()=>{});
 }
 
-function startCrawl(force){
-  document.querySelectorAll('.crawlbar button').forEach(b=>b.disabled=true);
+function startCrawl(force, sources){
+  document.querySelectorAll('.crawlbar button,.deepbar button').forEach(b=>b.disabled=true);
+  const body = {force:!!force};
+  if(sources && sources.length) body.sources = sources;
   fetch('/api/crawl', {
     method:'POST',
     headers:{'Content-Type':'application/json','X-OEM-Radar-CSRF':CSRF},
-    body:JSON.stringify({force:!!force}),
+    body:JSON.stringify(body),
   }).then(async r=>{
     const d = await r.json().catch(()=>({}));
     if(d.state) crawlApply(d.state); else crawlPoll();
@@ -646,6 +706,7 @@ function renderEvidence(){
 
 renderStats();renderCta();renderHealth();renderStories();renderSignals();initFilters();renderEvents();renderHardware();renderOems();renderRuns();renderEvidence();
 crawlPoll();
+loadDeepRoster();
 
 // Deep-link support: /?tab=events&review=UNREVIEWED opens the Alerts tab
 // pre-filtered (used by the "Review unreviewed alerts" CTA and nav).

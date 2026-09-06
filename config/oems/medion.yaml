@@ -37,6 +37,17 @@
 # refreshes at this catalog's scale do not appear on a sub-day cadence, and
 # because Medion was already the platform's longest-interval source before
 # this change.
+#
+# manual_class long_running (operator decision 2026-09-06): a Medion crawl
+# fetches every one of its ~692 matched product pages on every run (the
+# sitemap carries no lastmod, and per-URL model variants carry genuinely
+# different configurations, so there is no completeness-preserving
+# incremental shortcut — see the dedup investigation above). Measured:
+# 68m34s on the Hetzner soak host, 71 min for the local baseline crawl —
+# the single most expensive collector on the platform. It therefore sits
+# OUTSIDE the dashboard's routine manual action and is individually
+# selectable from the dashboard's long-running panel. Scheduled
+# `oem-radar run` includes it exactly as before.
 manufacturer:
   name: Medion
   aliases: [MEDION AG, ERAZER]
@@ -48,6 +59,7 @@ sources:
     sitemap_url: https://www.medion.com/de/shop/sitemap/Product-de-DE-medion-de-EUR.xml
     url_include_pattern: '/p/(high-end-gaming-notebooks|high-end-gaming-pcs|core-gaming-notebooks|core-gaming-pcs|gaming-notebooks|gaming-pcs)-'
     min_interval: 72h
+    manual_class: long_running
     max_products: 700
     currency_default: EUR
     enabled: true
