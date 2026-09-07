@@ -313,6 +313,7 @@ class EvidenceProvenance(StrEnum):
     OFFICIAL_DOCUMENTATION = "official_documentation"
     OFFICIAL_NEWSROOM = "official_newsroom"
     OFFICIAL_REGIONAL = "official_regional"
+    COMMUNITY_REPORT = "community_report"  # unverified community evidence
     HUMAN_CAPTURED = "human_captured"  # an owner-supplied DevTools capture
 
 

@@ -86,6 +86,9 @@ def run_all(
             for oem in oems.values() for src in oem.sources
             if src.enabled and src.manual_class == "routine"
         )
+        if radar_cfg.reddit_discovery_enabled:
+            from ..evidence_sources.reddit import COMMUNITIES
+            scope = scope | frozenset(f"reddit-{c.lower()}" for c in COMMUNITIES)
         if not scope:
             raise ManualScopeError(
                 "no_routine_collectors",
@@ -119,7 +122,36 @@ def run_all(
         src for oem in oems.values() for src in oem.sources
         if src.enabled and (scope is None or src.id in scope)
     ]
-    emit(event="planned", sources_total=len(planned))
+    reddit_planned = []
+    if radar_cfg.reddit_discovery_enabled:
+        from ..evidence_sources.reddit import COMMUNITIES
+        reddit_planned = [c for c in COMMUNITIES
+                          if scope is None or f"reddit-{c.lower()}" in scope]
+    emit(event="planned", sources_total=len(planned) + len(reddit_planned))
+
+    if radar_cfg.reddit_discovery_enabled:
+        from ..evidence_sources.reddit import COMMUNITIES, collect_community
+        from ..runtime_bridge import _source_revision
+        for community in reddit_planned:
+            source_id = f"reddit-{community.lower()}"
+            if not force and not store.source_due(source_id, radar_cfg.reddit_min_interval_s):
+                emit(event="source_skipped", source=source_id, status="skipped")
+                continue
+            emit(event="source_start", source=source_id)
+            try:
+                evidence = collect_community(community, fetcher, store,
+                                             code_revision=_source_revision())
+                all_stats.append(SourceRunStats(
+                    source_id=source_id, discovered=evidence.discovered,
+                    unchanged=evidence.unchanged_items, errors=evidence.errors,
+                    health="failed" if evidence.errors else "ok",
+                    health_reason="COMMUNITY_EVIDENCE_FAILED" if evidence.errors else "COMMUNITY_EVIDENCE"))
+                emit(event="source_done", source=source_id,
+                     status="failed" if evidence.errors else "ok",
+                     events=0, snapshots=0, errors=len(evidence.errors))
+            except Exception:
+                log.exception("community evidence source %s failed", source_id)
+                emit(event="source_done", source=source_id, status="failed", errors=1)
 
     for oem in oems.values():
         man = oem.manufacturer

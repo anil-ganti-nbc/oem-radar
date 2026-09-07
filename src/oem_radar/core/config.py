@@ -184,6 +184,8 @@ class DashboardConfig(BaseModel):
 
 
 class RadarConfig(BaseModel):
+    reddit_discovery_enabled: bool = False  # delivery remains blocked
+    reddit_min_interval_s: int = Field(default=1800, ge=60)
     store: str = "sqlite"
     notifier: str = "discord"
     summarizer: str | None = None
