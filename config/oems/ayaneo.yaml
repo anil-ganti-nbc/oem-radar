@@ -1,17 +1,52 @@
-# support_status: NEEDS_OWNER_PROBE — ayaneo.com not Shopify; likely custom/JS storefront
-# Audited 2026-08-02. Do not enable without re-probe.
-# Platform unverified from sandbox. Run: oem-radar probe https://www.ayaneo.com
-# then set enabled: true (switch engine if probe says woocommerce).
+# support_status: NEEDS_OWNER_PROBE — probed 2026-09-09 from owner machine:
+# shop.ayaneo.com Shopify confirmed (probe confidence 98%, Discovery Quality
+# 100/100, /products.json 200, product sitemap present).
+#
+# 2026-09-09 handheld expansion (M1): retargeted from https://www.ayaneo.com
+# to the verified official Shopify store. The old ayaneo.com surface is a
+# custom JS application (probe: not Shopify; returned HTTP 502 to plain
+# fetches during recon) and was never enabled — the descriptor below was
+# staged-but-disabled for the wrong surface. Do not monitor both surfaces.
+#
+# KONKR is AYANEO's sub-brand: its products arrive in the same feed with
+# vendor AYANEO and stay visible in model titles (e.g. "KONKR Pocket
+# ADVANCE"), so no separate manufacturer registration is made. AYANEO spans
+# Windows PC handhelds (AYANEO 3, NEXT, FLIP) and Android retro handhelds
+# (Pocket line, KONKR Pocket) — subtype is decided per product from its own
+# SoC/OS evidence at review time, never from the brand name alone.
+#
+# Feed quirks (fixture ayaneo_products_p1.json, 2026-09-09):
+#   * product_type: "Console" (handhelds) vs "Accessories" (majority).
+#   * vendor is mostly "AYANEO" with some "ayaneo store".
+#   * accessory SKUs (storage bags, tempered films) reference handheld model
+#     names in their titles — denylist runs on title+type.
 
 manufacturer:
   name: AYANEO
-  country: CN
+  aliases: [AYANEO, KONKR, "Aya Neo", "岸沄智能科技"]
+  country: CN  # legal entity Anyun Intelligent Technology (Hong Kong) Co., Limited
 
 sources:
   - id: ayaneo-shopify
     engine: shopify
-    base_url: https://www.ayaneo.com
+    base_url: https://shop.ayaneo.com
     min_interval: 12h
     discovery: [products_json, sitemap]
     currency_default: USD
     enabled: false
+    category_map:
+      console: handheld
+    non_product_terms:
+      - "storage bag"
+      - "tempered film"
+      - "screen protector"
+      - "protective film"
+      - "bag"
+      - "case"
+      - "dock"
+      - "charger"
+      - "grip"
+      - "strap"
+      - "stylus"
+      - "skin"
+      - "refurbish"
