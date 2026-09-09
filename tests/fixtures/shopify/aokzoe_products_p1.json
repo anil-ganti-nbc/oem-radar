@@ -1,0 +1,3169 @@
+{
+  "products": [
+    {
+      "id": 9702359793881,
+      "title": "Refurbished AOKZOE A2: Intel 125H with 7 inch full screen Black",
+      "handle": "refurbished-a2-intel-aok-7",
+      "body_html": "",
+      "published_at": "2026-04-17T18:06:38+08:00",
+      "created_at": "2026-04-17T10:30:42+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 48541912498393,
+          "title": "Intel- 125H - 16GB + 512GB Black",
+          "option1": "Intel- 125H - 16GB + 512GB Black",
+          "option2": null,
+          "option3": null,
+          "sku": null,
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": false,
+          "price": "399.00",
+          "grams": 0,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 9702359793881,
+          "created_at": "2026-04-17T10:33:24+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 48643726672089,
+          "created_at": "2026-04-17T10:30:30+08:00",
+          "position": 1,
+          "updated_at": "2026-04-17T10:30:32+08:00",
+          "product_id": 9702359793881,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/A2_1.jpg?v=1776393032",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 48643726704857,
+          "created_at": "2026-04-17T10:30:30+08:00",
+          "position": 2,
+          "updated_at": "2026-04-17T10:30:32+08:00",
+          "product_id": 9702359793881,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/A2_2.jpg?v=1776393032",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 48643726737625,
+          "created_at": "2026-04-17T10:30:30+08:00",
+          "position": 3,
+          "updated_at": "2026-04-17T10:30:32+08:00",
+          "product_id": 9702359793881,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/A2_3.jpg?v=1776393032",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 48643726770393,
+          "created_at": "2026-04-17T10:30:30+08:00",
+          "position": 4,
+          "updated_at": "2026-04-17T10:30:32+08:00",
+          "product_id": 9702359793881,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/A2_4.jpg?v=1776393032",
+          "width": 1000,
+          "height": 1000
+        }
+      ],
+      "options": [
+        {
+          "name": "Configuration",
+          "position": 1,
+          "values": [
+            "Intel- 125H - 16GB + 512GB Black"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8540994928857,
+      "title": "Special link for Quan only",
+      "handle": "special-link-for-jonn-only",
+      "body_html": "<div>\n<div dir=\"auto\">Shipping cost(we paid and half):$27.86</div>\n</div>\n<div>\n<div dir=\"auto\">5% PayPal handle charge: $61.95</div>\n</div>\n<div>\n<div dir=\"auto\">Customs duties we need to pay: about $25</div>\n</div>\n<div>\n<div dir=\"auto\">Shipping label cost: $60( will based on real one)</div>\n</div>\n<div>\n<div dir=\"auto\">So it's: $174.81</div>\n</div>",
+      "published_at": "2025-07-29T16:05:59+08:00",
+      "created_at": "2024-02-27T10:19:56+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "game console",
+      "tags": [],
+      "variants": [
+        {
+          "id": 44695483252953,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": false,
+          "price": "174.81",
+          "grams": 1000,
+          "compare_at_price": null,
+          "position": 2,
+          "product_id": 8540994928857,
+          "created_at": "2024-02-27T10:19:57+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 41616842162393,
+          "created_at": "2024-02-27T10:19:56+08:00",
+          "position": 1,
+          "updated_at": "2024-02-27T10:19:57+08:00",
+          "product_id": 8540994928857,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/1_4bc54bdd-4f84-4f37-8f06-602fc36e3e84.jpg?v=1709000397",
+          "width": 1000,
+          "height": 1000
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8166161973465,
+      "title": "Aokzoe gift package",
+      "handle": "aokzoe-gift-package",
+      "body_html": "<p>Package including:</p>\n<p>64GB USB drive *1</p>\n<p>Storage bag *1</p>\n<p>Glasses  screen protector *1</p>\n<p>Oculink cable *1</p>\n<p>Choose the model you needed.</p>",
+      "published_at": "2025-07-09T17:20:45+08:00",
+      "created_at": "2023-05-09T14:22:26+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "accessories",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46800334192857,
+          "title": "A1/A1 Pro",
+          "option1": "A1/A1 Pro",
+          "option2": null,
+          "option3": null,
+          "sku": null,
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 45782148546777,
+            "product_id": 8166161973465,
+            "position": 1,
+            "created_at": "2025-07-09T17:11:41+08:00",
+            "updated_at": "2025-07-09T17:11:49+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/05.jpg?v=1752052309",
+            "variant_ids": [
+              46800334192857,
+              46800334225625,
+              46800334258393
+            ]
+          },
+          "available": true,
+          "price": "59.90",
+          "grams": 754,
+          "compare_at_price": "79.90",
+          "position": 1,
+          "product_id": 8166161973465,
+          "created_at": "2025-07-09T17:18:36+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46800334225625,
+          "title": "A1x",
+          "option1": "A1x",
+          "option2": null,
+          "option3": null,
+          "sku": null,
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 45782148546777,
+            "product_id": 8166161973465,
+            "position": 1,
+            "created_at": "2025-07-09T17:11:41+08:00",
+            "updated_at": "2025-07-09T17:11:49+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/05.jpg?v=1752052309",
+            "variant_ids": [
+              46800334192857,
+              46800334225625,
+              46800334258393
+            ]
+          },
+          "available": true,
+          "price": "59.90",
+          "grams": 754,
+          "compare_at_price": "79.90",
+          "position": 2,
+          "product_id": 8166161973465,
+          "created_at": "2025-07-09T17:18:36+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46800334258393,
+          "title": "A2",
+          "option1": "A2",
+          "option2": null,
+          "option3": null,
+          "sku": null,
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 45782148546777,
+            "product_id": 8166161973465,
+            "position": 1,
+            "created_at": "2025-07-09T17:11:41+08:00",
+            "updated_at": "2025-07-09T17:11:49+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/05.jpg?v=1752052309",
+            "variant_ids": [
+              46800334192857,
+              46800334225625,
+              46800334258393
+            ]
+          },
+          "available": true,
+          "price": "59.90",
+          "grams": 754,
+          "compare_at_price": "79.90",
+          "position": 3,
+          "product_id": 8166161973465,
+          "created_at": "2025-07-09T17:18:36+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 45782148546777,
+          "created_at": "2025-07-09T17:11:41+08:00",
+          "position": 1,
+          "updated_at": "2025-07-09T17:11:49+08:00",
+          "product_id": 8166161973465,
+          "variant_ids": [
+            46800334192857,
+            46800334225625,
+            46800334258393
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/05.jpg?v=1752052309",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 40494640136409,
+          "created_at": "2023-05-09T14:23:02+08:00",
+          "position": 2,
+          "updated_at": "2025-07-09T17:11:49+08:00",
+          "product_id": 8166161973465,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/acb602ca9e0a0945033032809593cc4b_04619ace-3f8e-4758-917f-9e5f2f85c968.jpg?v=1752052309",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 40494640365785,
+          "created_at": "2023-05-09T14:23:16+08:00",
+          "position": 3,
+          "updated_at": "2025-07-09T17:11:49+08:00",
+          "product_id": 8166161973465,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/4c532d98338b173ea94c53de35cd2c83_99f5500b-4a8b-44a8-84f3-89987423cdf9.jpg?v=1752052309",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 40494715371737,
+          "created_at": "2023-05-09T15:51:47+08:00",
+          "position": 4,
+          "updated_at": "2025-07-09T17:11:49+08:00",
+          "product_id": 8166161973465,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOK.jpg?v=1752052309",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 45421837943001,
+          "created_at": "2025-06-03T18:04:37+08:00",
+          "position": 5,
+          "updated_at": "2025-07-09T17:11:49+08:00",
+          "product_id": 8166161973465,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/oculinkcable.jpg?v=1752052309",
+          "width": 1000,
+          "height": 1000
+        }
+      ],
+      "options": [
+        {
+          "name": "Model",
+          "position": 1,
+          "values": [
+            "A1/A1 Pro",
+            "A1x",
+            "A2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 9201379508441,
+      "title": "Oculink Cable",
+      "handle": "oculink-cable",
+      "body_html": "",
+      "published_at": "2025-06-03T18:05:09+08:00",
+      "created_at": "2025-06-03T18:05:09+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "accessories",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46677851046105,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "29.00",
+          "grams": 200,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 9201379508441,
+          "created_at": "2025-06-03T18:05:10+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 45421837943001,
+          "created_at": "2025-06-03T18:04:37+08:00",
+          "position": 1,
+          "updated_at": "2025-07-09T17:11:49+08:00",
+          "product_id": 9201379508441,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/oculinkcable.jpg?v=1752052309",
+          "width": 1000,
+          "height": 1000
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 9181972693209,
+      "title": "AOKZOE A1X: Powered by HX 370 with 8” VRR Landscape Display",
+      "handle": "aokzoe-a1x",
+      "body_html": "",
+      "published_at": "2025-05-17T08:42:49+08:00",
+      "created_at": "2025-05-16T17:14:12+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "game console",
+      "tags": [
+        "A1X",
+        "AOKZOE"
+      ],
+      "variants": [
+        {
+          "id": 46627076473049,
+          "title": "HX370 / 32GB+1TB",
+          "option1": "HX370",
+          "option2": "32GB+1TB",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 45289411936473,
+            "product_id": 9181972693209,
+            "position": 2,
+            "created_at": "2025-05-16T17:11:23+08:00",
+            "updated_at": "2025-05-16T17:11:25+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/A1X-__01.jpg?v=1747386685",
+            "variant_ids": [
+              46627076473049,
+              46627076505817,
+              46627076538585
+            ]
+          },
+          "available": true,
+          "price": "1199.00",
+          "grams": 0,
+          "compare_at_price": "1459.00",
+          "position": 1,
+          "product_id": 9181972693209,
+          "created_at": "2025-05-16T17:20:10+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46627076505817,
+          "title": "HX370 / 32GB+2TB",
+          "option1": "HX370",
+          "option2": "32GB+2TB",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 45289411936473,
+            "product_id": 9181972693209,
+            "position": 2,
+            "created_at": "2025-05-16T17:11:23+08:00",
+            "updated_at": "2025-05-16T17:11:25+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/A1X-__01.jpg?v=1747386685",
+            "variant_ids": [
+              46627076473049,
+              46627076505817,
+              46627076538585
+            ]
+          },
+          "available": true,
+          "price": "1299.00",
+          "grams": 0,
+          "compare_at_price": "1559.00",
+          "position": 2,
+          "product_id": 9181972693209,
+          "created_at": "2025-05-16T17:20:10+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46627076538585,
+          "title": "HX370 / 64GB+2TB",
+          "option1": "HX370",
+          "option2": "64GB+2TB",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 45289411936473,
+            "product_id": 9181972693209,
+            "position": 2,
+            "created_at": "2025-05-16T17:11:23+08:00",
+            "updated_at": "2025-05-16T17:11:25+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/A1X-__01.jpg?v=1747386685",
+            "variant_ids": [
+              46627076473049,
+              46627076505817,
+              46627076538585
+            ]
+          },
+          "available": false,
+          "price": "1449.00",
+          "grams": 750,
+          "compare_at_price": "1699.00",
+          "position": 3,
+          "product_id": 9181972693209,
+          "created_at": "2025-05-16T17:20:10+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 45289411903705,
+          "created_at": "2025-05-16T17:11:23+08:00",
+          "position": 1,
+          "updated_at": "2025-05-16T17:11:25+08:00",
+          "product_id": 9181972693209,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/A1X-__02.jpg?v=1747386685",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 45289411936473,
+          "created_at": "2025-05-16T17:11:23+08:00",
+          "position": 2,
+          "updated_at": "2025-05-16T17:11:25+08:00",
+          "product_id": 9181972693209,
+          "variant_ids": [
+            46627076473049,
+            46627076505817,
+            46627076538585
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/A1X-__01.jpg?v=1747386685",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 45289412002009,
+          "created_at": "2025-05-16T17:11:23+08:00",
+          "position": 3,
+          "updated_at": "2025-05-16T17:11:25+08:00",
+          "product_id": 9181972693209,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/A1X-__03.jpg?v=1747386685",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 45289411870937,
+          "created_at": "2025-05-16T17:11:23+08:00",
+          "position": 4,
+          "updated_at": "2025-05-16T17:11:25+08:00",
+          "product_id": 9181972693209,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/A1X-__04.jpg?v=1747386685",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 45289411969241,
+          "created_at": "2025-05-16T17:11:23+08:00",
+          "position": 5,
+          "updated_at": "2025-05-16T17:11:25+08:00",
+          "product_id": 9181972693209,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/A1X-__05.jpg?v=1747386685",
+          "width": 1000,
+          "height": 1000
+        }
+      ],
+      "options": [
+        {
+          "name": "CPU",
+          "position": 1,
+          "values": [
+            "HX370"
+          ]
+        },
+        {
+          "name": "Storage",
+          "position": 2,
+          "values": [
+            "32GB+1TB",
+            "32GB+2TB",
+            "64GB+2TB"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8160586858713,
+      "title": "Aokzoe A1 Pro AMD Ryzen™ 7 7840U",
+      "handle": "aokzoe-a1-pro",
+      "body_html": "<span>The A1 Pro features the latest AMD Ryzen 7840U CPU with 8 cores, 16 threads, a 3.3GHz base clock, and 5.1GHz max clock rate. Its 4nm production process, 8MB L2 cache and 16MB L3 cache all contribute to its exceptional gaming performance. Now you may bid farewell to lag.</span>",
+      "published_at": "2024-10-07T15:39:52+08:00",
+      "created_at": "2023-04-28T16:30:16+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "game console",
+      "tags": [],
+      "variants": [
+        {
+          "id": 44163327262937,
+          "title": "Lunar White / 32GB+1TB",
+          "option1": "Lunar White",
+          "option2": "32GB+1TB",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": {
+            "id": 40540522447065,
+            "product_id": 8160586858713,
+            "position": 7,
+            "created_at": "2023-05-31T11:49:32+08:00",
+            "updated_at": "2023-05-31T11:49:32+08:00",
+            "alt": null,
+            "width": 800,
+            "height": 800,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/1_4e953085-7769-45e1-804b-07470c6c1f5a.jpg?v=1685504972",
+            "variant_ids": [
+              44163327262937,
+              44163327295705
+            ]
+          },
+          "available": false,
+          "price": "899.00",
+          "grams": 2000,
+          "compare_at_price": "1099.00",
+          "position": 1,
+          "product_id": 8160586858713,
+          "created_at": "2023-10-17T08:56:09+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 44163327295705,
+          "title": "Lunar White / 32GB+2TB",
+          "option1": "Lunar White",
+          "option2": "32GB+2TB",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": {
+            "id": 40540522447065,
+            "product_id": 8160586858713,
+            "position": 7,
+            "created_at": "2023-05-31T11:49:32+08:00",
+            "updated_at": "2023-05-31T11:49:32+08:00",
+            "alt": null,
+            "width": 800,
+            "height": 800,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/1_4e953085-7769-45e1-804b-07470c6c1f5a.jpg?v=1685504972",
+            "variant_ids": [
+              44163327262937,
+              44163327295705
+            ]
+          },
+          "available": false,
+          "price": "999.00",
+          "grams": 2000,
+          "compare_at_price": "1199.00",
+          "position": 2,
+          "product_id": 8160586858713,
+          "created_at": "2023-10-17T08:56:09+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 44163327328473,
+          "title": "Quantum Blue / 32GB+1TB",
+          "option1": "Quantum Blue",
+          "option2": "32GB+1TB",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": {
+            "id": 40540520087769,
+            "product_id": 8160586858713,
+            "position": 1,
+            "created_at": "2023-05-31T11:46:24+08:00",
+            "updated_at": "2023-05-31T11:46:26+08:00",
+            "alt": null,
+            "width": 800,
+            "height": 800,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/800-01.jpg?v=1685504786",
+            "variant_ids": [
+              44163327328473,
+              44163327361241
+            ]
+          },
+          "available": false,
+          "price": "899.00",
+          "grams": 2000,
+          "compare_at_price": "1099.00",
+          "position": 3,
+          "product_id": 8160586858713,
+          "created_at": "2023-10-17T08:56:09+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 44163327361241,
+          "title": "Quantum Blue / 32GB+2TB",
+          "option1": "Quantum Blue",
+          "option2": "32GB+2TB",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": {
+            "id": 40540520087769,
+            "product_id": 8160586858713,
+            "position": 1,
+            "created_at": "2023-05-31T11:46:24+08:00",
+            "updated_at": "2023-05-31T11:46:26+08:00",
+            "alt": null,
+            "width": 800,
+            "height": 800,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/800-01.jpg?v=1685504786",
+            "variant_ids": [
+              44163327328473,
+              44163327361241
+            ]
+          },
+          "available": false,
+          "price": "999.00",
+          "grams": 2000,
+          "compare_at_price": "1199.00",
+          "position": 4,
+          "product_id": 8160586858713,
+          "created_at": "2023-10-17T08:56:09+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 40540520087769,
+          "created_at": "2023-05-31T11:46:24+08:00",
+          "position": 1,
+          "updated_at": "2023-05-31T11:46:26+08:00",
+          "product_id": 8160586858713,
+          "variant_ids": [
+            44163327328473,
+            44163327361241
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/800-01.jpg?v=1685504786",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "id": 40540520186073,
+          "created_at": "2023-05-31T11:46:24+08:00",
+          "position": 2,
+          "updated_at": "2023-05-31T11:46:26+08:00",
+          "product_id": 8160586858713,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/800-02.jpg?v=1685504786",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "id": 40540520120537,
+          "created_at": "2023-05-31T11:46:24+08:00",
+          "position": 3,
+          "updated_at": "2023-05-31T11:46:26+08:00",
+          "product_id": 8160586858713,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/800-03.jpg?v=1685504786",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "id": 40540520055001,
+          "created_at": "2023-05-31T11:46:24+08:00",
+          "position": 4,
+          "updated_at": "2023-05-31T11:46:25+08:00",
+          "product_id": 8160586858713,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/800-04.jpg?v=1685504785",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "id": 40540520153305,
+          "created_at": "2023-05-31T11:46:24+08:00",
+          "position": 5,
+          "updated_at": "2023-05-31T11:46:26+08:00",
+          "product_id": 8160586858713,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/800-05.jpg?v=1685504786",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "id": 40540520218841,
+          "created_at": "2023-05-31T11:46:24+08:00",
+          "position": 6,
+          "updated_at": "2023-05-31T11:46:26+08:00",
+          "product_id": 8160586858713,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/800-06.jpg?v=1685504786",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "id": 40540522447065,
+          "created_at": "2023-05-31T11:49:32+08:00",
+          "position": 7,
+          "updated_at": "2023-05-31T11:49:32+08:00",
+          "product_id": 8160586858713,
+          "variant_ids": [
+            44163327262937,
+            44163327295705
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/1_4e953085-7769-45e1-804b-07470c6c1f5a.jpg?v=1685504972",
+          "width": 800,
+          "height": 800
+        }
+      ],
+      "options": [
+        {
+          "name": "Color",
+          "position": 1,
+          "values": [
+            "Lunar White",
+            "Quantum Blue"
+          ]
+        },
+        {
+          "name": "Style",
+          "position": 2,
+          "values": [
+            "32GB+1TB",
+            "32GB+2TB"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8173825622233,
+      "title": "AOKZOE A1Pro: World's 1st 7840U Gaming Handheld",
+      "handle": "aokzoe-a1pro-worlds-1st-7840u-gaming-handheld",
+      "body_html": "<p><span>AMD 7840U | 8\" Big Screen | 16GB LPDDR5X | Super Fast Charge | Great Battery Life | Hall Joysticks</span></p>\n<p><span>Storage: 16GB+512GB</span></p>\n<p><span>Color: Quantum Blue</span></p>",
+      "published_at": "2024-07-05T15:38:57+08:00",
+      "created_at": "2023-05-24T16:31:28+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 43920305291481,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": false,
+          "price": "199.00",
+          "grams": 0,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8173825622233,
+          "created_at": "2023-05-24T16:31:28+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 40524274041049,
+          "created_at": "2023-05-24T16:31:28+08:00",
+          "position": 1,
+          "updated_at": "2023-05-24T16:31:29+08:00",
+          "product_id": 8173825622233,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/108001_2.jpg?v=1684917089",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8127510053081,
+      "title": "Refurbished AOKZOE A1- 65W- AMD® Ryzen® 6800U-8 inch",
+      "handle": "refurbished-aokzoe-a1-65w-amd®-ryzen®-6800u-8-inch",
+      "body_html": "<p><strong><img src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__01_480x480.jpg?v=1662537618\" alt=\"\" data-mce-fragment=\"1\" data-mce-src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__01_480x480.jpg?v=1662537618\"></strong></p>\n<p><strong>AOKZOE A1 features an 8-inch Full-HD IPS Display with 1920 x 1200 resolution. The pixel density peaks at an impressive 283 PPI. AOKZOE did not go for the typical 7-inch screen or a larger 8.4-inch. The 8-inch screen is widely praised among insiders for its overall balance of weight, portability, and visual presentation.</strong></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/1117_480x480.jpg?v=1662540677\"></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/QQ_20220907164600_480x480.jpg?v=1662540694\"></p>\n<p><strong>Featuring 8 Cores and 16 Threads - along with 4MB of L2 cache and 16MB of L3 cache - AMD Ryzen™️ 7 6800U Processor guarantees the strongest gaming computing power. Its potential frequency is as high as 4.7GHz.</strong><br></p>\n<p><strong><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__10_480x480.jpg?v=1662537992\"></strong></p>\n<p><strong><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__11_480x480.jpg?v=1662538234\"></strong></p>\n<p><strong>A1 powers game with AMD Radeon 680M Graphics, featuring 12 CUs and 768 SPs. The AMD Radeon 680M Graphics boosts the computing power and bandwidth by 50% compared to Vega, all with double the cache and RB+. The frequency of the GPU can reach 2.4 GHz.</strong></p>\n<p><strong><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__12_480x480.jpg?v=1662538276\"></strong></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__13_480x480.jpg?v=1662538322\"></p>\n<p><strong>Gaming is fun. Your gaming console should be too. The symmetric RGB Breathing Lights give a vibrant look that adds style and shine. The lights can be personalized by pressing key combinations, and gamers can open the light bar to switch between different light modes. There are 3 modes and 20 additional light effects, so you can turn game time into showtime!</strong></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__14_480x480.jpg?v=1662538348\"></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__15_480x480.jpg?v=1662538467\"></p>\n<p><strong>The design of details lies in other components as well.</strong></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__18_480x480.jpg?v=1662538707\"></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__20_480x480.jpg?v=1662538743\"></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__21_480x480.jpg?v=1662538841\"></p>\n<p><strong>Equipped with a 3-axis gyroscope, AOKZOE A1 enables the players to tilt their console to the game. This provides direct control and better aiming, while also receiving in-game haptic responses. The comfortable, ergonomic arcs of the console body, along with the layout of the controllers, can prevent finger cramps caused by extended playtime. A1's vibration is sharper thanks to the quicker response of the motor.</strong></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__22_480x480.jpg?v=1662538861\"></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__24_480x480.jpg?v=1662538898\"></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__25_480x480.jpg?v=1662538919\"></p>\n<p><strong>Even the lightest consoles can get tiring to hold after enough time, and we are among the lightest out there. Thanks to the kickstand, however, you can rest your wrist and alleviate discomfort. Binge your shows on AOKZOE A1!</strong></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__23_480x480.jpg?v=1662538880\"></p>\n<p><strong>Memory speed is as important as any other feature. Only with high-frequency memory can the potential of AMD Radeon 680M Graphics be fully realized. Now enter LPDDR5-6400MHz.</strong></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__26_480x480.jpg?v=1662538937\"></p>\n<p><strong>AOKZOE A1 features a built-in M.2280 PCIe3.0 solid-state drive, with a maximum support of 2TB of PCIe. This enables higher reading and writing speeds negates anxious wait time and allows for more local files. A1 also supports high-speed TF 3.0 cards as a more cost-effective way to add hard drive capacity. </strong></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__27_480x480.jpg?v=1662538974\"></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__28_480x480.jpg?v=1662538992\"></p>\n<p><strong>Cooling is incredibly important for maintaining performance (and for avoiding burned palms!). To dissipate heat as fast as possible, we used PC-grade high-speed fans and deliberately enlarged the air intake hole to reach a 4.7 CFM air exchange rate.</strong></p>\n<p><strong>In addition, we put in place a pure aluminum cooling fin and a pure copper cooling pipe. Throw in the help of a smart temperature control system, and the overheating problem can be overlooked for good.</strong></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__29_480x480.jpg?v=1662539012\"></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__30_480x480.jpg?v=1662539035\"></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__31_480x480.jpg?v=1662539052\"></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__32_480x480.jpg?v=1662539069\"></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__33_480x480.jpg?v=1662539108\"></p>\n<p><strong>Despite the impressive array of features mentioned, we know that it’s not enough. External accessories take their own precedence. That's why we embedded 2 USB 4.0 ports, 1 USB 3.0 port, and 1 headphone jack. To account for more use cases, there is a usb4.0 port provided for possible docking stations, at the bottom of the device.</strong></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__35_480x480.jpg?v=1662539155\"></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__36_480x480.jpg?v=1662539171\"></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__37_480x480.jpg?v=1662539189\"></p>\n<p><img alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOKZOE__38_480x480.jpg?v=1662539207\"></p>\n<p> </p>\n<p> </p>\n<p> </p>\n<p><span style=\"text-decoration: underline;\"><strong>AOKZOE A1</strong></span></p>\n<p><strong>CPU: AMD Ryzen 7 6800U processor</strong></p>\n<p><strong>GRAPHICS: AMD Radeon 680M Graphics</strong></p>\n<p><strong>RAM:LPDDR5(frequency 6400)16GB/32GB</strong></p>\n<p><strong>GYROSCOPE: Support</strong></p>\n<p><strong>LIGHTING: RGB LED Breathing Light</strong></p>\n<p><strong>DISPLAY:8inch</strong></p>\n<p><strong>RESOLUTION:1920*1200 IPS</strong></p>\n<p><strong>GAMUT:sRGB100%</strong></p>\n<p><strong>PIXEL DENSITY:283</strong></p>\n<p><strong>DIMMING MODE: DC Dimming</strong></p>\n<p><strong>BRIGHTNESS:350</strong></p>\n<p><strong>NIGHT-MODE: Support</strong></p>\n<p><strong>BATTERY:Standard version(48wh)/Pro version(65wh)</strong></p>\n<p><strong>PD CHARGER: Support</strong></p>\n<p><strong>FULL CHARGE TIME:1.5 Hours with 100W charger </strong></p>\n<p><strong>POWERBANK SUPPORT: Support</strong></p>\n<p><strong>SPEAKER: Dual stereo speakers</strong></p>\n<p><strong>VIBRATOR: Support</strong></p>\n<p><strong>SSD: PCIE M.2 2280</strong></p>\n<p><strong>TF CARD: Support</strong></p>\n<p><strong>WIFI: Wifi6</strong></p>\n<p><strong>BLUETOOTH: BT 5.0</strong></p>\n<p><strong>SIZE:285mm*125mm*24mm</strong></p>\n<p><strong>DOCKING/KEYBOARD: Support Docking</strong></p>\n<p><strong>Weight:Standard version:668g/Pro version:729g</strong></p>",
+      "published_at": "2024-06-27T14:28:58+08:00",
+      "created_at": "2023-03-01T09:00:09+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "game console",
+      "tags": [],
+      "variants": [
+        {
+          "id": 44074220519641,
+          "title": "16GB+1TB / Blue",
+          "option1": "16GB+1TB",
+          "option2": "Blue",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40421179293913,
+            "product_id": 8127510053081,
+            "position": 1,
+            "created_at": "2023-03-30T15:30:49+08:00",
+            "updated_at": "2023-03-30T15:30:51+08:00",
+            "alt": null,
+            "width": 1200,
+            "height": 1069,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/1_6ebeb1c4-3927-41a2-b443-16198b1d336a.jpg?v=1680161451",
+            "variant_ids": [
+              44074220519641
+            ]
+          },
+          "available": false,
+          "price": "599.00",
+          "grams": 2350,
+          "compare_at_price": "1079.00",
+          "position": 1,
+          "product_id": 8127510053081,
+          "created_at": "2023-09-07T15:58:38+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 44074220552409,
+          "title": "16GB+1TB / White",
+          "option1": "16GB+1TB",
+          "option2": "White",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40322621767897,
+            "product_id": 8127510053081,
+            "position": 6,
+            "created_at": "2023-03-01T09:00:19+08:00",
+            "updated_at": "2023-03-30T15:30:51+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/1000_ad011330-4d2a-45c9-892e-987bb146b0f2.jpg?v=1680161451",
+            "variant_ids": [
+              44074220552409
+            ]
+          },
+          "available": false,
+          "price": "599.00",
+          "grams": 2350,
+          "compare_at_price": "1079.00",
+          "position": 2,
+          "product_id": 8127510053081,
+          "created_at": "2023-09-07T15:58:38+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 40421179293913,
+          "created_at": "2023-03-30T15:30:49+08:00",
+          "position": 1,
+          "updated_at": "2023-03-30T15:30:51+08:00",
+          "product_id": 8127510053081,
+          "variant_ids": [
+            44074220519641
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/1_6ebeb1c4-3927-41a2-b443-16198b1d336a.jpg?v=1680161451",
+          "width": 1200,
+          "height": 1069
+        },
+        {
+          "id": 40322621604057,
+          "created_at": "2023-03-01T09:00:19+08:00",
+          "position": 2,
+          "updated_at": "2023-03-30T15:30:51+08:00",
+          "product_id": 8127510053081,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/800_d4bbc7a1-96cc-437e-9e85-dc224d2ab636.jpg?v=1680161451",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "id": 40322621636825,
+          "created_at": "2023-03-01T09:00:19+08:00",
+          "position": 3,
+          "updated_at": "2023-03-30T15:30:51+08:00",
+          "product_id": 8127510053081,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/02_85b75999-528f-434d-b5c0-1d8cced9eb8c.jpg?v=1680161451",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "id": 40322621669593,
+          "created_at": "2023-03-01T09:00:19+08:00",
+          "position": 4,
+          "updated_at": "2023-03-30T15:30:51+08:00",
+          "product_id": 8127510053081,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/05_96dfd007-2ece-4d41-9809-25c170fe4527.jpg?v=1680161451",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "id": 40322621702361,
+          "created_at": "2023-03-01T09:00:19+08:00",
+          "position": 5,
+          "updated_at": "2023-03-30T15:30:51+08:00",
+          "product_id": 8127510053081,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/04_56decf67-dc01-41a7-b479-83ef6e296306.jpg?v=1680161451",
+          "width": 800,
+          "height": 800
+        },
+        {
+          "id": 40322621767897,
+          "created_at": "2023-03-01T09:00:19+08:00",
+          "position": 6,
+          "updated_at": "2023-03-30T15:30:51+08:00",
+          "product_id": 8127510053081,
+          "variant_ids": [
+            44074220552409
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/1000_ad011330-4d2a-45c9-892e-987bb146b0f2.jpg?v=1680161451",
+          "width": 1000,
+          "height": 1000
+        }
+      ],
+      "options": [
+        {
+          "name": "Storage",
+          "position": 1,
+          "values": [
+            "16GB+1TB"
+          ]
+        },
+        {
+          "name": "Color",
+          "position": 2,
+          "values": [
+            "Blue",
+            "White"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8465882677465,
+      "title": "AOKZOE A2: 7840U Handheld With 7 inch Full Screen",
+      "handle": "aokzoe-a2-7840u-handheld",
+      "body_html": "<span data-mce-fragment=\"1\">Prepare yourself for an extraordinary handheld gaming experience like never before with AOKZOE A2. This cutting-edge handheld gaming console boasts a powerful AMD 7840U CPU and an impressive 7-inch full-screen display, pushing the boundaries of mobile gaming to new heights. Get ready to be immersed in a world of unrivaled performance, unmatched power, and an all-encompassing gaming adventure that will redefine your expectations</span>",
+      "published_at": "2024-01-09T15:11:07+08:00",
+      "created_at": "2024-01-08T14:43:41+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "game console",
+      "tags": [],
+      "variants": [
+        {
+          "id": 44475996897497,
+          "title": "Black / 32GB+512GB",
+          "option1": "Black",
+          "option2": "32GB+512GB",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41309500080345,
+            "product_id": 8465882677465,
+            "position": 7,
+            "created_at": "2024-01-08T14:43:41+08:00",
+            "updated_at": "2024-01-08T14:43:43+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/1_69146363-3b82-4151-b772-006d20ec0d45.jpg?v=1704696223",
+            "variant_ids": [
+              44475996897497,
+              44475996930265,
+              44475996963033
+            ]
+          },
+          "available": false,
+          "price": "799.00",
+          "grams": 0,
+          "compare_at_price": "999.00",
+          "position": 1,
+          "product_id": 8465882677465,
+          "created_at": "2024-01-08T14:43:42+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 44475996930265,
+          "title": "Black / 32GB+1TB",
+          "option1": "Black",
+          "option2": "32GB+1TB",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41309500080345,
+            "product_id": 8465882677465,
+            "position": 7,
+            "created_at": "2024-01-08T14:43:41+08:00",
+            "updated_at": "2024-01-08T14:43:43+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/1_69146363-3b82-4151-b772-006d20ec0d45.jpg?v=1704696223",
+            "variant_ids": [
+              44475996897497,
+              44475996930265,
+              44475996963033
+            ]
+          },
+          "available": false,
+          "price": "859.00",
+          "grams": 0,
+          "compare_at_price": "1059.00",
+          "position": 2,
+          "product_id": 8465882677465,
+          "created_at": "2024-01-08T14:43:42+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 44475996963033,
+          "title": "Black / 32GB+2TB",
+          "option1": "Black",
+          "option2": "32GB+2TB",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41309500080345,
+            "product_id": 8465882677465,
+            "position": 7,
+            "created_at": "2024-01-08T14:43:41+08:00",
+            "updated_at": "2024-01-08T14:43:43+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/1_69146363-3b82-4151-b772-006d20ec0d45.jpg?v=1704696223",
+            "variant_ids": [
+              44475996897497,
+              44475996930265,
+              44475996963033
+            ]
+          },
+          "available": false,
+          "price": "959.00",
+          "grams": 0,
+          "compare_at_price": "1159.00",
+          "position": 3,
+          "product_id": 8465882677465,
+          "created_at": "2024-01-08T14:43:42+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 44475997028569,
+          "title": "White / 32GB+512GB",
+          "option1": "White",
+          "option2": "32GB+512GB",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41309499982041,
+            "product_id": 8465882677465,
+            "position": 1,
+            "created_at": "2024-01-08T14:43:41+08:00",
+            "updated_at": "2024-01-08T14:43:43+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/1_ec55c138-e296-4680-b0d6-e1809bf4dd64.jpg?v=1704696223",
+            "variant_ids": [
+              44475997028569,
+              44475997061337,
+              44475997094105
+            ]
+          },
+          "available": false,
+          "price": "799.00",
+          "grams": 0,
+          "compare_at_price": "999.00",
+          "position": 4,
+          "product_id": 8465882677465,
+          "created_at": "2024-01-08T14:43:42+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 44475997061337,
+          "title": "White / 32GB+1TB",
+          "option1": "White",
+          "option2": "32GB+1TB",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41309499982041,
+            "product_id": 8465882677465,
+            "position": 1,
+            "created_at": "2024-01-08T14:43:41+08:00",
+            "updated_at": "2024-01-08T14:43:43+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/1_ec55c138-e296-4680-b0d6-e1809bf4dd64.jpg?v=1704696223",
+            "variant_ids": [
+              44475997028569,
+              44475997061337,
+              44475997094105
+            ]
+          },
+          "available": false,
+          "price": "859.00",
+          "grams": 0,
+          "compare_at_price": "1059.00",
+          "position": 5,
+          "product_id": 8465882677465,
+          "created_at": "2024-01-08T14:43:42+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 44475997094105,
+          "title": "White / 32GB+2TB",
+          "option1": "White",
+          "option2": "32GB+2TB",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41309499982041,
+            "product_id": 8465882677465,
+            "position": 1,
+            "created_at": "2024-01-08T14:43:41+08:00",
+            "updated_at": "2024-01-08T14:43:43+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/1_ec55c138-e296-4680-b0d6-e1809bf4dd64.jpg?v=1704696223",
+            "variant_ids": [
+              44475997028569,
+              44475997061337,
+              44475997094105
+            ]
+          },
+          "available": false,
+          "price": "959.00",
+          "grams": 0,
+          "compare_at_price": "1159.00",
+          "position": 6,
+          "product_id": 8465882677465,
+          "created_at": "2024-01-08T14:43:42+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 44475997159641,
+          "title": "Green / 32GB+512GB",
+          "option1": "Green",
+          "option2": "32GB+512GB",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41309500014809,
+            "product_id": 8465882677465,
+            "position": 4,
+            "created_at": "2024-01-08T14:43:41+08:00",
+            "updated_at": "2024-01-08T14:43:43+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/1_799a1ca8-0f86-4908-b6c4-6f20bb36c76f.jpg?v=1704696223",
+            "variant_ids": [
+              44475997159641,
+              44475997192409,
+              44475997257945
+            ]
+          },
+          "available": false,
+          "price": "799.00",
+          "grams": 0,
+          "compare_at_price": "999.00",
+          "position": 7,
+          "product_id": 8465882677465,
+          "created_at": "2024-01-08T14:43:43+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 44475997192409,
+          "title": "Green / 32GB+1TB",
+          "option1": "Green",
+          "option2": "32GB+1TB",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41309500014809,
+            "product_id": 8465882677465,
+            "position": 4,
+            "created_at": "2024-01-08T14:43:41+08:00",
+            "updated_at": "2024-01-08T14:43:43+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/1_799a1ca8-0f86-4908-b6c4-6f20bb36c76f.jpg?v=1704696223",
+            "variant_ids": [
+              44475997159641,
+              44475997192409,
+              44475997257945
+            ]
+          },
+          "available": false,
+          "price": "859.00",
+          "grams": 0,
+          "compare_at_price": "1059.00",
+          "position": 8,
+          "product_id": 8465882677465,
+          "created_at": "2024-01-08T14:43:43+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 44475997257945,
+          "title": "Green / 32GB+2TB",
+          "option1": "Green",
+          "option2": "32GB+2TB",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41309500014809,
+            "product_id": 8465882677465,
+            "position": 4,
+            "created_at": "2024-01-08T14:43:41+08:00",
+            "updated_at": "2024-01-08T14:43:43+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/1_799a1ca8-0f86-4908-b6c4-6f20bb36c76f.jpg?v=1704696223",
+            "variant_ids": [
+              44475997159641,
+              44475997192409,
+              44475997257945
+            ]
+          },
+          "available": false,
+          "price": "959.00",
+          "grams": 0,
+          "compare_at_price": "1159.00",
+          "position": 9,
+          "product_id": 8465882677465,
+          "created_at": "2024-01-08T14:43:43+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 41309499982041,
+          "created_at": "2024-01-08T14:43:41+08:00",
+          "position": 1,
+          "updated_at": "2024-01-08T14:43:43+08:00",
+          "product_id": 8465882677465,
+          "variant_ids": [
+            44475997028569,
+            44475997061337,
+            44475997094105
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/1_ec55c138-e296-4680-b0d6-e1809bf4dd64.jpg?v=1704696223",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 41309500244185,
+          "created_at": "2024-01-08T14:43:41+08:00",
+          "position": 2,
+          "updated_at": "2024-01-08T14:43:44+08:00",
+          "product_id": 8465882677465,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/2_3e48813e-651f-40e3-951b-b4febabac7c1.jpg?v=1704696224",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 41309500145881,
+          "created_at": "2024-01-08T14:43:41+08:00",
+          "position": 3,
+          "updated_at": "2024-01-08T14:43:44+08:00",
+          "product_id": 8465882677465,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/3_02b8d0a0-6466-4862-8a5b-264749a0b545.jpg?v=1704696224",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 41309500014809,
+          "created_at": "2024-01-08T14:43:41+08:00",
+          "position": 4,
+          "updated_at": "2024-01-08T14:43:43+08:00",
+          "product_id": 8465882677465,
+          "variant_ids": [
+            44475997159641,
+            44475997192409,
+            44475997257945
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/1_799a1ca8-0f86-4908-b6c4-6f20bb36c76f.jpg?v=1704696223",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 41309500211417,
+          "created_at": "2024-01-08T14:43:41+08:00",
+          "position": 5,
+          "updated_at": "2024-01-08T14:43:44+08:00",
+          "product_id": 8465882677465,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/2_e22f6f6a-4d3c-4501-ad0a-971ddb02c004.jpg?v=1704696224",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 41309500047577,
+          "created_at": "2024-01-08T14:43:41+08:00",
+          "position": 6,
+          "updated_at": "2024-01-08T14:43:43+08:00",
+          "product_id": 8465882677465,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/3_9aea815e-5c55-436a-ae71-4e2ecacbf64d.jpg?v=1704696223",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 41309500080345,
+          "created_at": "2024-01-08T14:43:41+08:00",
+          "position": 7,
+          "updated_at": "2024-01-08T14:43:43+08:00",
+          "product_id": 8465882677465,
+          "variant_ids": [
+            44475996897497,
+            44475996930265,
+            44475996963033
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/1_69146363-3b82-4151-b772-006d20ec0d45.jpg?v=1704696223",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 41309500178649,
+          "created_at": "2024-01-08T14:43:41+08:00",
+          "position": 8,
+          "updated_at": "2024-01-08T14:43:44+08:00",
+          "product_id": 8465882677465,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/2_82ba5b77-ec19-4d34-86f0-547867ba7867.jpg?v=1704696224",
+          "width": 1000,
+          "height": 1000
+        }
+      ],
+      "options": [
+        {
+          "name": "Color",
+          "position": 1,
+          "values": [
+            "Black",
+            "White",
+            "Green"
+          ]
+        },
+        {
+          "name": "Storage",
+          "position": 2,
+          "values": [
+            "32GB+512GB",
+            "32GB+1TB",
+            "32GB+2TB"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8467162792153,
+      "title": "Dock Station for A1/A1 Pro/A2/A1X",
+      "handle": "dock-station-for-a1-a1-pro-a2",
+      "body_html": "This Docking Station is compatible with AOKZOE A1, A1 Pro, and A2. Interfaces: USB-A 3.0*3, USBC(Charge)*1, HDM2.0*1, RJ45*1",
+      "published_at": "2024-01-09T10:32:11+08:00",
+      "created_at": "2024-01-09T10:32:11+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "accessories",
+      "tags": [],
+      "variants": [
+        {
+          "id": 44843570168025,
+          "title": "For A1/A1 Pro",
+          "option1": "For A1/A1 Pro",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41313409138905,
+            "product_id": 8467162792153,
+            "position": 1,
+            "created_at": "2024-01-09T10:32:11+08:00",
+            "updated_at": "2024-01-09T10:32:13+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/01.jpg?v=1704767533",
+            "variant_ids": [
+              44843570168025,
+              44843570200793
+            ]
+          },
+          "available": true,
+          "price": "59.00",
+          "grams": 500,
+          "compare_at_price": null,
+          "position": 3,
+          "product_id": 8467162792153,
+          "created_at": "2024-03-19T11:17:19+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 44843570200793,
+          "title": "For A2",
+          "option1": "For A2",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41313409138905,
+            "product_id": 8467162792153,
+            "position": 1,
+            "created_at": "2024-01-09T10:32:11+08:00",
+            "updated_at": "2024-01-09T10:32:13+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/01.jpg?v=1704767533",
+            "variant_ids": [
+              44843570168025,
+              44843570200793
+            ]
+          },
+          "available": true,
+          "price": "59.00",
+          "grams": 500,
+          "compare_at_price": null,
+          "position": 4,
+          "product_id": 8467162792153,
+          "created_at": "2024-03-19T11:17:19+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 41313409138905,
+          "created_at": "2024-01-09T10:32:11+08:00",
+          "position": 1,
+          "updated_at": "2024-01-09T10:32:13+08:00",
+          "product_id": 8467162792153,
+          "variant_ids": [
+            44843570168025,
+            44843570200793
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/01.jpg?v=1704767533",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 41313409204441,
+          "created_at": "2024-01-09T10:32:11+08:00",
+          "position": 2,
+          "updated_at": "2024-01-09T10:32:13+08:00",
+          "product_id": 8467162792153,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/02_17d65659-9dab-4508-ac88-3f7fd6397186.jpg?v=1704767533",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 41313409171673,
+          "created_at": "2024-01-09T10:32:11+08:00",
+          "position": 3,
+          "updated_at": "2024-01-09T10:32:13+08:00",
+          "product_id": 8467162792153,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/03_becca6e1-c596-4ea9-9afb-310cd1401fb5.jpg?v=1704767533",
+          "width": 1000,
+          "height": 1000
+        }
+      ],
+      "options": [
+        {
+          "name": "Style",
+          "position": 1,
+          "values": [
+            "For A1/A1 Pro",
+            "For A2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8132821090521,
+      "title": "3 in 1 Multifunction Extender- USB+HDMI+PD",
+      "handle": "3-in-1-multifunction-extender-usb-hdmi-pd",
+      "body_html": "Port: Type-C 3.1, USB2.0, USB3.0,Type-C, HDMI,",
+      "published_at": "2023-03-10T15:36:23+08:00",
+      "created_at": "2023-03-10T15:36:23+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "accessories",
+      "tags": [],
+      "variants": [
+        {
+          "id": 43816045445337,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "19.00",
+          "grams": 76,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8132821090521,
+          "created_at": "2023-03-10T15:36:23+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 40357619335385,
+          "created_at": "2023-03-10T15:36:23+08:00",
+          "position": 1,
+          "updated_at": "2023-03-10T15:36:25+08:00",
+          "product_id": 8132821090521,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/multifunctionextender.jpg?v=1678433785",
+          "width": 1000,
+          "height": 1000
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8132818829529,
+      "title": "Right Joystick PCB Board for Aokzoe",
+      "handle": "right-joystick-pcb-board-for-aokzoe",
+      "body_html": "",
+      "published_at": "2023-03-10T15:28:25+08:00",
+      "created_at": "2023-03-10T15:28:25+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "accessories",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46628881793241,
+          "title": "A1/A1 Pro",
+          "option1": "A1/A1 Pro",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40357581881561,
+            "product_id": 8132818829529,
+            "position": 1,
+            "created_at": "2023-03-10T15:28:25+08:00",
+            "updated_at": "2023-03-10T15:28:27+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/1_fbcd1fdd-eff1-40de-9d9d-2a5361b36532.jpg?v=1678433307",
+            "variant_ids": [
+              46628881793241,
+              46628881826009,
+              46628881858777
+            ]
+          },
+          "available": true,
+          "price": "19.00",
+          "grams": 5,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8132818829529,
+          "created_at": "2025-05-17T16:09:37+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46628881826009,
+          "title": "A2",
+          "option1": "A2",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40357581881561,
+            "product_id": 8132818829529,
+            "position": 1,
+            "created_at": "2023-03-10T15:28:25+08:00",
+            "updated_at": "2023-03-10T15:28:27+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/1_fbcd1fdd-eff1-40de-9d9d-2a5361b36532.jpg?v=1678433307",
+            "variant_ids": [
+              46628881793241,
+              46628881826009,
+              46628881858777
+            ]
+          },
+          "available": true,
+          "price": "19.00",
+          "grams": 5,
+          "compare_at_price": null,
+          "position": 2,
+          "product_id": 8132818829529,
+          "created_at": "2025-05-17T16:09:37+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46628881858777,
+          "title": "A1X",
+          "option1": "A1X",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40357581881561,
+            "product_id": 8132818829529,
+            "position": 1,
+            "created_at": "2023-03-10T15:28:25+08:00",
+            "updated_at": "2023-03-10T15:28:27+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/1_fbcd1fdd-eff1-40de-9d9d-2a5361b36532.jpg?v=1678433307",
+            "variant_ids": [
+              46628881793241,
+              46628881826009,
+              46628881858777
+            ]
+          },
+          "available": true,
+          "price": "19.00",
+          "grams": 5,
+          "compare_at_price": null,
+          "position": 3,
+          "product_id": 8132818829529,
+          "created_at": "2025-05-17T16:09:37+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 40357581881561,
+          "created_at": "2023-03-10T15:28:25+08:00",
+          "position": 1,
+          "updated_at": "2023-03-10T15:28:27+08:00",
+          "product_id": 8132818829529,
+          "variant_ids": [
+            46628881793241,
+            46628881826009,
+            46628881858777
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/1_fbcd1fdd-eff1-40de-9d9d-2a5361b36532.jpg?v=1678433307",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 40357581914329,
+          "created_at": "2023-03-10T15:28:25+08:00",
+          "position": 2,
+          "updated_at": "2023-03-10T15:28:27+08:00",
+          "product_id": 8132818829529,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/2_5c8cb88e-96eb-4272-ac4c-083342d7f208.jpg?v=1678433307",
+          "width": 1000,
+          "height": 1000
+        }
+      ],
+      "options": [
+        {
+          "name": "Model",
+          "position": 1,
+          "values": [
+            "A1/A1 Pro",
+            "A2",
+            "A1X"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8126913577177,
+      "title": "64GB Aokzoe USB Flash Drive",
+      "handle": "64gb-aokzoe-usb-flash-drive",
+      "body_html": "<p>Storage: 64GB</p>\n<p>Brand: Aokzoe</p>",
+      "published_at": "2023-02-28T11:52:54+08:00",
+      "created_at": "2023-02-28T11:52:54+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "accessories",
+      "tags": [],
+      "variants": [
+        {
+          "id": 43796105724121,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "19.00",
+          "grams": 43,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8126913577177,
+          "created_at": "2023-02-28T11:52:54+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 40319258755289,
+          "created_at": "2023-02-28T11:52:54+08:00",
+          "position": 1,
+          "updated_at": "2023-02-28T11:52:56+08:00",
+          "product_id": 8126913577177,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/acb602ca9e0a0945033032809593cc4b.jpg?v=1677556376",
+          "width": 1000,
+          "height": 1000
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8126906466521,
+      "title": "Original Soft Screen Film Protector for Aokzoe A1/A1 Pro",
+      "handle": "original-soft-screen-film-protector-for-aokzoe-a1",
+      "body_html": "",
+      "published_at": "2023-02-28T11:48:12+08:00",
+      "created_at": "2023-02-28T11:48:12+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "accessories",
+      "tags": [],
+      "variants": [
+        {
+          "id": 43796085506265,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "5.90",
+          "grams": 100,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8126906466521,
+          "created_at": "2023-02-28T11:48:12+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 40319245910233,
+          "created_at": "2023-02-28T11:48:12+08:00",
+          "position": 1,
+          "updated_at": "2023-02-28T11:48:14+08:00",
+          "product_id": 8126906466521,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/AOK_1.jpg?v=1677556094",
+          "width": 1000,
+          "height": 1000
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8124100477145,
+      "title": "Fan For Aokzoe A1/A1 Pro",
+      "handle": "fan-for-aokzoe-a1",
+      "body_html": "Size:7.5cm*7.3cm(approximate）",
+      "published_at": "2023-02-23T11:48:00+08:00",
+      "created_at": "2023-02-23T11:48:00+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "accessories",
+      "tags": [],
+      "variants": [
+        {
+          "id": 43787111497945,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "15.00",
+          "grams": 39,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8124100477145,
+          "created_at": "2023-02-23T11:48:00+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 40302740832473,
+          "created_at": "2023-02-23T11:48:00+08:00",
+          "position": 1,
+          "updated_at": "2023-02-23T11:48:02+08:00",
+          "product_id": 8124100477145,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/fanforconsole.jpg?v=1677124082",
+          "width": 1000,
+          "height": 1000
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8123134116057,
+      "title": "PD Charger for Aokzoe Gaming Handheld",
+      "handle": "100w-pd-charger-for-aokzoe-a1",
+      "body_html": "<p><span data-mce-fragment=\"1\">The same charger is included in the product packages</span></p>\n<p><span data-mce-fragment=\"1\">Please don't use it on another device.</span></p>\n<p><br></p>",
+      "published_at": "2023-02-22T11:06:49+08:00",
+      "created_at": "2023-02-22T11:06:49+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "accessories",
+      "tags": [],
+      "variants": [
+        {
+          "id": 43783873069273,
+          "title": "EU / 100W",
+          "option1": "EU",
+          "option2": "100W",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40298266067161,
+            "product_id": 8123134116057,
+            "position": 3,
+            "created_at": "2023-02-22T11:08:34+08:00",
+            "updated_at": "2023-02-22T11:08:36+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/03.jpg?v=1677035316",
+            "variant_ids": [
+              43783873069273
+            ]
+          },
+          "available": true,
+          "price": "39.00",
+          "grams": 300,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8123134116057,
+          "created_at": "2023-02-22T11:06:49+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46628892344537,
+          "title": "EU / 65W",
+          "option1": "EU",
+          "option2": "65W",
+          "option3": null,
+          "sku": null,
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "39.00",
+          "grams": 300,
+          "compare_at_price": null,
+          "position": 2,
+          "product_id": 8123134116057,
+          "created_at": "2025-05-17T16:15:33+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 43783873102041,
+          "title": "UK / 100W",
+          "option1": "UK",
+          "option2": "100W",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40298265936089,
+            "product_id": 8123134116057,
+            "position": 1,
+            "created_at": "2023-02-22T11:08:34+08:00",
+            "updated_at": "2023-02-22T11:08:35+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/01_9acbec52-2208-487a-abe3-40d718e4c240.jpg?v=1677035315",
+            "variant_ids": [
+              43783873102041
+            ]
+          },
+          "available": true,
+          "price": "39.00",
+          "grams": 300,
+          "compare_at_price": null,
+          "position": 3,
+          "product_id": 8123134116057,
+          "created_at": "2023-02-22T11:06:49+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46628892377305,
+          "title": "UK / 65W",
+          "option1": "UK",
+          "option2": "65W",
+          "option3": null,
+          "sku": null,
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "39.00",
+          "grams": 300,
+          "compare_at_price": null,
+          "position": 4,
+          "product_id": 8123134116057,
+          "created_at": "2025-05-17T16:15:33+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 43783873134809,
+          "title": "US / 100W",
+          "option1": "US",
+          "option2": "100W",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40298266001625,
+            "product_id": 8123134116057,
+            "position": 4,
+            "created_at": "2023-02-22T11:08:34+08:00",
+            "updated_at": "2023-02-22T11:08:36+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/04.jpg?v=1677035316",
+            "variant_ids": [
+              43783873134809
+            ]
+          },
+          "available": true,
+          "price": "39.00",
+          "grams": 300,
+          "compare_at_price": null,
+          "position": 5,
+          "product_id": 8123134116057,
+          "created_at": "2023-02-22T11:06:49+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46628892410073,
+          "title": "US / 65W",
+          "option1": "US",
+          "option2": "65W",
+          "option3": null,
+          "sku": null,
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "39.00",
+          "grams": 300,
+          "compare_at_price": null,
+          "position": 6,
+          "product_id": 8123134116057,
+          "created_at": "2025-05-17T16:15:33+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 43783873167577,
+          "title": "AU / 100W",
+          "option1": "AU",
+          "option2": "100W",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40298265903321,
+            "product_id": 8123134116057,
+            "position": 2,
+            "created_at": "2023-02-22T11:08:34+08:00",
+            "updated_at": "2023-02-22T11:08:35+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/02.jpg?v=1677035315",
+            "variant_ids": [
+              43783873167577
+            ]
+          },
+          "available": true,
+          "price": "39.00",
+          "grams": 300,
+          "compare_at_price": null,
+          "position": 7,
+          "product_id": 8123134116057,
+          "created_at": "2023-02-22T11:06:49+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46628892442841,
+          "title": "AU / 65W",
+          "option1": "AU",
+          "option2": "65W",
+          "option3": null,
+          "sku": null,
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "39.00",
+          "grams": 300,
+          "compare_at_price": null,
+          "position": 8,
+          "product_id": 8123134116057,
+          "created_at": "2025-05-17T16:15:33+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 43783873200345,
+          "title": "JP / 100W",
+          "option1": "JP",
+          "option2": "100W",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40298265968857,
+            "product_id": 8123134116057,
+            "position": 5,
+            "created_at": "2023-02-22T11:08:34+08:00",
+            "updated_at": "2023-02-22T11:08:36+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/05.jpg?v=1677035316",
+            "variant_ids": [
+              43783873200345
+            ]
+          },
+          "available": true,
+          "price": "39.00",
+          "grams": 300,
+          "compare_at_price": null,
+          "position": 9,
+          "product_id": 8123134116057,
+          "created_at": "2023-02-22T11:06:49+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46628892475609,
+          "title": "JP / 65W",
+          "option1": "JP",
+          "option2": "65W",
+          "option3": null,
+          "sku": null,
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "39.00",
+          "grams": 300,
+          "compare_at_price": null,
+          "position": 10,
+          "product_id": 8123134116057,
+          "created_at": "2025-05-17T16:15:33+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 40298265936089,
+          "created_at": "2023-02-22T11:08:34+08:00",
+          "position": 1,
+          "updated_at": "2023-02-22T11:08:35+08:00",
+          "product_id": 8123134116057,
+          "variant_ids": [
+            43783873102041
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/01_9acbec52-2208-487a-abe3-40d718e4c240.jpg?v=1677035315",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 40298265903321,
+          "created_at": "2023-02-22T11:08:34+08:00",
+          "position": 2,
+          "updated_at": "2023-02-22T11:08:35+08:00",
+          "product_id": 8123134116057,
+          "variant_ids": [
+            43783873167577
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/02.jpg?v=1677035315",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 40298266067161,
+          "created_at": "2023-02-22T11:08:34+08:00",
+          "position": 3,
+          "updated_at": "2023-02-22T11:08:36+08:00",
+          "product_id": 8123134116057,
+          "variant_ids": [
+            43783873069273
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/03.jpg?v=1677035316",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 40298266001625,
+          "created_at": "2023-02-22T11:08:34+08:00",
+          "position": 4,
+          "updated_at": "2023-02-22T11:08:36+08:00",
+          "product_id": 8123134116057,
+          "variant_ids": [
+            43783873134809
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/04.jpg?v=1677035316",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 40298265968857,
+          "created_at": "2023-02-22T11:08:34+08:00",
+          "position": 5,
+          "updated_at": "2023-02-22T11:08:36+08:00",
+          "product_id": 8123134116057,
+          "variant_ids": [
+            43783873200345
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/05.jpg?v=1677035316",
+          "width": 1000,
+          "height": 1000
+        }
+      ],
+      "options": [
+        {
+          "name": "Standard",
+          "position": 1,
+          "values": [
+            "EU",
+            "UK",
+            "US",
+            "AU",
+            "JP"
+          ]
+        },
+        {
+          "name": "Power (output)",
+          "position": 2,
+          "values": [
+            "100W",
+            "65W"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8123126251737,
+      "title": "Glass Screen Protector- 8 Inches for Aokzoe Gaming Handheld.",
+      "handle": "glass-screen-protector-8-inches-for-aokzoe-a1",
+      "body_html": "<p><strong>Specification</strong></p>\n<p>Screen size: 8 inch</p>\n<p>Brand: Aokzoe</p>\n<p>Suitable model: Aokzoe A1/A1 Pro/ A2/ A1X</p>",
+      "published_at": "2023-02-22T10:48:05+08:00",
+      "created_at": "2023-02-22T10:48:05+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "accessories",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46628910694617,
+          "title": "A1/ A1 Pro",
+          "option1": "A1/ A1 Pro",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40298185359577,
+            "product_id": 8123126251737,
+            "position": 1,
+            "created_at": "2023-02-22T10:48:05+08:00",
+            "updated_at": "2023-02-22T10:48:07+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/4c532d98338b173ea94c53de35cd2c83.jpg?v=1677034087",
+            "variant_ids": [
+              46628910694617,
+              46628910727385,
+              46628910760153
+            ]
+          },
+          "available": true,
+          "price": "12.00",
+          "grams": 393,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8123126251737,
+          "created_at": "2025-05-17T16:28:06+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46628910727385,
+          "title": "A2",
+          "option1": "A2",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40298185359577,
+            "product_id": 8123126251737,
+            "position": 1,
+            "created_at": "2023-02-22T10:48:05+08:00",
+            "updated_at": "2023-02-22T10:48:07+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/4c532d98338b173ea94c53de35cd2c83.jpg?v=1677034087",
+            "variant_ids": [
+              46628910694617,
+              46628910727385,
+              46628910760153
+            ]
+          },
+          "available": true,
+          "price": "12.00",
+          "grams": 393,
+          "compare_at_price": null,
+          "position": 2,
+          "product_id": 8123126251737,
+          "created_at": "2025-05-17T16:28:06+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46628910760153,
+          "title": "A1X",
+          "option1": "A1X",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40298185359577,
+            "product_id": 8123126251737,
+            "position": 1,
+            "created_at": "2023-02-22T10:48:05+08:00",
+            "updated_at": "2023-02-22T10:48:07+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/4c532d98338b173ea94c53de35cd2c83.jpg?v=1677034087",
+            "variant_ids": [
+              46628910694617,
+              46628910727385,
+              46628910760153
+            ]
+          },
+          "available": true,
+          "price": "12.00",
+          "grams": 393,
+          "compare_at_price": null,
+          "position": 3,
+          "product_id": 8123126251737,
+          "created_at": "2025-05-17T16:28:06+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 40298185359577,
+          "created_at": "2023-02-22T10:48:05+08:00",
+          "position": 1,
+          "updated_at": "2023-02-22T10:48:07+08:00",
+          "product_id": 8123126251737,
+          "variant_ids": [
+            46628910694617,
+            46628910727385,
+            46628910760153
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/4c532d98338b173ea94c53de35cd2c83.jpg?v=1677034087",
+          "width": 1000,
+          "height": 1000
+        }
+      ],
+      "options": [
+        {
+          "name": "Model",
+          "position": 1,
+          "values": [
+            "A1/ A1 Pro",
+            "A2",
+            "A1X"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8122222969049,
+      "title": "Replace battery of Aokzoe A1/A1 Pro/A2 Game Handheld",
+      "handle": "65wh-battery-for-aokzoe-a1-game-handheld",
+      "body_html": "<p><strong>Specification:</strong></p>\n<p><span>Aokzoe A1/A1 Pro：65Wh pro version； </span><span>17100mAh(3.85V)100W</span></p>\n<p><span>Aokzoe A2: 48.51Wh</span></p>\n<p> </p>",
+      "published_at": "2023-02-21T10:38:14+08:00",
+      "created_at": "2023-02-21T10:38:14+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "accessories",
+      "tags": [],
+      "variants": [
+        {
+          "id": 48567561978073,
+          "title": "65Wh Battery for Aokzoe A1/A1 Pro",
+          "option1": "65Wh Battery for Aokzoe A1/A1 Pro",
+          "option2": null,
+          "option3": null,
+          "sku": null,
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40294103875801,
+            "product_id": 8122222969049,
+            "position": 1,
+            "created_at": "2023-02-21T10:38:14+08:00",
+            "updated_at": "2023-02-21T10:38:16+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/4.jpg?v=1676947096",
+            "variant_ids": [
+              48567561978073
+            ]
+          },
+          "available": true,
+          "price": "69.00",
+          "grams": 282,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8122222969049,
+          "created_at": "2026-04-25T16:53:05+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 48567562010841,
+          "title": "48.51Wh Battery for AOKZOE  A2",
+          "option1": "48.51Wh Battery for AOKZOE  A2",
+          "option2": null,
+          "option3": null,
+          "sku": null,
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48689776361689,
+            "product_id": 8122222969049,
+            "position": 2,
+            "created_at": "2026-04-25T17:03:59+08:00",
+            "updated_at": "2026-04-25T17:04:01+08:00",
+            "alt": null,
+            "width": 800,
+            "height": 800,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOK_A2.png?v=1777107841",
+            "variant_ids": [
+              48567562010841
+            ]
+          },
+          "available": true,
+          "price": "49.00",
+          "grams": 282,
+          "compare_at_price": null,
+          "position": 2,
+          "product_id": 8122222969049,
+          "created_at": "2026-04-25T16:53:05+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 40294103875801,
+          "created_at": "2023-02-21T10:38:14+08:00",
+          "position": 1,
+          "updated_at": "2023-02-21T10:38:16+08:00",
+          "product_id": 8122222969049,
+          "variant_ids": [
+            48567561978073
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/4.jpg?v=1676947096",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 48689776361689,
+          "created_at": "2026-04-25T17:03:59+08:00",
+          "position": 2,
+          "updated_at": "2026-04-25T17:04:01+08:00",
+          "product_id": 8122222969049,
+          "variant_ids": [
+            48567562010841
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/files/AOK_A2.png?v=1777107841",
+          "width": 800,
+          "height": 800
+        }
+      ],
+      "options": [
+        {
+          "name": "model",
+          "position": 1,
+          "values": [
+            "65Wh Battery for Aokzoe A1/A1 Pro",
+            "48.51Wh Battery for AOKZOE  A2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8122221428953,
+      "title": "Joystick For Aokzoe A1/A1 Pro Game Handheld",
+      "handle": "joystick-for-aokzoe-a1-game-handheld",
+      "body_html": "<p>If you require the Alps or Hall section, kindly leave a comment. Alternatively, you can provide your device SN code if you have it.</p>\n<p>Part of the Aokzoe A1/A1 Pro game handheld</p>",
+      "published_at": "2023-02-21T10:33:26+08:00",
+      "created_at": "2023-02-21T10:33:26+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "accessories",
+      "tags": [],
+      "variants": [
+        {
+          "id": 43781467832537,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": false,
+          "price": "12.00",
+          "grams": 4,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8122221428953,
+          "created_at": "2023-02-21T10:33:27+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 40294091325657,
+          "created_at": "2023-02-21T10:33:26+08:00",
+          "position": 1,
+          "updated_at": "2023-02-21T10:33:28+08:00",
+          "product_id": 8122221428953,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/8.jpg?v=1676946808",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 40294091358425,
+          "created_at": "2023-02-21T10:33:27+08:00",
+          "position": 2,
+          "updated_at": "2023-02-21T10:33:28+08:00",
+          "product_id": 8122221428953,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/5.jpg?v=1676946808",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 40294091423961,
+          "created_at": "2023-02-21T10:33:27+08:00",
+          "position": 3,
+          "updated_at": "2023-02-21T10:33:29+08:00",
+          "product_id": 8122221428953,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/6.jpg?v=1676946809",
+          "width": 1000,
+          "height": 1000
+        },
+        {
+          "id": 40294091391193,
+          "created_at": "2023-02-21T10:33:27+08:00",
+          "position": 4,
+          "updated_at": "2023-02-21T10:33:28+08:00",
+          "product_id": 8122221428953,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/7.jpg?v=1676946808",
+          "width": 1000,
+          "height": 1000
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8122219954393,
+      "title": "USB-C Charging Cable For Aokzoe  Game Handheld",
+      "handle": "usb-charging-cord-for-aokzoe-a1-game-handheld",
+      "body_html": "<p><strong>Specification</strong></p>\n<p>Brand: Aokzoe</p>\n<p>Length: 1.2m</p>\n<p>Type of interface: Micro Type-C </p>\n<p>Maximum output power: 100W</p>\n<p> </p>",
+      "published_at": "2023-02-21T10:29:43+08:00",
+      "created_at": "2023-02-21T10:29:43+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "accessories",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46628887691481,
+          "title": "65W",
+          "option1": "65W",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40294081593561,
+            "product_id": 8122219954393,
+            "position": 1,
+            "created_at": "2023-02-21T10:29:43+08:00",
+            "updated_at": "2023-02-21T10:29:44+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/2.jpg?v=1676946584",
+            "variant_ids": [
+              46628887691481,
+              46628887724249
+            ]
+          },
+          "available": true,
+          "price": "5.00",
+          "grams": 59,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8122219954393,
+          "created_at": "2025-05-17T16:12:04+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46628887724249,
+          "title": "100W",
+          "option1": "100W",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40294081593561,
+            "product_id": 8122219954393,
+            "position": 1,
+            "created_at": "2023-02-21T10:29:43+08:00",
+            "updated_at": "2023-02-21T10:29:44+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/2.jpg?v=1676946584",
+            "variant_ids": [
+              46628887691481,
+              46628887724249
+            ]
+          },
+          "available": true,
+          "price": "5.00",
+          "grams": 59,
+          "compare_at_price": null,
+          "position": 2,
+          "product_id": 8122219954393,
+          "created_at": "2025-05-17T16:12:04+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 40294081593561,
+          "created_at": "2023-02-21T10:29:43+08:00",
+          "position": 1,
+          "updated_at": "2023-02-21T10:29:44+08:00",
+          "product_id": 8122219954393,
+          "variant_ids": [
+            46628887691481,
+            46628887724249
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/2.jpg?v=1676946584",
+          "width": 1000,
+          "height": 1000
+        }
+      ],
+      "options": [
+        {
+          "name": "Watt",
+          "position": 1,
+          "values": [
+            "65W",
+            "100W"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8122218479833,
+      "title": "Replace Screen For Aokzoe Game Handhelds",
+      "handle": "screen-for-aokzoe-a1-game-handhelds-8-inch",
+      "body_html": "<p>Specifications</p>\n<p>Size: <span data-mce-fragment=\"1\">8inch full fit IPS display resolution</span></p>\n<p>Screen resolution: 1920*1200</p>\n<p><span>support 10 points touch</span></p>\n<p> </p>\n<p> </p>",
+      "published_at": "2023-02-21T10:24:13+08:00",
+      "created_at": "2023-02-21T10:24:13+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "accessories",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46628889788633,
+          "title": "A1/ A1 Pro / Black",
+          "option1": "A1/ A1 Pro",
+          "option2": "Black",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40294068519129,
+            "product_id": 8122218479833,
+            "position": 1,
+            "created_at": "2023-02-21T10:24:13+08:00",
+            "updated_at": "2023-02-21T10:24:15+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/3.jpg?v=1676946255",
+            "variant_ids": [
+              46628889788633,
+              46628889821401,
+              46628889854169
+            ]
+          },
+          "available": false,
+          "price": "98.00",
+          "grams": 180,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8122218479833,
+          "created_at": "2025-05-17T16:13:27+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46751988973785,
+          "title": "A1/ A1 Pro / White",
+          "option1": "A1/ A1 Pro",
+          "option2": "White",
+          "option3": null,
+          "sku": null,
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "98.00",
+          "grams": 180,
+          "compare_at_price": null,
+          "position": 2,
+          "product_id": 8122218479833,
+          "created_at": "2025-07-07T16:02:13+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46628889821401,
+          "title": "A2 / Black",
+          "option1": "A2",
+          "option2": "Black",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40294068519129,
+            "product_id": 8122218479833,
+            "position": 1,
+            "created_at": "2023-02-21T10:24:13+08:00",
+            "updated_at": "2023-02-21T10:24:15+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/3.jpg?v=1676946255",
+            "variant_ids": [
+              46628889788633,
+              46628889821401,
+              46628889854169
+            ]
+          },
+          "available": true,
+          "price": "98.00",
+          "grams": 180,
+          "compare_at_price": null,
+          "position": 3,
+          "product_id": 8122218479833,
+          "created_at": "2025-05-17T16:13:27+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46751989039321,
+          "title": "A2 / White",
+          "option1": "A2",
+          "option2": "White",
+          "option3": null,
+          "sku": null,
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "98.00",
+          "grams": 180,
+          "compare_at_price": null,
+          "position": 4,
+          "product_id": 8122218479833,
+          "created_at": "2025-07-07T16:02:13+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46751989072089,
+          "title": "A2 / Green",
+          "option1": "A2",
+          "option2": "Green",
+          "option3": null,
+          "sku": null,
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "98.00",
+          "grams": 180,
+          "compare_at_price": null,
+          "position": 5,
+          "product_id": 8122218479833,
+          "created_at": "2025-07-07T16:02:13+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46628889854169,
+          "title": "A1X / Black",
+          "option1": "A1X",
+          "option2": "Black",
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 40294068519129,
+            "product_id": 8122218479833,
+            "position": 1,
+            "created_at": "2023-02-21T10:24:13+08:00",
+            "updated_at": "2023-02-21T10:24:15+08:00",
+            "alt": null,
+            "width": 1000,
+            "height": 1000,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/3.jpg?v=1676946255",
+            "variant_ids": [
+              46628889788633,
+              46628889821401,
+              46628889854169
+            ]
+          },
+          "available": true,
+          "price": "125.00",
+          "grams": 180,
+          "compare_at_price": null,
+          "position": 6,
+          "product_id": 8122218479833,
+          "created_at": "2025-05-17T16:13:27+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 40294068519129,
+          "created_at": "2023-02-21T10:24:13+08:00",
+          "position": 1,
+          "updated_at": "2023-02-21T10:24:15+08:00",
+          "product_id": 8122218479833,
+          "variant_ids": [
+            46628889788633,
+            46628889821401,
+            46628889854169
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/3.jpg?v=1676946255",
+          "width": 1000,
+          "height": 1000
+        }
+      ],
+      "options": [
+        {
+          "name": "Model",
+          "position": 1,
+          "values": [
+            "A1/ A1 Pro",
+            "A2",
+            "A1X"
+          ]
+        },
+        {
+          "name": "Color",
+          "position": 2,
+          "values": [
+            "Black",
+            "White",
+            "Green"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7877935497433,
+      "title": "Protection Bag for Aokzoe Gaming Handheld",
+      "handle": "protection-bag",
+      "body_html": "<p>The perfect travel companion for the <span>AOKZOE device</span>. The hard outer shell and soft inner lining give the <span>AOKZOE device</span> the best protection. One-piece molding, tightly wrapped around the <span>AOKZOE device</span> to protect it from external bumps and bruises<br><br>*Express shipping charges apply when purchasing accessory products separately, which will be sent by packet.<br><br>**Any cancellation on the order: third-party payment like PayPal will charge a 5% restocking fee of the total value.</p>",
+      "published_at": "2022-09-07T20:51:47+08:00",
+      "created_at": "2022-09-07T20:51:47+08:00",
+      "updated_at": "2026-09-09T21:26:07+08:00",
+      "vendor": "AOKZOE",
+      "product_type": "accessories",
+      "tags": [],
+      "variants": [
+        {
+          "id": 44695405920473,
+          "title": "For A1/A1 pro",
+          "option1": "For A1/A1 pro",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": {
+            "id": 38580855603417,
+            "product_id": 7877935497433,
+            "position": 1,
+            "created_at": "2022-09-07T21:14:41+08:00",
+            "updated_at": "2022-09-07T21:14:43+08:00",
+            "alt": null,
+            "width": 800,
+            "height": 800,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/800C.jpg?v=1662556483",
+            "variant_ids": [
+              44695405920473,
+              44695405953241,
+              46628907647193
+            ]
+          },
+          "available": true,
+          "price": "19.90",
+          "grams": 318,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 7877935497433,
+          "created_at": "2024-02-27T09:34:34+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 44695405953241,
+          "title": "For A2",
+          "option1": "For A2",
+          "option2": null,
+          "option3": null,
+          "sku": "",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": {
+            "id": 38580855603417,
+            "product_id": 7877935497433,
+            "position": 1,
+            "created_at": "2022-09-07T21:14:41+08:00",
+            "updated_at": "2022-09-07T21:14:43+08:00",
+            "alt": null,
+            "width": 800,
+            "height": 800,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/800C.jpg?v=1662556483",
+            "variant_ids": [
+              44695405920473,
+              44695405953241,
+              46628907647193
+            ]
+          },
+          "available": true,
+          "price": "19.90",
+          "grams": 318,
+          "compare_at_price": null,
+          "position": 2,
+          "product_id": 7877935497433,
+          "created_at": "2024-02-27T09:34:34+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        },
+        {
+          "id": 46628907647193,
+          "title": "A1X",
+          "option1": "A1X",
+          "option2": null,
+          "option3": null,
+          "sku": null,
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": {
+            "id": 38580855603417,
+            "product_id": 7877935497433,
+            "position": 1,
+            "created_at": "2022-09-07T21:14:41+08:00",
+            "updated_at": "2022-09-07T21:14:43+08:00",
+            "alt": null,
+            "width": 800,
+            "height": 800,
+            "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/800C.jpg?v=1662556483",
+            "variant_ids": [
+              44695405920473,
+              44695405953241,
+              46628907647193
+            ]
+          },
+          "available": true,
+          "price": "19.90",
+          "grams": 318,
+          "compare_at_price": null,
+          "position": 3,
+          "product_id": 7877935497433,
+          "created_at": "2025-05-17T16:26:13+08:00",
+          "updated_at": "2026-09-09T21:26:07+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 38580855603417,
+          "created_at": "2022-09-07T21:14:41+08:00",
+          "position": 1,
+          "updated_at": "2022-09-07T21:14:43+08:00",
+          "product_id": 7877935497433,
+          "variant_ids": [
+            44695405920473,
+            44695405953241,
+            46628907647193
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0650/6879/4073/products/800C.jpg?v=1662556483",
+          "width": 800,
+          "height": 800
+        }
+      ],
+      "options": [
+        {
+          "name": "Size",
+          "position": 1,
+          "values": [
+            "For A1/A1 pro",
+            "For A2",
+            "A1X"
+          ]
+        }
+      ]
+    }
+  ]
+}

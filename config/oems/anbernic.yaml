@@ -1,0 +1,46 @@
+# support_status: NEEDS_OWNER_PROBE — probed 2026-09-09 from owner machine:
+# Shopify confirmed (probe confidence 98%, Discovery Quality 100/100,
+# /products.json 200, product sitemap present). Pending soak; do not enable
+# without a baselined first crawl and QC (handheld expansion M1).
+#
+# Handheld expansion wave 1. Editorial priority: PRIORITY 1 (retro handhelds).
+# Product family: handheld (retro subtype is editorial metadata — Anbernic's
+# feed does not distinguish retro vs PC in product_type/tags, and all current
+# Anbernic handhelds are retro-class Linux/Android devices).
+#
+# Feed quirks (fixture anbernic_products_p1.json, 2026-09-09):
+#   * product_type is Chinese: 游戏机 (game console) vs 配件 (accessory);
+#     one-off English types exist (Game Controller, 游戏手柄).
+#   * vendor casing varies (Anbernic / anbernic / ANBERNIC) — the engine
+#     normalizes manufacturer identity from this descriptor, not the feed.
+#   * accessories embed handheld model names in their titles ("protective
+#     bag for RG 55G1"), so the denylist must run on title+type, not identity.
+
+manufacturer:
+  name: Anbernic
+  aliases: [ANBERNIC, anbernic, "杨李明"]  # Shenzhen YangLiMing Electronic Technology
+  country: CN
+
+sources:
+  - id: anbernic-shopify
+    engine: shopify
+    base_url: https://anbernic.com
+    min_interval: 12h
+    discovery: [products_json, sitemap]
+    currency_default: USD
+    enabled: false
+    category_map:
+      游戏机: handheld
+    non_product_terms:
+      - "配件"
+      - "游戏手柄"
+      - "game controller"
+      - "bag"
+      - "case"
+      - "film"
+      - "charger"
+      - "lanyard"
+      - "card"       # SD-card add-on SKUs; console SKUs carry "-No-SD-Card" in
+                     # variant labels, not in the product title/handle/type
+      - "price difference"  # internal payment-adjustment listing ("The Price
+                            # Difference"), not a product

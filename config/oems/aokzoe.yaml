@@ -1,0 +1,36 @@
+# support_status: NEEDS_OWNER_PROBE — probed 2026-09-09 from owner machine:
+# Shopify confirmed (probe confidence 98%, Discovery Quality 100/100).
+# Pending soak; do not enable without a baselined first crawl and QC.
+#
+# Handheld expansion wave 1. Editorial priority: PRIORITY 2 (PC handhelds).
+# AOKZOE legal identity is unverified (Shenzhen widely assumed); the store
+# carries a parts/repair section (replacement screens, PCBs) and refurb
+# listings that must be denied. "Special link" listings are internal
+# order-form SKUs, not products.
+
+manufacturer:
+  name: AOKZOE
+  country: CN  # HQ city unverified
+
+sources:
+  - id: aokzoe-shopify
+    engine: shopify
+    base_url: https://aokzoestore.com
+    min_interval: 24h
+    discovery: [products_json, sitemap]
+    currency_default: USD
+    enabled: false
+    category_map:
+      game console: handheld
+    non_product_terms:
+      - "refurbish"
+      - "special link"
+      - "gift"
+      - "package"
+      - "cable"
+      - "stand"
+      - "skin"
+      - "bag"
+      - "screen protector"
+      - "replacement"
+      - "spare"
