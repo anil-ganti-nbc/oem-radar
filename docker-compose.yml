@@ -19,6 +19,10 @@ services:
       OEM_RADAR_DATA_DIR: /app/data
       OEM_RADAR_RELEASE_CHANNEL: experimental
       OEM_RADAR_DISCORD_WEBHOOK: ${OEM_RADAR_DISCORD_WEBHOOK:-}
+      # Runtime identity for the discord_runtime provenance log (the
+      # container has no .git; the value is the SHA the image was built
+      # from, exported alongside IMAGE_TAG by deploy/run.sh).
+      OEM_RADAR_GIT_SHA: ${GIT_REVISION:-unknown}
     volumes:
       - oem_radar_data:/app/data
     healthcheck:
