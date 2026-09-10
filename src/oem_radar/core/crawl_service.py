@@ -178,7 +178,8 @@ def build_fetcher(cfg: RadarConfig):
     )
 
 
-def build_store_and_notifier(radar: RadarConfig, config_dir: Path, *, dry_run: bool = False):
+def build_store_and_notifier(radar: RadarConfig, config_dir: Path, *, dry_run: bool = False,
+                             surface: str | None = None):
     """Returns (store, notifier, webhook_source, webhook_present).
 
     This is the single notifier assembly point: the scheduled CLI run, a
@@ -202,6 +203,8 @@ def build_store_and_notifier(radar: RadarConfig, config_dir: Path, *, dry_run: b
         review_base_url=fb.dashboard_base_url,
         feedback_enabled=fb.enabled,
         suppress_change_types=suppress,
+        surface=surface,
+        config_path=str(config_dir / "radar.yaml"),
     )
     return store, notifier, wh_src, webhook is not None
 
@@ -263,6 +266,7 @@ def execute_crawl(
     dry_run: bool = False,
     use_lock: bool = True,
     on_progress: ProgressFn | None = None,
+    surface: str | None = None,
 ) -> CrawlOutcome:
     """Run one complete crawl. Raises `LockError` if another run holds the lock.
 
@@ -288,7 +292,7 @@ def execute_crawl(
     lock = RunLock.acquire(radar.run_lock_path) if (use_lock and not dry_run) else None
     started = time.monotonic()
     store, notifier, wh_src, wh_present = build_store_and_notifier(
-        radar, config_dir, dry_run=dry_run)
+        radar, config_dir, dry_run=dry_run, surface=surface)
     try:
         store.seed_components(SEED_COMPONENTS)
         stats = run_all(radar, oems, store, notifier, build_fetcher(radar),
@@ -479,6 +483,7 @@ class CrawlController:
                 only_sources=frozenset(sources) if sources is not None else None,
                 routine_scope=routine_scope,
                 on_progress=self._on_progress,
+                surface="dashboard",
             )
         except LockError as exc:
             self._finish(BLOCKED, str(exc))

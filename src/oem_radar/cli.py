@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import os
 import sys
 from pathlib import Path
 
@@ -162,6 +163,7 @@ def cmd_run(args: argparse.Namespace) -> int:
             force=args.force, only_source=args.source,
             dry_run=args.dry_run,
             use_lock=not getattr(args, "no_lock", False),
+            surface=os.environ.get("OEM_RADAR_SURFACE") or "cli",
         )
     except LockError as e:
         print(f"ERROR: {e}", file=sys.stderr)

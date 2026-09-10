@@ -307,3 +307,55 @@ def test_backlog_neutralizer_converts_only_pending_muted_rows(tmp_path):
     )
     assert again.returncode == 0
     assert "pending muted rows to neutralize: 0" in again.stdout
+
+
+# -- 7. runtime identity diagnostics (2026-09-10 split-brain incident) ---------
+
+def test_drain_logs_structured_runtime_identity(store, caplog, monkeypatch):
+    """The muted-alert incident happened because 'the checkout' was assumed
+    to be 'the sender'. Every drain must log which runtime is speaking —
+    git sha, db path, hostname, surface, config path, webhook presence —
+    and must NEVER log the webhook URL itself."""
+    import logging as _logging
+    monkeypatch.setenv("OEM_RADAR_GIT_SHA", "deadbeeftest")
+    notifier = DiscordNotifier(
+        store, "https://hook.example/never-log-me", min_severity=3,
+        sender=lambda u, p: (True, None),
+        suppress_change_types=MUTED, surface="test",
+        config_path="C:/somewhere/config/radar.yaml",
+    )
+    with caplog.at_level(_logging.INFO, logger="oem_radar.discord"):
+        notifier.drain()
+    line = next(r.message for r in caplog.records if r.message.startswith("discord_runtime"))
+    assert "git_sha=deadbeeftest" in line
+    assert "hostname=" in line
+    assert "surface=test" in line
+    assert "config=C:/somewhere/config/radar.yaml" in line
+    assert "webhook_configured=True" in line
+    # db path is the store's real file, via PRAGMA database_list
+    assert "db=" in line and ":memory:" not in line
+    assert "never-log-me" not in line  # the URL must never appear
+
+
+def test_resolve_git_sha_env_override_and_fallback(monkeypatch):
+    from oem_radar.providers.discord import resolve_git_sha
+    monkeypatch.setenv("OEM_RADAR_GIT_SHA", "  cafef00d  ")
+    assert resolve_git_sha() == "cafef00d"
+    monkeypatch.delenv("OEM_RADAR_GIT_SHA")
+    # In the source checkout the fallback resolves the repo's real HEAD.
+    sha = resolve_git_sha()
+    assert sha == "unknown" or (len(sha) == 40 and all(c in "0123456789abcdef" for c in sha))
+
+
+def test_assembly_point_passes_surface_and_config_path(tmp_path):
+    (tmp_path / "oems").mkdir()
+    (tmp_path / "raw").mkdir()
+    path = _write_radar(tmp_path, MINIMAL)
+    radar = load_radar_config(path)
+    store, notifier, _src, _present = build_store_and_notifier(
+        radar, tmp_path, surface="dashboard")
+    try:
+        assert notifier.surface == "dashboard"
+        assert notifier.config_path.endswith("radar.yaml")
+    finally:
+        store.close()
