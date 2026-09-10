@@ -37,6 +37,16 @@ notify:
     webhook_url_env: OEM_RADAR_DISCORD_WEBHOOK
     min_severity: 3
     digest_below: 3
+    # Notification-policy mute (2026-09-09 operator decision): these change
+    # types are still detected, persisted, severity-scored and shown in the
+    # dashboard / All Changes — but they never enqueue a pending Discord row,
+    # never drain, and can never appear in a digest. Severity rules are left
+    # untouched (severity stays useful classification data elsewhere).
+    # Values are validated against ChangeType at config load; an unknown name
+    # fails startup. Omit the key entirely to restore the old behaviour.
+    suppress_change_types:
+      - availability_changed
+      - images_changed
 
 ai:
   provider: anthropic

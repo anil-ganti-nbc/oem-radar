@@ -152,6 +152,7 @@ class DiscordNotifier:
         sender: Callable[[str, dict], tuple[bool, str | None]] = _post_webhook,
         review_base_url: str | None = "http://127.0.0.1:8787",
         feedback_enabled: bool = True,
+        suppress_change_types: tuple[str, ...] | list[str] = (),
     ) -> None:
         self.store = store
         self.webhook_url = webhook_url
@@ -159,11 +160,18 @@ class DiscordNotifier:
         self.sender = sender
         self.review_base_url = review_base_url
         self.feedback_enabled = feedback_enabled
+        #: Change types that must NEVER reach Discord (notification policy,
+        #: radar.yaml notify.discord.suppress_change_types). They are still
+        #: recorded, diffed, severity-scored, and shown in the dashboard.
+        self.suppress_change_types = frozenset(suppress_change_types)
 
     def enqueue(self, event: ChangeEvent, product: NormalizedProduct | None = None) -> None:
         event_id = self.store.record_event(event)  # full audit trail regardless
         if event.meta.get("baseline"):
             status = "suppressed"  # first-ever crawl of a source: history, not news
+        elif event.change_type.value in self.suppress_change_types:
+            # Notification-policy mute: the event exists, the ping does not.
+            status = "suppressed"
         else:
             status = "pending" if int(event.severity) >= self.min_severity else "suppressed"
         review_url = self.review_base_url if self.feedback_enabled else None
@@ -196,6 +204,14 @@ class DiscordNotifier:
         sent = 0
         rows = self.store.outbox_pending("discord")
         for i, row in enumerate(rows):
+            # Last choke point: a pending row linked to a muted change type
+            # must never post, however it got there (stale backlog, a policy
+            # widened after enqueue, a manual status flip). Neutralize it
+            # instead of sending; the reason is recorded in last_error.
+            if (row["change_type"] or "") in self.suppress_change_types:
+                self.store.outbox_mark(row["id"], "suppressed", "change_type_suppressed")
+                log.info("discord: suppressed muted change_type row %s", row["id"])
+                continue
             import json as _json
             ok, err = self.sender(self.webhook_url, _json.loads(row["payload_json"]))
             if ok:

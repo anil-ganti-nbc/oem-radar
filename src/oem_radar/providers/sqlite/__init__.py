@@ -821,9 +821,14 @@ class SqliteStore:
         self.db.commit()
 
     def outbox_pending(self, provider: str) -> list[sqlite3.Row]:
+        # change_type is joined for the notifier's policy guard: a muted
+        # change type must never drain, wherever its pending row came from.
+        # LEFT JOIN keeps story rows (no linked event) draining as before.
         return self.db.execute(
-            "SELECT * FROM notifications WHERE provider=? AND status='pending' "
-            "ORDER BY id", (provider,),
+            "SELECT n.*, e.change_type AS change_type FROM notifications n "
+            "LEFT JOIN change_events e ON e.id = n.change_event_id "
+            "WHERE n.provider=? AND n.status='pending' "
+            "ORDER BY n.id", (provider,),
         ).fetchall()
 
     def outbox_mark(self, notif_id: int, status: str, error: str | None = None) -> None:
