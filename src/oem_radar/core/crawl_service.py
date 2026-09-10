@@ -179,17 +179,29 @@ def build_fetcher(cfg: RadarConfig):
 
 
 def build_store_and_notifier(radar: RadarConfig, config_dir: Path, *, dry_run: bool = False):
-    """Returns (store, notifier, webhook_source, webhook_present)."""
+    """Returns (store, notifier, webhook_source, webhook_present).
+
+    This is the single notifier assembly point: the scheduled CLI run, a
+    manual terminal run, and the dashboard-triggered crawl all pass through
+    execute_crawl → here, so the configured notification policy (severity
+    floor AND the suppressed change-type list) applies on every surface by
+    construction — no launcher instantiates the notifier itself.
+    """
     if dry_run:
         store = stores.get(radar.store)(":memory:", radar.raw_dir)
         return store, notifiers.get("console")(), "none (dry run)", False
     store = stores.get(radar.store)(radar.db_path, radar.raw_dir)
     webhook, min_sev, wh_src = resolve_webhook(radar, config_dir)
     fb = radar.feedback
+    discord_cfg = radar.notify.get("discord")
+    suppress = tuple(
+        getattr(discord_cfg, "suppress_change_types", []) or []
+    ) if discord_cfg else ()
     notifier = notifiers.get(radar.notifier)(
         store, webhook, min_sev,
         review_base_url=fb.dashboard_base_url,
         feedback_enabled=fb.enabled,
+        suppress_change_types=suppress,
     )
     return store, notifier, wh_src, webhook is not None
 
