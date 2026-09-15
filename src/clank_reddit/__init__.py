@@ -3,6 +3,7 @@
 Canonical copy: oem-radar/src/clank_reddit. Consumers vendor identical bytes;
 the owning Clank supplies HTTP transport, persistence, and interpretation.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -41,12 +42,16 @@ class Submission:
 
     def evidence(self) -> dict[str, Any]:
         return {
-            "transport_version": VERSION, "submission_id": self.external_id,
-            "subreddit": self.subreddit, "discovery_url": self.permalink,
-            "source_published_at": self.published_at, "author": self.author,
+            "transport_version": VERSION,
+            "submission_id": self.external_id,
+            "subreddit": self.subreddit,
+            "discovery_url": self.permalink,
+            "source_published_at": self.published_at,
+            "author": self.author,
             "outbound_links": list(self.links),
             "related_url_keys": list(self.related_urls),
-            "original_source_url": None, "raw_xml": self.raw_xml,
+            "original_source_url": None,
+            "raw_xml": self.raw_xml,
             "raw_sha256": hashlib.sha256(self.raw_xml.encode()).hexdigest(),
         }
 
@@ -60,10 +65,14 @@ def feed_url(subreddit: str) -> str:
 def link_key(url: str) -> str:
     """Conservative relationship key: drop known tracking, preserve content query."""
     parts = urlsplit(url)
-    query = [(k, v) for k, v in parse_qsl(parts.query, keep_blank_values=True)
-             if not k.lower().startswith("utm_") and k.lower() not in {"fbclid", "gclid"}]
-    return urlunsplit((parts.scheme.lower(), parts.netloc.lower(), parts.path,
-                       urlencode(query), ""))
+    query = [
+        (k, v)
+        for k, v in parse_qsl(parts.query, keep_blank_values=True)
+        if not k.lower().startswith("utm_") and k.lower() not in {"fbclid", "gclid"}
+    ]
+    return urlunsplit(
+        (parts.scheme.lower(), parts.netloc.lower(), parts.path, urlencode(query), "")
+    )
 
 
 def _http_url(value: str) -> bool:
@@ -92,7 +101,11 @@ class _Content(HTMLParser):
 
 def parse_listing(body: str, subreddit: str) -> list[Submission]:
     feed_url(subreddit)  # validate before interpreting response data
-    if len(body.encode()) > 4_000_000 or "<!DOCTYPE" in body.upper() or "<!ENTITY" in body.upper():
+    if (
+        len(body.encode()) > 4_000_000
+        or "<!DOCTYPE" in body.upper()
+        or "<!ENTITY" in body.upper()
+    ):
         raise RedditUnavailable("Unsupported or oversized Reddit feed")
     try:
         root = ET.fromstring(body)
@@ -109,13 +122,22 @@ def parse_listing(body: str, subreddit: str) -> list[Submission]:
     seen: set[str] = set()
     for entry in entries:
         eid = (entry.findtext(ATOM + "id") or "").strip()
-        permalink = next((e.get("href", "") for e in entry.findall(ATOM + "link")
-                          if e.get("rel", "alternate") == "alternate"), "")
+        permalink = next(
+            (
+                e.get("href", "")
+                for e in entry.findall(ATOM + "link")
+                if e.get("rel", "alternate") == "alternate"
+            ),
+            "",
+        )
         p = urlsplit(permalink)
         match = re.fullmatch(r"/r/([^/]+)/comments/([a-z0-9]+)/[^/]*/?", p.path, re.I)
-        if (p.hostname not in {"reddit.com", "www.reddit.com", "old.reddit.com"}
-                or p.scheme != "https" or not match
-                or match[1].lower() != subreddit.lower()):
+        if (
+            p.hostname not in {"reddit.com", "www.reddit.com", "old.reddit.com"}
+            or p.scheme != "https"
+            or not match
+            or match[1].lower() != subreddit.lower()
+        ):
             raise RedditUnavailable("Missing or mismatched Reddit submission permalink")
         expected = "t3_" + match[2].lower()
         if eid and eid != expected:
@@ -141,13 +163,24 @@ def parse_listing(body: str, subreddit: str) -> list[Submission]:
                 raise RedditUnavailable("Invalid Reddit publication time") from exc
         content = _Content()
         content.feed(entry.findtext(ATOM + "content") or "")
-        links = tuple(u for u in content.links if u != permalink
-                      and not urlsplit(u).path.startswith("/user/"))
-        result.append(Submission(
-            eid, subreddit, permalink, title, " ".join(content.text).strip(),
-            entry.findtext(ATOM + "author/" + ATOM + "name"), published,
-            links, ET.tostring(entry, encoding="unicode"),
-        ))
+        links = tuple(
+            u
+            for u in content.links
+            if u != permalink and not urlsplit(u).path.startswith("/user/")
+        )
+        result.append(
+            Submission(
+                eid,
+                subreddit,
+                permalink,
+                title,
+                " ".join(content.text).strip(),
+                entry.findtext(ATOM + "author/" + ATOM + "name"),
+                published,
+                links,
+                ET.tostring(entry, encoding="unicode"),
+            )
+        )
     if not result:
         raise RedditUnavailable("Reddit listing contains no usable submissions")
     return result
