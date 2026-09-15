@@ -1,0 +1,48 @@
+# support_status: NEEDS_OWNER_PROBE — probed 2026-09-09 from owner machine:
+# Shopify confirmed (probe confidence 98%, Discovery Quality 100/100).
+# ayntec.com 301-redirects to www.ayntec.com; base_url uses the final form.
+# Pending soak; do not enable without a baselined first crawl and QC.
+#
+# Handheld expansion wave 1. Editorial priority: PRIORITY 2 (retro/Android).
+# AYN Technologies; feed is dominated by accessory SKUs named after the
+# handheld lines (Odin / Thor), so the denylist carries more terms than
+# usual. Batch-numbered pre-order listings arrive as ordinary variants with
+# available=false (existing SOLD_OUT semantics; no special handling).
+
+manufacturer:
+  name: AYN
+  aliases: [AYN Technologies, ayntec]
+  country: CN  # HK contact domain (ayn.hk); HQ city unverified
+
+sources:
+  - id: ayn-shopify
+    engine: shopify
+    base_url: https://www.ayntec.com
+    min_interval: 24h
+    discovery: [products_json, sitemap]
+    currency_default: USD
+    enabled: false
+    category_map:
+      electronics: handheld  # AYN's only populated product_type; it covers the
+                             # Odin/Thor handhelds *and* some accessories, so
+                             # the denylist below does the real filtering
+    non_product_terms:
+      - "accessories pack"
+      - "bag"
+      - "case"
+      - "pouch"
+      - "shell"
+      - "screen protector"
+      - "stylus"
+      - "grip"
+      - "dock"
+      - "charger"
+      - "cable"
+      - "stand"
+      - "skin"
+      - "strap"
+      - "lanyard"
+      - "joystick"      # replacement sticks/hats ("Odin2 Portal ABXY ... Joysticks")
+      - "sd card"
+      - "price difference"  # internal payment-adjustment listing ("Fill Price
+                            # Difference"), not a product

@@ -10,6 +10,8 @@ from typing import Any, Literal
 import yaml
 from pydantic import BaseModel, Field, ValidationError, model_validator, field_validator
 
+from .models import ChangeType
+
 _INTERVAL_RE = re.compile(r"^(\d+)\s*(s|m|h|d)$")
 _UNIT_S = {"s": 1, "m": 60, "h": 3600, "d": 86400}
 
@@ -100,6 +102,24 @@ class NotifyChannelConfig(BaseModel):
     model_config = {"extra": "allow"}
     min_severity: int = Field(default=3, ge=1, le=5)
     digest_below: int | None = None
+    # Event types this channel must never deliver. They are still detected,
+    # persisted, shown in the dashboard, and severity-scored exactly as
+    # before — the outbox row is simply born suppressed and drain() refuses
+    # the type as a last choke point, so no pending backlog can ever flush.
+    # Default empty preserves historical behaviour for configs that omit it.
+    suppress_change_types: list[str] = Field(default_factory=list)
+
+    @field_validator("suppress_change_types")
+    @classmethod
+    def _check_change_types(cls, v: list[str]) -> list[str]:
+        valid = {c.value for c in ChangeType}
+        bad = [name for name in v if name not in valid]
+        if bad:
+            raise ValueError(
+                f"unknown change type(s) in suppress_change_types: {bad}; "
+                f"valid values: {sorted(valid)}"
+            )
+        return v
 
 
 

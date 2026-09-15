@@ -1,9 +1,13 @@
-# support_status: NEEDS_OWNER_PROBE — gpd.hk timed out from this environment
-# Audited 2026-08-02. Do not enable without re-probe.
-# GPD — UNVERIFIED from sandbox (limited egress). On your machine run:
-#   oem-radar probe https://gpd.hk
-# If it reports 'shopify', set enabled: true below. If 'woocommerce' or
-# 'unknown', see docs/BIG_BRANDS.md (may need a different engine).
+# support_status: BLOCKED_JS — re-confirmed 2026-09-09 (handheld expansion recon).
+# gpd.hk is a JS sitebuilder: a plain fetch returns title/meta only, with no
+# Shopify/WooCommerce/sitemap/JSON-LD surface. Purchases and launches route
+# through Indiegogo ("gpdhk" campaigns) and resellers. Editorial value is
+# high (major PC-handheld line, 4-6 launches/yr) but the official launch
+# surface is incompatible with the current access policy: no browser
+# automation as a fallback (standing never-build list), no marketplace
+# scraping. Revisit only if GPD ships a static or bulk-API surface.
+# History: audited 2026-08-02 NEEDS_OWNER_PROBE (gpd.hk timed out from the
+# sandbox); owner-machine checks 2026-09-09 confirmed the JS dependency.
 manufacturer:
   name: GPD
   country: CN

@@ -1,0 +1,4557 @@
+{
+  "products": [
+    {
+      "id": 8590126448832,
+      "title": "Thor Self-adhesive Stylus",
+      "handle": "thor-self-adhesive-stylus",
+      "body_html": "<p> </p>\n<p><br> </p>",
+      "published_at": "2026-05-28T16:23:49+08:00",
+      "created_at": "2026-05-28T16:07:31+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "Electronics",
+      "tags": [],
+      "variants": [
+        {
+          "id": 48337568399552,
+          "title": "Black",
+          "option1": "Black",
+          "option2": null,
+          "option3": null,
+          "sku": "T-X6S005BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 55194179633344,
+            "product_id": 8590126448832,
+            "position": 1,
+            "created_at": "2026-05-28T16:08:31+08:00",
+            "updated_at": "2026-05-28T16:08:32+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/1_ce74345c-a689-4e18-9a36-9060c0d8a94e.jpg?v=1779955712",
+            "variant_ids": [
+              48337568399552
+            ]
+          },
+          "available": true,
+          "price": "9.90",
+          "grams": 200,
+          "compare_at_price": "0.00",
+          "position": 1,
+          "product_id": 8590126448832,
+          "created_at": "2026-05-28T16:07:31+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 48337568432320,
+          "title": "Grey",
+          "option1": "Grey",
+          "option2": null,
+          "option3": null,
+          "sku": "T-X6S005GR",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 55194179666112,
+            "product_id": 8590126448832,
+            "position": 2,
+            "created_at": "2026-05-28T16:08:31+08:00",
+            "updated_at": "2026-05-28T16:08:32+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/2_dfa522c7-29a8-4e74-86f4-1be1f330cb89.jpg?v=1779955712",
+            "variant_ids": [
+              48337568432320
+            ]
+          },
+          "available": true,
+          "price": "9.90",
+          "grams": 200,
+          "compare_at_price": "0.00",
+          "position": 2,
+          "product_id": 8590126448832,
+          "created_at": "2026-05-28T16:07:31+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 48337568465088,
+          "title": "White",
+          "option1": "White",
+          "option2": null,
+          "option3": null,
+          "sku": "T-X6S005WT",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 55194179731648,
+            "product_id": 8590126448832,
+            "position": 3,
+            "created_at": "2026-05-28T16:08:31+08:00",
+            "updated_at": "2026-05-28T16:08:32+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/4_6ee625d9-9357-468a-a481-ba8e1a7a462e.jpg?v=1779955712",
+            "variant_ids": [
+              48337568465088
+            ]
+          },
+          "available": true,
+          "price": "9.90",
+          "grams": 200,
+          "compare_at_price": "0.00",
+          "position": 3,
+          "product_id": 8590126448832,
+          "created_at": "2026-05-28T16:07:31+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 48337587175616,
+          "title": "Purple",
+          "option1": "Purple",
+          "option2": null,
+          "option3": null,
+          "sku": "T-X6S005PU",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 55194179698880,
+            "product_id": 8590126448832,
+            "position": 4,
+            "created_at": "2026-05-28T16:08:31+08:00",
+            "updated_at": "2026-05-28T16:08:32+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/3_32712e79-a461-4741-90b0-93dec6c9a659.jpg?v=1779955712",
+            "variant_ids": [
+              48337587175616
+            ]
+          },
+          "available": true,
+          "price": "9.90",
+          "grams": 200,
+          "compare_at_price": "0.00",
+          "position": 4,
+          "product_id": 8590126448832,
+          "created_at": "2026-05-28T16:10:31+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 55194179633344,
+          "created_at": "2026-05-28T16:08:31+08:00",
+          "position": 1,
+          "updated_at": "2026-05-28T16:08:32+08:00",
+          "product_id": 8590126448832,
+          "variant_ids": [
+            48337568399552
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/1_ce74345c-a689-4e18-9a36-9060c0d8a94e.jpg?v=1779955712",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 55194179666112,
+          "created_at": "2026-05-28T16:08:31+08:00",
+          "position": 2,
+          "updated_at": "2026-05-28T16:08:32+08:00",
+          "product_id": 8590126448832,
+          "variant_ids": [
+            48337568432320
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/2_dfa522c7-29a8-4e74-86f4-1be1f330cb89.jpg?v=1779955712",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 55194179731648,
+          "created_at": "2026-05-28T16:08:31+08:00",
+          "position": 3,
+          "updated_at": "2026-05-28T16:08:32+08:00",
+          "product_id": 8590126448832,
+          "variant_ids": [
+            48337568465088
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/4_6ee625d9-9357-468a-a481-ba8e1a7a462e.jpg?v=1779955712",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 55194179698880,
+          "created_at": "2026-05-28T16:08:31+08:00",
+          "position": 4,
+          "updated_at": "2026-05-28T16:08:32+08:00",
+          "product_id": 8590126448832,
+          "variant_ids": [
+            48337587175616
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/3_32712e79-a461-4741-90b0-93dec6c9a659.jpg?v=1779955712",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 55194186449088,
+          "created_at": "2026-05-28T16:08:47+08:00",
+          "position": 5,
+          "updated_at": "2026-05-28T16:08:48+08:00",
+          "product_id": 8590126448832,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/44_4dfd8a5f-90ab-4a4f-bcc5-f0433bc37a19.jpg?v=1779955728",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 55194186350784,
+          "created_at": "2026-05-28T16:08:47+08:00",
+          "position": 6,
+          "updated_at": "2026-05-28T16:08:48+08:00",
+          "product_id": 8590126448832,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/11_a164c35e-cf93-45cc-9d3b-12361eb0442a.jpg?v=1779955728",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 55194186383552,
+          "created_at": "2026-05-28T16:08:47+08:00",
+          "position": 7,
+          "updated_at": "2026-05-28T16:08:48+08:00",
+          "product_id": 8590126448832,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/22_b85d7f93-e996-4081-afb4-7484a09e366c.jpg?v=1779955728",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 55194186416320,
+          "created_at": "2026-05-28T16:08:47+08:00",
+          "position": 8,
+          "updated_at": "2026-05-28T16:08:49+08:00",
+          "product_id": 8590126448832,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/33_deecc0ad-ea27-4192-a53f-89de6ef06b5c.jpg?v=1779955729",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "options": [
+        {
+          "name": "Color",
+          "position": 1,
+          "values": [
+            "Black",
+            "Grey",
+            "White",
+            "Purple"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8441688195264,
+      "title": "AYN Cross Bag",
+      "handle": "ayn-cross-bag",
+      "body_html": "",
+      "published_at": "2026-01-29T18:20:00+08:00",
+      "created_at": "2026-01-29T18:01:44+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "Electronics",
+      "tags": [],
+      "variants": [
+        {
+          "id": 47272751169728,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "T-X6008",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": null,
+          "available": true,
+          "price": "19.90",
+          "grams": 400,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8441688195264,
+          "created_at": "2026-01-29T18:01:44+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 51657892561088,
+          "created_at": "2026-01-29T18:15:32+08:00",
+          "position": 1,
+          "updated_at": "2026-01-29T18:15:34+08:00",
+          "product_id": 8441688195264,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/2_36d6cc87-f124-4e9e-9cb5-8f2dde9aa129.jpg?v=1769681734",
+          "width": 1778,
+          "height": 1778
+        },
+        {
+          "id": 51657900490944,
+          "created_at": "2026-01-29T18:15:51+08:00",
+          "position": 2,
+          "updated_at": "2026-01-29T18:15:52+08:00",
+          "product_id": 8441688195264,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/3_41267fd5-4099-470f-b233-d9aa80083afc.jpg?v=1769681752",
+          "width": 1778,
+          "height": 1778
+        },
+        {
+          "id": 51657906651328,
+          "created_at": "2026-01-29T18:16:14+08:00",
+          "position": 3,
+          "updated_at": "2026-01-29T18:16:16+08:00",
+          "product_id": 8441688195264,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/4_1bb25567-ecda-4dec-b8ff-baf17bddb9e6.jpg?v=1769681776",
+          "width": 1778,
+          "height": 1778
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8360974155968,
+      "title": "Odin 3 Carrying Case",
+      "handle": "thor-carrying-case-副本",
+      "body_html": "<p data-start=\"73\" data-end=\"86\"><strong data-start=\"73\" data-end=\"84\">Notice:</strong></p>\n<ol data-start=\"87\" data-end=\"302\">\n<li data-start=\"87\" data-end=\"187\">\n<p data-start=\"90\" data-end=\"187\">The carrying case <strong data-start=\"108\" data-end=\"121\">with grip</strong> is designed to hold the device together with the grip attached. (Grip sold separately, not included with case.)</p>\n</li>\n<li data-start=\"188\" data-end=\"302\">\n<p data-start=\"191\" data-end=\"302\">If you only need a case for the device itself (without the grip), please choose the version <strong data-start=\"283\" data-end=\"299\">without grip</strong>.</p>\n</li>\n</ol>",
+      "published_at": "2025-10-22T17:31:11+08:00",
+      "created_at": "2025-10-22T15:16:00+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46975512707264,
+          "title": "Carrying case with grip",
+          "option1": "Carrying case with grip",
+          "option2": null,
+          "option3": null,
+          "sku": "O3-B001",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": {
+            "id": 48565981380800,
+            "product_id": 8360974155968,
+            "position": 1,
+            "created_at": "2025-10-22T15:21:47+08:00",
+            "updated_at": "2025-10-22T15:21:49+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/1_4bb0e6e4-fbdb-4f26-bf20-1295241a4972.jpg?v=1761117709",
+            "variant_ids": [
+              46975512707264
+            ]
+          },
+          "available": true,
+          "price": "12.00",
+          "grams": 200,
+          "compare_at_price": "15.00",
+          "position": 1,
+          "product_id": 8360974155968,
+          "created_at": "2025-10-22T15:16:00+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46975512740032,
+          "title": "Carrying case without grip",
+          "option1": "Carrying case without grip",
+          "option2": null,
+          "option3": null,
+          "sku": "O3-B002",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": {
+            "id": 48566016245952,
+            "product_id": 8360974155968,
+            "position": 2,
+            "created_at": "2025-10-22T15:22:10+08:00",
+            "updated_at": "2025-10-22T15:22:12+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/4_83c8ba81-d3a0-4c0c-87a2-c1e580e2a803.jpg?v=1761117732",
+            "variant_ids": [
+              46975512740032
+            ]
+          },
+          "available": true,
+          "price": "12.00",
+          "grams": 150,
+          "compare_at_price": "15.00",
+          "position": 2,
+          "product_id": 8360974155968,
+          "created_at": "2025-10-22T15:16:00+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 48565981380800,
+          "created_at": "2025-10-22T15:21:47+08:00",
+          "position": 1,
+          "updated_at": "2025-10-22T15:21:49+08:00",
+          "product_id": 8360974155968,
+          "variant_ids": [
+            46975512707264
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/1_4bb0e6e4-fbdb-4f26-bf20-1295241a4972.jpg?v=1761117709",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 48566016245952,
+          "created_at": "2025-10-22T15:22:10+08:00",
+          "position": 2,
+          "updated_at": "2025-10-22T15:22:12+08:00",
+          "product_id": 8360974155968,
+          "variant_ids": [
+            46975512740032
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/4_83c8ba81-d3a0-4c0c-87a2-c1e580e2a803.jpg?v=1761117732",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "options": [
+        {
+          "name": "Model",
+          "position": 1,
+          "values": [
+            "Carrying case with grip",
+            "Carrying case without grip"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8360970420416,
+      "title": "Odin 3 Screen Protector",
+      "handle": "odin-3-screen-protectors",
+      "body_html": "",
+      "published_at": "2025-10-22T17:31:11+08:00",
+      "created_at": "2025-10-22T15:14:59+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46975504318656,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "O3-S001",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "6.00",
+          "grams": 30,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8360970420416,
+          "created_at": "2025-10-22T15:14:59+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 48566885908672,
+          "created_at": "2025-10-22T15:33:13+08:00",
+          "position": 1,
+          "updated_at": "2025-10-22T15:33:15+08:00",
+          "product_id": 8360970420416,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/2_bc8cec48-22a3-448c-b4a0-b08d669daaed.jpg?v=1761118395",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8360963899584,
+      "title": "Odin 3 TPU Grip",
+      "handle": "odin-3-tpu-grip",
+      "body_html": "<p><strong>IMPORTANT:</strong></p>\n<p>The final color is subject to the actual product. (<span style=\"text-decoration: underline;\"><strong>The white grip is not solid white but translucent/clear.</strong></span>)</p>\n<p><br> </p>",
+      "published_at": "2025-10-22T17:31:10+08:00",
+      "created_at": "2025-10-22T15:13:10+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46975488786624,
+          "title": "Black",
+          "option1": "Black",
+          "option2": null,
+          "option3": null,
+          "sku": "O3-G04BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48568442749120,
+            "product_id": 8360963899584,
+            "position": 1,
+            "created_at": "2025-10-22T16:34:23+08:00",
+            "updated_at": "2025-10-22T16:34:25+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/4ee7d2926fc551336c0b53176541086e.jpg?v=1761122065",
+            "variant_ids": [
+              46975488786624
+            ]
+          },
+          "available": true,
+          "price": "15.00",
+          "grams": 200,
+          "compare_at_price": "0.00",
+          "position": 1,
+          "product_id": 8360963899584,
+          "created_at": "2025-10-22T15:13:10+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46975488819392,
+          "title": "Grey",
+          "option1": "Grey",
+          "option2": null,
+          "option3": null,
+          "sku": "O3-G04GR",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48568766202048,
+            "product_id": 8360963899584,
+            "position": 2,
+            "created_at": "2025-10-22T17:05:08+08:00",
+            "updated_at": "2025-10-22T17:05:10+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/d8cf86bb64a550e96eed9ac8a53183d7.jpg?v=1761123910",
+            "variant_ids": [
+              46975488819392
+            ]
+          },
+          "available": true,
+          "price": "15.00",
+          "grams": 200,
+          "compare_at_price": "0.00",
+          "position": 2,
+          "product_id": 8360963899584,
+          "created_at": "2025-10-22T15:13:10+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46975488852160,
+          "title": "Clear White",
+          "option1": "Clear White",
+          "option2": null,
+          "option3": null,
+          "sku": "O3-G04CW",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48568767905984,
+            "product_id": 8360963899584,
+            "position": 3,
+            "created_at": "2025-10-22T17:05:28+08:00",
+            "updated_at": "2025-10-22T17:05:30+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/422520df2f5781001d800bd9056eab17.jpg?v=1761123930",
+            "variant_ids": [
+              46975488852160
+            ]
+          },
+          "available": true,
+          "price": "15.00",
+          "grams": 200,
+          "compare_at_price": "0.00",
+          "position": 3,
+          "product_id": 8360963899584,
+          "created_at": "2025-10-22T15:13:10+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 48568442749120,
+          "created_at": "2025-10-22T16:34:23+08:00",
+          "position": 1,
+          "updated_at": "2025-10-22T16:34:25+08:00",
+          "product_id": 8360963899584,
+          "variant_ids": [
+            46975488786624
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/4ee7d2926fc551336c0b53176541086e.jpg?v=1761122065",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 48568766202048,
+          "created_at": "2025-10-22T17:05:08+08:00",
+          "position": 2,
+          "updated_at": "2025-10-22T17:05:10+08:00",
+          "product_id": 8360963899584,
+          "variant_ids": [
+            46975488819392
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/d8cf86bb64a550e96eed9ac8a53183d7.jpg?v=1761123910",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 48568767905984,
+          "created_at": "2025-10-22T17:05:28+08:00",
+          "position": 3,
+          "updated_at": "2025-10-22T17:05:30+08:00",
+          "product_id": 8360963899584,
+          "variant_ids": [
+            46975488852160
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/422520df2f5781001d800bd9056eab17.jpg?v=1761123930",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "options": [
+        {
+          "name": "Color",
+          "position": 1,
+          "values": [
+            "Black",
+            "Grey",
+            "Clear White"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8360960819392,
+      "title": "Odin 3 Accessories Pack",
+      "handle": "odin-3-accessories-pack",
+      "body_html": "<p>Notice: <br>1. This is the accessory bundle. If you wish to purchase most of the accessories, please select this option at a discounted price. The bundle includes one carrying case with grip.<br></p>\n<p>2. The color options refer to the TPU grip. Please select the one that matches your device color or the color you like. The shipment will be arranged based on the color option you have chosen.</p>\n<p>3. The images are only for reference and may differ from the actual items. (<span style=\"text-decoration: underline;\"><strong>The clear white grip is not solid white but translucent/clear.</strong></span>)</p>",
+      "published_at": "2025-10-22T17:31:10+08:00",
+      "created_at": "2025-10-22T15:07:59+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46975480135872,
+          "title": "Black",
+          "option1": "Black",
+          "option2": null,
+          "option3": null,
+          "sku": "O3X-BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48568800084160,
+            "product_id": 8360960819392,
+            "position": 1,
+            "created_at": "2025-10-22T17:11:53+08:00",
+            "updated_at": "2025-10-22T17:11:55+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2047,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/black_86d7cd1b-9c05-4875-be0f-affb42e87a45.jpg?v=1761124315",
+            "variant_ids": [
+              46975480135872
+            ]
+          },
+          "available": true,
+          "price": "30.00",
+          "grams": 500,
+          "compare_at_price": "60.00",
+          "position": 1,
+          "product_id": 8360960819392,
+          "created_at": "2025-10-22T15:07:59+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46975480168640,
+          "title": "Grey",
+          "option1": "Grey",
+          "option2": null,
+          "option3": null,
+          "sku": "O3X-GR",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48568811618496,
+            "product_id": 8360960819392,
+            "position": 2,
+            "created_at": "2025-10-22T17:12:10+08:00",
+            "updated_at": "2025-10-22T17:12:11+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2047,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/grey_a2c66214-188c-448e-9cc9-03a4d3919c1c.jpg?v=1761124331",
+            "variant_ids": [
+              46975480168640
+            ]
+          },
+          "available": true,
+          "price": "30.00",
+          "grams": 500,
+          "compare_at_price": "60.00",
+          "position": 2,
+          "product_id": 8360960819392,
+          "created_at": "2025-10-22T15:07:59+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46975480201408,
+          "title": "Clear White",
+          "option1": "Clear White",
+          "option2": null,
+          "option3": null,
+          "sku": "O3X-CW",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48568812404928,
+            "product_id": 8360960819392,
+            "position": 3,
+            "created_at": "2025-10-22T17:12:28+08:00",
+            "updated_at": "2025-10-22T17:12:30+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2047,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/clear-white.jpg?v=1761124350",
+            "variant_ids": [
+              46975480201408
+            ]
+          },
+          "available": true,
+          "price": "30.00",
+          "grams": 500,
+          "compare_at_price": "60.00",
+          "position": 3,
+          "product_id": 8360960819392,
+          "created_at": "2025-10-22T15:07:59+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 48568800084160,
+          "created_at": "2025-10-22T17:11:53+08:00",
+          "position": 1,
+          "updated_at": "2025-10-22T17:11:55+08:00",
+          "product_id": 8360960819392,
+          "variant_ids": [
+            46975480135872
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/black_86d7cd1b-9c05-4875-be0f-affb42e87a45.jpg?v=1761124315",
+          "width": 2048,
+          "height": 2047
+        },
+        {
+          "id": 48568811618496,
+          "created_at": "2025-10-22T17:12:10+08:00",
+          "position": 2,
+          "updated_at": "2025-10-22T17:12:11+08:00",
+          "product_id": 8360960819392,
+          "variant_ids": [
+            46975480168640
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/grey_a2c66214-188c-448e-9cc9-03a4d3919c1c.jpg?v=1761124331",
+          "width": 2048,
+          "height": 2047
+        },
+        {
+          "id": 48568812404928,
+          "created_at": "2025-10-22T17:12:28+08:00",
+          "position": 3,
+          "updated_at": "2025-10-22T17:12:30+08:00",
+          "product_id": 8360960819392,
+          "variant_ids": [
+            46975480201408
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/clear-white.jpg?v=1761124350",
+          "width": 2048,
+          "height": 2047
+        }
+      ],
+      "options": [
+        {
+          "name": "Color",
+          "position": 1,
+          "values": [
+            "Black",
+            "Grey",
+            "Clear White"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8360960622784,
+      "title": "Odin 3 Soft Pouch",
+      "handle": "odin-3-soft-pouch",
+      "body_html": "<p>Notice: The image is only for reference and may differ from the actual item.</p>",
+      "published_at": "2025-10-22T17:31:10+08:00",
+      "created_at": "2025-10-22T15:05:51+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46975479218368,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "OD3-005",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": null,
+          "available": true,
+          "price": "5.00",
+          "grams": 30,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8360960622784,
+          "created_at": "2025-10-22T15:05:51+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 48568794841280,
+          "created_at": "2025-10-22T17:11:06+08:00",
+          "position": 1,
+          "updated_at": "2025-10-22T17:11:08+08:00",
+          "product_id": 8360960622784,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/1ac0c585a5003c3dc9d80941bf4e3132.jpg?v=1761124268",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8359191412928,
+      "title": "AYN Odin 3 (Batch 8 Pre-order)",
+      "handle": "ayn-odin-3",
+      "body_html": "<p><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><strong>AYN Odin 3: The Ultimate 6''120Hz OLED Gaming Handheld</strong><br>Qualcomm Dragonwing Q8 | <span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">Customized Full HD 6\" AMOLED Touch Screen <span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"> <span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">| </span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>Android 15 | 8000mAh Battery | Hall Sticks | <span>390g | Ergonomic Grip<span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"> | UFS 3.1</span></span></span></span></span></span></span></span></span></p>\n<p><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">Notice:</span></span></span></span></p>\n<ul>\n<li><span style=\"text-decoration: underline;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">There are no games preinstalled in Odin 3.</span></span></span></span></span></li>\n<li><span style=\"text-decoration: underline;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">Get a free TPU protective case with your order during pre-order stage.</span></span></span></span></span></li>\n<li><span style=\"text-decoration: underline;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">Batch 7 pre-order shipping starts in mid-June, batch 8 pre-order shipping starts in August.</span></span></span></span></span></span></span></span></span></span></span></span></span></li>\n<li>\n<span style=\"text-decoration: underline;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">One-year warranty.</span></span></span></span></span><span style=\"text-decoration: underline;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"></span></span></span></span></span>\n</li>\n</ul>\n<p> </p>",
+      "published_at": "2025-10-22T11:42:23+08:00",
+      "created_at": "2025-10-21T21:24:56+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "Electronics",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46971670036672,
+          "title": "Base 8+128GB / Black",
+          "option1": "Base 8+128GB",
+          "option2": "Black",
+          "option3": null,
+          "sku": "OD3-B8BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48539097530560,
+            "product_id": 8359191412928,
+            "position": 1,
+            "created_at": "2025-10-21T21:40:02+08:00",
+            "updated_at": "2025-10-21T21:51:07+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/8b9cc7c9808a81fc8db0eaf67a4d79d7_c20facf0-c5a9-4a9e-ac5c-56212ee0df32.jpg?v=1761054667",
+            "variant_ids": [
+              46971670036672,
+              46971670069440,
+              46971670200512,
+              46971715256512
+            ]
+          },
+          "available": true,
+          "price": "369.00",
+          "grams": 900,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8359191412928,
+          "created_at": "2025-10-21T21:24:56+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46971670069440,
+          "title": "Pro 12+256GB / Black",
+          "option1": "Pro 12+256GB",
+          "option2": "Black",
+          "option3": null,
+          "sku": "OD3-P12BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48539097530560,
+            "product_id": 8359191412928,
+            "position": 1,
+            "created_at": "2025-10-21T21:40:02+08:00",
+            "updated_at": "2025-10-21T21:51:07+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/8b9cc7c9808a81fc8db0eaf67a4d79d7_c20facf0-c5a9-4a9e-ac5c-56212ee0df32.jpg?v=1761054667",
+            "variant_ids": [
+              46971670036672,
+              46971670069440,
+              46971670200512,
+              46971715256512
+            ]
+          },
+          "available": true,
+          "price": "469.00",
+          "grams": 900,
+          "compare_at_price": null,
+          "position": 2,
+          "product_id": 8359191412928,
+          "created_at": "2025-10-21T21:24:56+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46971670102208,
+          "title": "Pro 12+256GB / White",
+          "option1": "Pro 12+256GB",
+          "option2": "White",
+          "option3": null,
+          "sku": "OD3-P12WT",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48539100184768,
+            "product_id": 8359191412928,
+            "position": 2,
+            "created_at": "2025-10-21T21:40:18+08:00",
+            "updated_at": "2025-10-21T21:51:07+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/d92e076f69cb1a6f81c9bab8cd8f57a2_f21bc7dc-1ec5-4a8c-a0fb-159aecd12d8c.jpg?v=1761054667",
+            "variant_ids": [
+              46971670102208,
+              46971670233280,
+              46971715289280
+            ]
+          },
+          "available": true,
+          "price": "469.00",
+          "grams": 900,
+          "compare_at_price": null,
+          "position": 3,
+          "product_id": 8359191412928,
+          "created_at": "2025-10-21T21:24:56+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46971670134976,
+          "title": "Pro 12+256GB / Rainbow",
+          "option1": "Pro 12+256GB",
+          "option2": "Rainbow",
+          "option3": null,
+          "sku": "OD3-P12RB",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48539103658176,
+            "product_id": 8359191412928,
+            "position": 3,
+            "created_at": "2025-10-21T21:40:31+08:00",
+            "updated_at": "2025-10-21T21:51:07+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/548f6dfeb36e615cc62903b4eed35ece_eaf59bac-0bcd-438a-b639-788558761b11.jpg?v=1761054667",
+            "variant_ids": [
+              46971670134976,
+              46971670266048,
+              46971715322048
+            ]
+          },
+          "available": true,
+          "price": "469.00",
+          "grams": 900,
+          "compare_at_price": null,
+          "position": 4,
+          "product_id": 8359191412928,
+          "created_at": "2025-10-21T21:24:56+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46971697332416,
+          "title": "Pro 12+256GB / Clear Blue",
+          "option1": "Pro 12+256GB",
+          "option2": "Clear Blue",
+          "option3": null,
+          "sku": "OD3-P12CB",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48539105296576,
+            "product_id": 8359191412928,
+            "position": 4,
+            "created_at": "2025-10-21T21:40:49+08:00",
+            "updated_at": "2025-10-21T21:51:07+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/000878ce6144c05ffac949f66b05a18b.jpg?v=1761054667",
+            "variant_ids": [
+              46971697332416,
+              46971697365184,
+              46971715354816
+            ]
+          },
+          "available": true,
+          "price": "469.00",
+          "grams": 900,
+          "compare_at_price": null,
+          "position": 5,
+          "product_id": 8359191412928,
+          "created_at": "2025-10-21T21:38:32+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46971670167744,
+          "title": "Pro 12+256GB / Clear Purple",
+          "option1": "Pro 12+256GB",
+          "option2": "Clear Purple",
+          "option3": null,
+          "sku": "OD3-P12CP",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48559926018240,
+            "product_id": 8359191412928,
+            "position": 5,
+            "created_at": "2025-10-22T12:16:50+08:00",
+            "updated_at": "2025-10-22T12:17:13+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/996c0314d3c9f4f6a92e228ed4c8e264_88bbadc0-d155-4ed4-ad0b-d518ba231d6b.jpg?v=1761106633",
+            "variant_ids": [
+              46971670167744,
+              46971670298816,
+              46971715387584
+            ]
+          },
+          "available": true,
+          "price": "469.00",
+          "grams": 900,
+          "compare_at_price": null,
+          "position": 6,
+          "product_id": 8359191412928,
+          "created_at": "2025-10-21T21:24:56+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46971670200512,
+          "title": "Max 16+512GB / Black",
+          "option1": "Max 16+512GB",
+          "option2": "Black",
+          "option3": null,
+          "sku": "OD3-M16BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48539097530560,
+            "product_id": 8359191412928,
+            "position": 1,
+            "created_at": "2025-10-21T21:40:02+08:00",
+            "updated_at": "2025-10-21T21:51:07+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/8b9cc7c9808a81fc8db0eaf67a4d79d7_c20facf0-c5a9-4a9e-ac5c-56212ee0df32.jpg?v=1761054667",
+            "variant_ids": [
+              46971670036672,
+              46971670069440,
+              46971670200512,
+              46971715256512
+            ]
+          },
+          "available": true,
+          "price": "529.00",
+          "grams": 900,
+          "compare_at_price": null,
+          "position": 7,
+          "product_id": 8359191412928,
+          "created_at": "2025-10-21T21:24:56+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46971670233280,
+          "title": "Max 16+512GB / White",
+          "option1": "Max 16+512GB",
+          "option2": "White",
+          "option3": null,
+          "sku": "OD3-M16WT",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48539100184768,
+            "product_id": 8359191412928,
+            "position": 2,
+            "created_at": "2025-10-21T21:40:18+08:00",
+            "updated_at": "2025-10-21T21:51:07+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/d92e076f69cb1a6f81c9bab8cd8f57a2_f21bc7dc-1ec5-4a8c-a0fb-159aecd12d8c.jpg?v=1761054667",
+            "variant_ids": [
+              46971670102208,
+              46971670233280,
+              46971715289280
+            ]
+          },
+          "available": true,
+          "price": "529.00",
+          "grams": 900,
+          "compare_at_price": null,
+          "position": 8,
+          "product_id": 8359191412928,
+          "created_at": "2025-10-21T21:24:56+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46971670266048,
+          "title": "Max 16+512GB / Rainbow",
+          "option1": "Max 16+512GB",
+          "option2": "Rainbow",
+          "option3": null,
+          "sku": "OD3-M16RB",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48539103658176,
+            "product_id": 8359191412928,
+            "position": 3,
+            "created_at": "2025-10-21T21:40:31+08:00",
+            "updated_at": "2025-10-21T21:51:07+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/548f6dfeb36e615cc62903b4eed35ece_eaf59bac-0bcd-438a-b639-788558761b11.jpg?v=1761054667",
+            "variant_ids": [
+              46971670134976,
+              46971670266048,
+              46971715322048
+            ]
+          },
+          "available": true,
+          "price": "529.00",
+          "grams": 900,
+          "compare_at_price": null,
+          "position": 9,
+          "product_id": 8359191412928,
+          "created_at": "2025-10-21T21:24:56+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46971697365184,
+          "title": "Max 16+512GB / Clear Blue",
+          "option1": "Max 16+512GB",
+          "option2": "Clear Blue",
+          "option3": null,
+          "sku": "OD3-M16CB",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48539105296576,
+            "product_id": 8359191412928,
+            "position": 4,
+            "created_at": "2025-10-21T21:40:49+08:00",
+            "updated_at": "2025-10-21T21:51:07+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/000878ce6144c05ffac949f66b05a18b.jpg?v=1761054667",
+            "variant_ids": [
+              46971697332416,
+              46971697365184,
+              46971715354816
+            ]
+          },
+          "available": true,
+          "price": "529.00",
+          "grams": 900,
+          "compare_at_price": null,
+          "position": 10,
+          "product_id": 8359191412928,
+          "created_at": "2025-10-21T21:38:32+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46971670298816,
+          "title": "Max 16+512GB / Clear Purple",
+          "option1": "Max 16+512GB",
+          "option2": "Clear Purple",
+          "option3": null,
+          "sku": "OD3-M16CP",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48559926018240,
+            "product_id": 8359191412928,
+            "position": 5,
+            "created_at": "2025-10-22T12:16:50+08:00",
+            "updated_at": "2025-10-22T12:17:13+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/996c0314d3c9f4f6a92e228ed4c8e264_88bbadc0-d155-4ed4-ad0b-d518ba231d6b.jpg?v=1761106633",
+            "variant_ids": [
+              46971670167744,
+              46971670298816,
+              46971715387584
+            ]
+          },
+          "available": true,
+          "price": "529.00",
+          "grams": 900,
+          "compare_at_price": null,
+          "position": 11,
+          "product_id": 8359191412928,
+          "created_at": "2025-10-21T21:24:56+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46971715256512,
+          "title": "Ultra 24+1T / Black",
+          "option1": "Ultra 24+1T",
+          "option2": "Black",
+          "option3": null,
+          "sku": "OD3-U24BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48539097530560,
+            "product_id": 8359191412928,
+            "position": 1,
+            "created_at": "2025-10-21T21:40:02+08:00",
+            "updated_at": "2025-10-21T21:51:07+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/8b9cc7c9808a81fc8db0eaf67a4d79d7_c20facf0-c5a9-4a9e-ac5c-56212ee0df32.jpg?v=1761054667",
+            "variant_ids": [
+              46971670036672,
+              46971670069440,
+              46971670200512,
+              46971715256512
+            ]
+          },
+          "available": false,
+          "price": "569.00",
+          "grams": 900,
+          "compare_at_price": "309.00",
+          "position": 12,
+          "product_id": 8359191412928,
+          "created_at": "2025-10-21T21:46:40+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46971715289280,
+          "title": "Ultra 24+1T / White",
+          "option1": "Ultra 24+1T",
+          "option2": "White",
+          "option3": null,
+          "sku": "OD3-U24WT",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48539100184768,
+            "product_id": 8359191412928,
+            "position": 2,
+            "created_at": "2025-10-21T21:40:18+08:00",
+            "updated_at": "2025-10-21T21:51:07+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/d92e076f69cb1a6f81c9bab8cd8f57a2_f21bc7dc-1ec5-4a8c-a0fb-159aecd12d8c.jpg?v=1761054667",
+            "variant_ids": [
+              46971670102208,
+              46971670233280,
+              46971715289280
+            ]
+          },
+          "available": false,
+          "price": "569.00",
+          "grams": 900,
+          "compare_at_price": "309.00",
+          "position": 13,
+          "product_id": 8359191412928,
+          "created_at": "2025-10-21T21:46:40+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46971715322048,
+          "title": "Ultra 24+1T / Rainbow",
+          "option1": "Ultra 24+1T",
+          "option2": "Rainbow",
+          "option3": null,
+          "sku": "OD3-U24RB",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48539103658176,
+            "product_id": 8359191412928,
+            "position": 3,
+            "created_at": "2025-10-21T21:40:31+08:00",
+            "updated_at": "2025-10-21T21:51:07+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/548f6dfeb36e615cc62903b4eed35ece_eaf59bac-0bcd-438a-b639-788558761b11.jpg?v=1761054667",
+            "variant_ids": [
+              46971670134976,
+              46971670266048,
+              46971715322048
+            ]
+          },
+          "available": false,
+          "price": "569.00",
+          "grams": 900,
+          "compare_at_price": "309.00",
+          "position": 14,
+          "product_id": 8359191412928,
+          "created_at": "2025-10-21T21:46:40+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46971715354816,
+          "title": "Ultra 24+1T / Clear Blue",
+          "option1": "Ultra 24+1T",
+          "option2": "Clear Blue",
+          "option3": null,
+          "sku": "OD3-U24CB",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48539105296576,
+            "product_id": 8359191412928,
+            "position": 4,
+            "created_at": "2025-10-21T21:40:49+08:00",
+            "updated_at": "2025-10-21T21:51:07+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/000878ce6144c05ffac949f66b05a18b.jpg?v=1761054667",
+            "variant_ids": [
+              46971697332416,
+              46971697365184,
+              46971715354816
+            ]
+          },
+          "available": false,
+          "price": "569.00",
+          "grams": 900,
+          "compare_at_price": "309.00",
+          "position": 15,
+          "product_id": 8359191412928,
+          "created_at": "2025-10-21T21:46:40+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46971715387584,
+          "title": "Ultra 24+1T / Clear Purple",
+          "option1": "Ultra 24+1T",
+          "option2": "Clear Purple",
+          "option3": null,
+          "sku": "OD3-U24CP",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 48559926018240,
+            "product_id": 8359191412928,
+            "position": 5,
+            "created_at": "2025-10-22T12:16:50+08:00",
+            "updated_at": "2025-10-22T12:17:13+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/996c0314d3c9f4f6a92e228ed4c8e264_88bbadc0-d155-4ed4-ad0b-d518ba231d6b.jpg?v=1761106633",
+            "variant_ids": [
+              46971670167744,
+              46971670298816,
+              46971715387584
+            ]
+          },
+          "available": false,
+          "price": "569.00",
+          "grams": 900,
+          "compare_at_price": "309.00",
+          "position": 16,
+          "product_id": 8359191412928,
+          "created_at": "2025-10-21T21:46:40+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 48539097530560,
+          "created_at": "2025-10-21T21:40:02+08:00",
+          "position": 1,
+          "updated_at": "2025-10-21T21:51:07+08:00",
+          "product_id": 8359191412928,
+          "variant_ids": [
+            46971670036672,
+            46971670069440,
+            46971670200512,
+            46971715256512
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/8b9cc7c9808a81fc8db0eaf67a4d79d7_c20facf0-c5a9-4a9e-ac5c-56212ee0df32.jpg?v=1761054667",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 48539100184768,
+          "created_at": "2025-10-21T21:40:18+08:00",
+          "position": 2,
+          "updated_at": "2025-10-21T21:51:07+08:00",
+          "product_id": 8359191412928,
+          "variant_ids": [
+            46971670102208,
+            46971670233280,
+            46971715289280
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/d92e076f69cb1a6f81c9bab8cd8f57a2_f21bc7dc-1ec5-4a8c-a0fb-159aecd12d8c.jpg?v=1761054667",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 48539103658176,
+          "created_at": "2025-10-21T21:40:31+08:00",
+          "position": 3,
+          "updated_at": "2025-10-21T21:51:07+08:00",
+          "product_id": 8359191412928,
+          "variant_ids": [
+            46971670134976,
+            46971670266048,
+            46971715322048
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/548f6dfeb36e615cc62903b4eed35ece_eaf59bac-0bcd-438a-b639-788558761b11.jpg?v=1761054667",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 48539105296576,
+          "created_at": "2025-10-21T21:40:49+08:00",
+          "position": 4,
+          "updated_at": "2025-10-21T21:51:07+08:00",
+          "product_id": 8359191412928,
+          "variant_ids": [
+            46971697332416,
+            46971697365184,
+            46971715354816
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/000878ce6144c05ffac949f66b05a18b.jpg?v=1761054667",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 48559926018240,
+          "created_at": "2025-10-22T12:16:50+08:00",
+          "position": 5,
+          "updated_at": "2025-10-22T12:17:13+08:00",
+          "product_id": 8359191412928,
+          "variant_ids": [
+            46971670167744,
+            46971670298816,
+            46971715387584
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/996c0314d3c9f4f6a92e228ed4c8e264_88bbadc0-d155-4ed4-ad0b-d518ba231d6b.jpg?v=1761106633",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 53508774985920,
+          "created_at": "2026-04-01T15:17:21+08:00",
+          "position": 6,
+          "updated_at": "2026-04-01T15:18:24+08:00",
+          "product_id": 8359191412928,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/odin3_11.jpg?v=1775027904",
+          "width": 2000,
+          "height": 9885
+        },
+        {
+          "id": 48538890600640,
+          "created_at": "2025-10-21T21:28:48+08:00",
+          "position": 7,
+          "updated_at": "2026-04-01T15:18:24+08:00",
+          "product_id": 8359191412928,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/odin3_2.jpg?v=1775027904",
+          "width": 2000,
+          "height": 11517
+        },
+        {
+          "id": 53871949676736,
+          "created_at": "2026-04-17T15:19:55+08:00",
+          "position": 8,
+          "updated_at": "2026-04-17T15:19:58+08:00",
+          "product_id": 8359191412928,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/odin3.jpg?v=1776410398",
+          "width": 2000,
+          "height": 8731
+        }
+      ],
+      "options": [
+        {
+          "name": "Model",
+          "position": 1,
+          "values": [
+            "Base 8+128GB",
+            "Pro 12+256GB",
+            "Max 16+512GB",
+            "Ultra 24+1T"
+          ]
+        },
+        {
+          "name": "Color",
+          "position": 2,
+          "values": [
+            "Black",
+            "White",
+            "Rainbow",
+            "Clear Blue",
+            "Clear Purple"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8306953355456,
+      "title": "Thor Accessories Pack",
+      "handle": "thor-accessories-pack",
+      "body_html": "<p>Notice: <br>1. This is the accessory bundle. If you wish to purchase most of the accessories, please select this option at a discounted price. The bundle includes one carrying case with grip.<br></p>\n<p>2. The color options refer to the TPU grip. Please select the one that matches your device color or the color you like. The shipment will be arranged based on the color option you have chosen.</p>\n<p>3. The images are only for reference and may differ from the actual items. (<span style=\"text-decoration: underline;\"><strong>The clear white grip is not solid white but translucent/clear.</strong></span>)</p>",
+      "published_at": "2025-08-25T18:56:55+08:00",
+      "created_at": "2025-08-23T12:53:20+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46699156701376,
+          "title": "Black",
+          "option1": "Black",
+          "option2": null,
+          "option3": null,
+          "sku": "T-X600X-BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46883843997888,
+            "product_id": 8306953355456,
+            "position": 1,
+            "created_at": "2025-08-25T18:48:03+08:00",
+            "updated_at": "2025-08-25T18:48:05+08:00",
+            "alt": null,
+            "width": 2000,
+            "height": 2000,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/Black_7b6bd0d9-735f-48ff-b0d5-e7fa2fe7e167.jpg?v=1756118885",
+            "variant_ids": [
+              46699156701376
+            ]
+          },
+          "available": true,
+          "price": "50.00",
+          "grams": 550,
+          "compare_at_price": "60.00",
+          "position": 1,
+          "product_id": 8306953355456,
+          "created_at": "2025-08-25T18:29:07+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46699156734144,
+          "title": "Grey",
+          "option1": "Grey",
+          "option2": null,
+          "option3": null,
+          "sku": "T-X600X-GR",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46883848126656,
+            "product_id": 8306953355456,
+            "position": 2,
+            "created_at": "2025-08-25T18:48:19+08:00",
+            "updated_at": "2025-08-25T18:48:21+08:00",
+            "alt": null,
+            "width": 2000,
+            "height": 2000,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/Grey.jpg?v=1756118901",
+            "variant_ids": [
+              46699156734144
+            ]
+          },
+          "available": true,
+          "price": "50.00",
+          "grams": 550,
+          "compare_at_price": "60.00",
+          "position": 2,
+          "product_id": 8306953355456,
+          "created_at": "2025-08-25T18:29:07+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46699156766912,
+          "title": "Clear White",
+          "option1": "Clear White",
+          "option2": null,
+          "option3": null,
+          "sku": "T-X600X-CW",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46883854287040,
+            "product_id": 8306953355456,
+            "position": 3,
+            "created_at": "2025-08-25T18:48:35+08:00",
+            "updated_at": "2025-08-25T18:48:36+08:00",
+            "alt": null,
+            "width": 2000,
+            "height": 2000,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/Clear_White.jpg?v=1756118916",
+            "variant_ids": [
+              46699156766912
+            ]
+          },
+          "available": true,
+          "price": "50.00",
+          "grams": 550,
+          "compare_at_price": "60.00",
+          "position": 3,
+          "product_id": 8306953355456,
+          "created_at": "2025-08-25T18:29:07+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 46883843997888,
+          "created_at": "2025-08-25T18:48:03+08:00",
+          "position": 1,
+          "updated_at": "2025-08-25T18:48:05+08:00",
+          "product_id": 8306953355456,
+          "variant_ids": [
+            46699156701376
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/Black_7b6bd0d9-735f-48ff-b0d5-e7fa2fe7e167.jpg?v=1756118885",
+          "width": 2000,
+          "height": 2000
+        },
+        {
+          "id": 46883848126656,
+          "created_at": "2025-08-25T18:48:19+08:00",
+          "position": 2,
+          "updated_at": "2025-08-25T18:48:21+08:00",
+          "product_id": 8306953355456,
+          "variant_ids": [
+            46699156734144
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/Grey.jpg?v=1756118901",
+          "width": 2000,
+          "height": 2000
+        },
+        {
+          "id": 46883854287040,
+          "created_at": "2025-08-25T18:48:35+08:00",
+          "position": 3,
+          "updated_at": "2025-08-25T18:48:36+08:00",
+          "product_id": 8306953355456,
+          "variant_ids": [
+            46699156766912
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/Clear_White.jpg?v=1756118916",
+          "width": 2000,
+          "height": 2000
+        }
+      ],
+      "options": [
+        {
+          "name": "Color",
+          "position": 1,
+          "values": [
+            "Black",
+            "Grey",
+            "Clear White"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8306950242496,
+      "title": "Thor Lanyard",
+      "handle": "thor-lanyard",
+      "body_html": "<p>Notice: The image is only for reference and may differ from the actual item.</p>",
+      "published_at": "2025-08-25T17:25:13+08:00",
+      "created_at": "2025-08-23T11:54:26+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46694887456960,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "T-X6007",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "3.00",
+          "grams": 20,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8306950242496,
+          "created_at": "2025-08-23T11:54:26+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 46783860572352,
+          "created_at": "2025-08-23T11:54:38+08:00",
+          "position": 1,
+          "updated_at": "2025-08-23T11:54:39+08:00",
+          "product_id": 8306950242496,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/IMG_9709.jpg?v=1755921279",
+          "width": 1600,
+          "height": 1600
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8306950111424,
+      "title": "Thor Soft Pouch",
+      "handle": "thor-soft-punch",
+      "body_html": "<p>Notice: The image is only for reference and may differ from the actual item.</p>",
+      "published_at": "2025-08-25T17:25:12+08:00",
+      "created_at": "2025-08-23T11:53:12+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46694887325888,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "T-X6006",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": null,
+          "available": true,
+          "price": "5.00",
+          "grams": 30,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8306950111424,
+          "created_at": "2025-08-23T11:53:12+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 46783814172864,
+          "created_at": "2025-08-23T11:53:22+08:00",
+          "position": 1,
+          "updated_at": "2025-08-23T11:53:24+08:00",
+          "product_id": 8306950111424,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/c124604934445fec28a4cb3326287889.jpg?v=1755921204",
+          "width": 1600,
+          "height": 1600
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8306949587136,
+      "title": "Thor TPU shell",
+      "handle": "thor-tpu-shell",
+      "body_html": "<p>Notice: The image is only for reference and may differ from the actual item.</p>",
+      "published_at": "2025-08-25T17:25:12+08:00",
+      "created_at": "2025-08-23T11:45:59+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46694881165504,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "T-X6005",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "15.00",
+          "grams": 100,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8306949587136,
+          "created_at": "2025-08-23T11:45:59+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 46783671632064,
+          "created_at": "2025-08-23T11:49:20+08:00",
+          "position": 1,
+          "updated_at": "2025-08-23T11:49:22+08:00",
+          "product_id": 8306949587136,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/de03f2783cf8a581e49763338b9cdd36_3292afa9-ae12-4b50-8762-3d512f221ebd.jpg?v=1755920962",
+          "width": 1600,
+          "height": 1600
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8306947096768,
+      "title": "Thor TPU Grip",
+      "handle": "thor-tpu-grip",
+      "body_html": "<p><strong>IMPORTANT:</strong></p>\n<p>The final color is subject to the actual product. (<span style=\"text-decoration: underline;\"><strong>The white grip is not solid white but translucent/clear.</strong></span>)</p>\n<p><br> </p>",
+      "published_at": "2025-08-25T17:25:12+08:00",
+      "created_at": "2025-08-23T11:31:50+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46694858752192,
+          "title": "Black",
+          "option1": "Black",
+          "option2": null,
+          "option3": null,
+          "sku": "T-X6G004BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46783352602816,
+            "product_id": 8306947096768,
+            "position": 1,
+            "created_at": "2025-08-23T11:40:38+08:00",
+            "updated_at": "2025-08-23T11:40:39+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/c92e71f2fc297e1c143032cea61c92b7.jpg?v=1755920439",
+            "variant_ids": [
+              46694858752192
+            ]
+          },
+          "available": true,
+          "price": "15.00",
+          "grams": 200,
+          "compare_at_price": "0.00",
+          "position": 1,
+          "product_id": 8306947096768,
+          "created_at": "2025-08-23T11:31:50+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46694858817728,
+          "title": "Grey",
+          "option1": "Grey",
+          "option2": null,
+          "option3": null,
+          "sku": "T-X6G004GR",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46882971746496,
+            "product_id": 8306947096768,
+            "position": 2,
+            "created_at": "2025-08-25T18:11:04+08:00",
+            "updated_at": "2025-08-25T18:11:05+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/2_250e3d97-d9c7-42a7-91cb-8750d5d2b156.jpg?v=1756116665",
+            "variant_ids": [
+              46694858817728
+            ]
+          },
+          "available": true,
+          "price": "15.00",
+          "grams": 200,
+          "compare_at_price": "0.00",
+          "position": 2,
+          "product_id": 8306947096768,
+          "created_at": "2025-08-23T11:31:50+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46694858784960,
+          "title": "Clear White",
+          "option1": "Clear White",
+          "option2": null,
+          "option3": null,
+          "sku": "T-X6G004CW",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46882973745344,
+            "product_id": 8306947096768,
+            "position": 3,
+            "created_at": "2025-08-25T18:11:19+08:00",
+            "updated_at": "2025-08-25T18:11:21+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/2_bb31fbd7-ebd9-4d2c-b7d2-6cf843501c1b.jpg?v=1756116681",
+            "variant_ids": [
+              46694858784960
+            ]
+          },
+          "available": true,
+          "price": "15.00",
+          "grams": 200,
+          "compare_at_price": "0.00",
+          "position": 3,
+          "product_id": 8306947096768,
+          "created_at": "2025-08-23T11:31:50+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 46783352602816,
+          "created_at": "2025-08-23T11:40:38+08:00",
+          "position": 1,
+          "updated_at": "2025-08-23T11:40:39+08:00",
+          "product_id": 8306947096768,
+          "variant_ids": [
+            46694858752192
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/c92e71f2fc297e1c143032cea61c92b7.jpg?v=1755920439",
+          "width": 1600,
+          "height": 1600
+        },
+        {
+          "id": 46882971746496,
+          "created_at": "2025-08-25T18:11:04+08:00",
+          "position": 2,
+          "updated_at": "2025-08-25T18:11:05+08:00",
+          "product_id": 8306947096768,
+          "variant_ids": [
+            46694858817728
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/2_250e3d97-d9c7-42a7-91cb-8750d5d2b156.jpg?v=1756116665",
+          "width": 1600,
+          "height": 1600
+        },
+        {
+          "id": 46882973745344,
+          "created_at": "2025-08-25T18:11:19+08:00",
+          "position": 3,
+          "updated_at": "2025-08-25T18:11:21+08:00",
+          "product_id": 8306947096768,
+          "variant_ids": [
+            46694858784960
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/2_bb31fbd7-ebd9-4d2c-b7d2-6cf843501c1b.jpg?v=1756116681",
+          "width": 1600,
+          "height": 1600
+        }
+      ],
+      "options": [
+        {
+          "name": "Color",
+          "position": 1,
+          "values": [
+            "Black",
+            "Grey",
+            "Clear White"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8306945425600,
+      "title": "Thor Screen Protectors",
+      "handle": "thor-screen-protectors",
+      "body_html": "<p>Notice: Includes both top and bottom screen protectors. Using the top screen protector may prevent the device from closing fully.</p>",
+      "published_at": "2025-08-25T17:25:11+08:00",
+      "created_at": "2025-08-23T11:18:50+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46694842466496,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "T-X6S003",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "10.00",
+          "grams": 30,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8306945425600,
+          "created_at": "2025-08-23T11:18:51+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 46785372684480,
+          "created_at": "2025-08-23T12:40:10+08:00",
+          "position": 1,
+          "updated_at": "2025-08-23T12:40:12+08:00",
+          "product_id": 8306945425600,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/8c9bc43e7e76285126f6e1b40dccc984.png?v=1755924012",
+          "width": 1365,
+          "height": 1397
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8306411536576,
+      "title": "Thor Carrying Case",
+      "handle": "ayn-thor-carrying-case",
+      "body_html": "<p data-start=\"73\" data-end=\"86\"><strong data-start=\"73\" data-end=\"84\">Notice:</strong></p>\n<ol data-start=\"87\" data-end=\"302\">\n<li data-start=\"87\" data-end=\"187\">\n<p data-start=\"90\" data-end=\"187\">The carrying case <strong data-start=\"108\" data-end=\"121\">with grip</strong> is designed to hold the device together with the grip attached. (Grip sold separately, not included with case.)</p>\n</li>\n<li data-start=\"188\" data-end=\"302\">\n<p data-start=\"191\" data-end=\"302\">If you only need a case for the device itself (without the grip), please choose the version <strong data-start=\"283\" data-end=\"299\">without grip</strong>.</p>\n</li>\n</ol>",
+      "published_at": "2025-08-25T17:25:11+08:00",
+      "created_at": "2025-08-22T17:53:34+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46692757110976,
+          "title": "Carrying case with grip",
+          "option1": "Carrying case with grip",
+          "option2": null,
+          "option3": null,
+          "sku": "T-X6B001",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": {
+            "id": 46743249289408,
+            "product_id": 8306411536576,
+            "position": 1,
+            "created_at": "2025-08-22T17:56:14+08:00",
+            "updated_at": "2025-08-22T17:56:16+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/22.jpg?v=1755856576",
+            "variant_ids": [
+              46692757110976
+            ]
+          },
+          "available": true,
+          "price": "12.00",
+          "grams": 250,
+          "compare_at_price": "15.00",
+          "position": 1,
+          "product_id": 8306411536576,
+          "created_at": "2025-08-22T17:56:27+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46692757143744,
+          "title": "Carrying case without grip",
+          "option1": "Carrying case without grip",
+          "option2": null,
+          "option3": null,
+          "sku": "T-X6B002",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": {
+            "id": 46743241064640,
+            "product_id": 8306411536576,
+            "position": 2,
+            "created_at": "2025-08-22T17:55:57+08:00",
+            "updated_at": "2025-08-22T17:55:59+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/55.jpg?v=1755856559",
+            "variant_ids": [
+              46692757143744
+            ]
+          },
+          "available": true,
+          "price": "12.00",
+          "grams": 200,
+          "compare_at_price": "15.00",
+          "position": 2,
+          "product_id": 8306411536576,
+          "created_at": "2025-08-22T17:56:27+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 46743249289408,
+          "created_at": "2025-08-22T17:56:14+08:00",
+          "position": 1,
+          "updated_at": "2025-08-22T17:56:16+08:00",
+          "product_id": 8306411536576,
+          "variant_ids": [
+            46692757110976
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/22.jpg?v=1755856576",
+          "width": 1600,
+          "height": 1600
+        },
+        {
+          "id": 46743241064640,
+          "created_at": "2025-08-22T17:55:57+08:00",
+          "position": 2,
+          "updated_at": "2025-08-22T17:55:59+08:00",
+          "product_id": 8306411536576,
+          "variant_ids": [
+            46692757143744
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/55.jpg?v=1755856559",
+          "width": 1600,
+          "height": 1600
+        }
+      ],
+      "options": [
+        {
+          "name": "Model",
+          "position": 1,
+          "values": [
+            "Carrying case with grip",
+            "Carrying case without grip"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8306375426240,
+      "title": "AYN Thor (Batch 7 Pre-order)",
+      "handle": "ayn-thor",
+      "body_html": "<p><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><strong>AYN Thor: Exclusively 6'' AMOLED Dual Screen Gaming Handheld</strong><br>Qualcomm CPU | <span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">Customized Full HD 6\" AMOLED Touch Screen <span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">| 3.92<span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">\" AMOLED Touch Display (Bottom Screen) <span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">| </span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>Android 13 | 6000mAh Battery | Hall Sticks | </span></span></span></span></p>\n<p>Lite=SD865 8+128GB（UFS3.1）<br>Base=8Gen2 8+128GB（UFS3.1）<br>Pro= 8Gen2 12+256GB（UFS3.1）<br>Max512=8Gen2 16+512GB（UFS3.1）<br>Max1TB=8Gen2 16+1TB（UFS3.1）</p>\n<p><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">Notice:</span></span></span></span></p>\n<ul>\n<li>\n<span style=\"text-decoration: underline;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">There are no games preinstalled in AYN Thor.</span></span></span></span></span><span style=\"text-decoration: underline;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"></span></span></span></span></span>\n</li>\n<li>\n<span style=\"text-decoration: underline;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">Batch 6 pre-order shipping starts in mid-June.</span></span></span></span></span><span style=\"text-decoration: underline;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"></span></span></span></span></span>\n</li>\n<li><span style=\"text-decoration: underline;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">Batch 7 pre-order shipping starts in August.</span></span></span></span></span></span></span></span></span></li>\n<li>\n<span style=\"text-decoration: underline;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">One-year warranty.</span></span></span></span></span><span style=\"text-decoration: underline;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"></span></span></span></span></span>\n</li>\n</ul>\n<p> </p>",
+      "published_at": "2025-08-22T20:42:54+08:00",
+      "created_at": "2025-08-22T14:35:10+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "Electronics",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46692546248896,
+          "title": "Lite 8+128GB / Black",
+          "option1": "Lite 8+128GB",
+          "option2": "Black",
+          "option3": null,
+          "sku": "T-LX6BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46738485313728,
+            "product_id": 8306375426240,
+            "position": 1,
+            "created_at": "2025-08-22T15:19:19+08:00",
+            "updated_at": "2025-08-22T17:40:04+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/4fe40f089696834c4906303a743d01c5_d891fc5b-3473-449a-85c1-56663e291fcf.jpg?v=1755855604",
+            "variant_ids": [
+              46692546248896,
+              46692546445504,
+              46692546478272,
+              46692546674880,
+              48160690602176
+            ]
+          },
+          "available": true,
+          "price": "259.00",
+          "grams": 800,
+          "compare_at_price": "259.00",
+          "position": 1,
+          "product_id": 8306375426240,
+          "created_at": "2025-08-22T14:35:10+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46692546445504,
+          "title": "Base 8+128GB / Black",
+          "option1": "Base 8+128GB",
+          "option2": "Black",
+          "option3": null,
+          "sku": "T-BX6BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46738485313728,
+            "product_id": 8306375426240,
+            "position": 1,
+            "created_at": "2025-08-22T15:19:19+08:00",
+            "updated_at": "2025-08-22T17:40:04+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/4fe40f089696834c4906303a743d01c5_d891fc5b-3473-449a-85c1-56663e291fcf.jpg?v=1755855604",
+            "variant_ids": [
+              46692546248896,
+              46692546445504,
+              46692546478272,
+              46692546674880,
+              48160690602176
+            ]
+          },
+          "available": true,
+          "price": "329.00",
+          "grams": 800,
+          "compare_at_price": null,
+          "position": 2,
+          "product_id": 8306375426240,
+          "created_at": "2025-08-22T14:35:10+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46692546478272,
+          "title": "Pro 12+256GB / Black",
+          "option1": "Pro 12+256GB",
+          "option2": "Black",
+          "option3": null,
+          "sku": "T-PX6BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46738485313728,
+            "product_id": 8306375426240,
+            "position": 1,
+            "created_at": "2025-08-22T15:19:19+08:00",
+            "updated_at": "2025-08-22T17:40:04+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/4fe40f089696834c4906303a743d01c5_d891fc5b-3473-449a-85c1-56663e291fcf.jpg?v=1755855604",
+            "variant_ids": [
+              46692546248896,
+              46692546445504,
+              46692546478272,
+              46692546674880,
+              48160690602176
+            ]
+          },
+          "available": true,
+          "price": "409.00",
+          "grams": 800,
+          "compare_at_price": null,
+          "position": 3,
+          "product_id": 8306375426240,
+          "created_at": "2025-08-22T14:35:10+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46692546511040,
+          "title": "Pro 12+256GB / White",
+          "option1": "Pro 12+256GB",
+          "option2": "White",
+          "option3": null,
+          "sku": "T-PX6WT",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46747338539200,
+            "product_id": 8306375426240,
+            "position": 2,
+            "created_at": "2025-08-22T20:16:23+08:00",
+            "updated_at": "2025-08-23T18:04:45+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/e50c1d352b31e3f4a65f1f0a706072c3.jpg?v=1755943485",
+            "variant_ids": [
+              46692546511040,
+              46692546707648,
+              48160690634944
+            ]
+          },
+          "available": true,
+          "price": "409.00",
+          "grams": 800,
+          "compare_at_price": null,
+          "position": 4,
+          "product_id": 8306375426240,
+          "created_at": "2025-08-22T14:35:10+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46692546642112,
+          "title": "Pro 12+256GB / Rainbow",
+          "option1": "Pro 12+256GB",
+          "option2": "Rainbow",
+          "option3": null,
+          "sku": "T-PX6RB",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46738509660352,
+            "product_id": 8306375426240,
+            "position": 3,
+            "created_at": "2025-08-22T15:20:25+08:00",
+            "updated_at": "2025-08-23T18:04:45+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/548f6dfeb36e615cc62903b4eed35ece.jpg?v=1755943485",
+            "variant_ids": [
+              46692546642112,
+              46692546838720,
+              48160690667712
+            ]
+          },
+          "available": true,
+          "price": "409.00",
+          "grams": 800,
+          "compare_at_price": null,
+          "position": 5,
+          "product_id": 8306375426240,
+          "created_at": "2025-08-22T14:35:10+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46692546609344,
+          "title": "Pro 12+256GB / Clear Purple",
+          "option1": "Pro 12+256GB",
+          "option2": "Clear Purple",
+          "option3": null,
+          "sku": "T-PX6TP",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46738516639936,
+            "product_id": 8306375426240,
+            "position": 4,
+            "created_at": "2025-08-22T15:20:40+08:00",
+            "updated_at": "2025-08-23T18:04:45+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/996c0314d3c9f4f6a92e228ed4c8e264_a5d230ab-c3a7-49bd-940b-1c63a39c40ae.jpg?v=1755943485",
+            "variant_ids": [
+              46692546609344,
+              46692546805952,
+              48160690700480
+            ]
+          },
+          "available": true,
+          "price": "409.00",
+          "grams": 800,
+          "compare_at_price": null,
+          "position": 6,
+          "product_id": 8306375426240,
+          "created_at": "2025-08-22T14:35:10+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 48160690602176,
+          "title": "Max 16+512GB / Black",
+          "option1": "Max 16+512GB",
+          "option2": "Black",
+          "option3": null,
+          "sku": "T-M5X6BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46738485313728,
+            "product_id": 8306375426240,
+            "position": 1,
+            "created_at": "2025-08-22T15:19:19+08:00",
+            "updated_at": "2025-08-22T17:40:04+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/4fe40f089696834c4906303a743d01c5_d891fc5b-3473-449a-85c1-56663e291fcf.jpg?v=1755855604",
+            "variant_ids": [
+              46692546248896,
+              46692546445504,
+              46692546478272,
+              46692546674880,
+              48160690602176
+            ]
+          },
+          "available": true,
+          "price": "479.00",
+          "grams": 800,
+          "compare_at_price": "259.00",
+          "position": 7,
+          "product_id": 8306375426240,
+          "created_at": "2026-04-17T11:52:21+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 48160690634944,
+          "title": "Max 16+512GB / White",
+          "option1": "Max 16+512GB",
+          "option2": "White",
+          "option3": null,
+          "sku": "T-M5X6WT",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46747338539200,
+            "product_id": 8306375426240,
+            "position": 2,
+            "created_at": "2025-08-22T20:16:23+08:00",
+            "updated_at": "2025-08-23T18:04:45+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/e50c1d352b31e3f4a65f1f0a706072c3.jpg?v=1755943485",
+            "variant_ids": [
+              46692546511040,
+              46692546707648,
+              48160690634944
+            ]
+          },
+          "available": true,
+          "price": "479.00",
+          "grams": 800,
+          "compare_at_price": "259.00",
+          "position": 8,
+          "product_id": 8306375426240,
+          "created_at": "2026-04-17T11:52:21+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 48160690667712,
+          "title": "Max 16+512GB / Rainbow",
+          "option1": "Max 16+512GB",
+          "option2": "Rainbow",
+          "option3": null,
+          "sku": "T-M5X6RB",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46738509660352,
+            "product_id": 8306375426240,
+            "position": 3,
+            "created_at": "2025-08-22T15:20:25+08:00",
+            "updated_at": "2025-08-23T18:04:45+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/548f6dfeb36e615cc62903b4eed35ece.jpg?v=1755943485",
+            "variant_ids": [
+              46692546642112,
+              46692546838720,
+              48160690667712
+            ]
+          },
+          "available": true,
+          "price": "479.00",
+          "grams": 800,
+          "compare_at_price": "259.00",
+          "position": 9,
+          "product_id": 8306375426240,
+          "created_at": "2026-04-17T11:52:21+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 48160690700480,
+          "title": "Max 16+512GB / Clear Purple",
+          "option1": "Max 16+512GB",
+          "option2": "Clear Purple",
+          "option3": null,
+          "sku": "T-M5X6TP",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46738516639936,
+            "product_id": 8306375426240,
+            "position": 4,
+            "created_at": "2025-08-22T15:20:40+08:00",
+            "updated_at": "2025-08-23T18:04:45+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/996c0314d3c9f4f6a92e228ed4c8e264_a5d230ab-c3a7-49bd-940b-1c63a39c40ae.jpg?v=1755943485",
+            "variant_ids": [
+              46692546609344,
+              46692546805952,
+              48160690700480
+            ]
+          },
+          "available": true,
+          "price": "479.00",
+          "grams": 800,
+          "compare_at_price": "259.00",
+          "position": 10,
+          "product_id": 8306375426240,
+          "created_at": "2026-04-17T11:52:21+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46692546674880,
+          "title": "Max 16+1TB / Black",
+          "option1": "Max 16+1TB",
+          "option2": "Black",
+          "option3": null,
+          "sku": "T-MX6BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46738485313728,
+            "product_id": 8306375426240,
+            "position": 1,
+            "created_at": "2025-08-22T15:19:19+08:00",
+            "updated_at": "2025-08-22T17:40:04+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/4fe40f089696834c4906303a743d01c5_d891fc5b-3473-449a-85c1-56663e291fcf.jpg?v=1755855604",
+            "variant_ids": [
+              46692546248896,
+              46692546445504,
+              46692546478272,
+              46692546674880,
+              48160690602176
+            ]
+          },
+          "available": true,
+          "price": "579.00",
+          "grams": 800,
+          "compare_at_price": null,
+          "position": 11,
+          "product_id": 8306375426240,
+          "created_at": "2025-08-22T14:35:10+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46692546707648,
+          "title": "Max 16+1TB / White",
+          "option1": "Max 16+1TB",
+          "option2": "White",
+          "option3": null,
+          "sku": "T-MX6WT",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46747338539200,
+            "product_id": 8306375426240,
+            "position": 2,
+            "created_at": "2025-08-22T20:16:23+08:00",
+            "updated_at": "2025-08-23T18:04:45+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/e50c1d352b31e3f4a65f1f0a706072c3.jpg?v=1755943485",
+            "variant_ids": [
+              46692546511040,
+              46692546707648,
+              48160690634944
+            ]
+          },
+          "available": true,
+          "price": "579.00",
+          "grams": 800,
+          "compare_at_price": null,
+          "position": 12,
+          "product_id": 8306375426240,
+          "created_at": "2025-08-22T14:35:10+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46692546838720,
+          "title": "Max 16+1TB / Rainbow",
+          "option1": "Max 16+1TB",
+          "option2": "Rainbow",
+          "option3": null,
+          "sku": "T-MX6RB",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46738509660352,
+            "product_id": 8306375426240,
+            "position": 3,
+            "created_at": "2025-08-22T15:20:25+08:00",
+            "updated_at": "2025-08-23T18:04:45+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/548f6dfeb36e615cc62903b4eed35ece.jpg?v=1755943485",
+            "variant_ids": [
+              46692546642112,
+              46692546838720,
+              48160690667712
+            ]
+          },
+          "available": true,
+          "price": "579.00",
+          "grams": 800,
+          "compare_at_price": null,
+          "position": 13,
+          "product_id": 8306375426240,
+          "created_at": "2025-08-22T14:35:10+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46692546805952,
+          "title": "Max 16+1TB / Clear Purple",
+          "option1": "Max 16+1TB",
+          "option2": "Clear Purple",
+          "option3": null,
+          "sku": "T-MX6TP",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 46738516639936,
+            "product_id": 8306375426240,
+            "position": 4,
+            "created_at": "2025-08-22T15:20:40+08:00",
+            "updated_at": "2025-08-23T18:04:45+08:00",
+            "alt": null,
+            "width": 1600,
+            "height": 1600,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/996c0314d3c9f4f6a92e228ed4c8e264_a5d230ab-c3a7-49bd-940b-1c63a39c40ae.jpg?v=1755943485",
+            "variant_ids": [
+              46692546609344,
+              46692546805952,
+              48160690700480
+            ]
+          },
+          "available": true,
+          "price": "579.00",
+          "grams": 800,
+          "compare_at_price": null,
+          "position": 14,
+          "product_id": 8306375426240,
+          "created_at": "2025-08-22T14:35:10+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 46738485313728,
+          "created_at": "2025-08-22T15:19:19+08:00",
+          "position": 1,
+          "updated_at": "2025-08-22T17:40:04+08:00",
+          "product_id": 8306375426240,
+          "variant_ids": [
+            46692546248896,
+            46692546445504,
+            46692546478272,
+            46692546674880,
+            48160690602176
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/4fe40f089696834c4906303a743d01c5_d891fc5b-3473-449a-85c1-56663e291fcf.jpg?v=1755855604",
+          "width": 1600,
+          "height": 1600
+        },
+        {
+          "id": 46747338539200,
+          "created_at": "2025-08-22T20:16:23+08:00",
+          "position": 2,
+          "updated_at": "2025-08-23T18:04:45+08:00",
+          "product_id": 8306375426240,
+          "variant_ids": [
+            46692546511040,
+            46692546707648,
+            48160690634944
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/e50c1d352b31e3f4a65f1f0a706072c3.jpg?v=1755943485",
+          "width": 1600,
+          "height": 1600
+        },
+        {
+          "id": 46738509660352,
+          "created_at": "2025-08-22T15:20:25+08:00",
+          "position": 3,
+          "updated_at": "2025-08-23T18:04:45+08:00",
+          "product_id": 8306375426240,
+          "variant_ids": [
+            46692546642112,
+            46692546838720,
+            48160690667712
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/548f6dfeb36e615cc62903b4eed35ece.jpg?v=1755943485",
+          "width": 1600,
+          "height": 1600
+        },
+        {
+          "id": 46738516639936,
+          "created_at": "2025-08-22T15:20:40+08:00",
+          "position": 4,
+          "updated_at": "2025-08-23T18:04:45+08:00",
+          "product_id": 8306375426240,
+          "variant_ids": [
+            46692546609344,
+            46692546805952,
+            48160690700480
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/996c0314d3c9f4f6a92e228ed4c8e264_a5d230ab-c3a7-49bd-940b-1c63a39c40ae.jpg?v=1755943485",
+          "width": 1600,
+          "height": 1600
+        },
+        {
+          "id": 48283351548096,
+          "created_at": "2025-10-11T18:13:13+08:00",
+          "position": 5,
+          "updated_at": "2025-10-11T18:13:33+08:00",
+          "product_id": 8306375426240,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/1_3bf65c6d-afa7-4916-896b-e1409f7dcd8e.jpg?v=1760177613",
+          "width": 1888,
+          "height": 11036
+        },
+        {
+          "id": 55147278926016,
+          "created_at": "2026-05-27T09:16:15+08:00",
+          "position": 6,
+          "updated_at": "2026-05-27T09:16:18+08:00",
+          "product_id": 8306375426240,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/Thor_SD_7f98f04d-1fe7-4639-a61e-484289178368.jpg?v=1779844578",
+          "width": 2000,
+          "height": 11457
+        },
+        {
+          "id": 55147274633408,
+          "created_at": "2026-05-27T09:16:04+08:00",
+          "position": 7,
+          "updated_at": "2026-05-27T09:16:06+08:00",
+          "product_id": 8306375426240,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/Thor_SD.jpg?v=1779844566",
+          "width": 2000,
+          "height": 6874
+        }
+      ],
+      "options": [
+        {
+          "name": "Model",
+          "position": 1,
+          "values": [
+            "Lite 8+128GB",
+            "Base 8+128GB",
+            "Pro 12+256GB",
+            "Max 16+512GB",
+            "Max 16+1TB"
+          ]
+        },
+        {
+          "name": "Color",
+          "position": 2,
+          "values": [
+            "Black",
+            "White",
+            "Rainbow",
+            "Clear Purple"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8241725014208,
+      "title": "Odin 2 Base",
+      "handle": "odin-2-base",
+      "body_html": "<p><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">Odin2: The New Generation Ultimate Gaming Handheld<br>Qualcomm Snapdragon SM8550 | Android 13 | 8000mAh Battery | Hall Sticks | 1080p 6\" Touch Screen</span></span></span></span><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><strong><span style=\"text-decoration: underline;\"></span></strong></span></span></span></span></p>\n<p><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">Notice:</span></span></span></span></p>\n<ul>\n<li><span style=\"text-decoration: underline;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">There are no games preinstalled in Odin 2.</span></span></span></span></span></li>\n<li><span style=\"text-decoration: underline;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\"><span style=\"vertical-align: inherit;\">Enhanced version/OCed 8G2</span></span></span></span></span></li>\n</ul>",
+      "published_at": "2025-05-15T17:31:12+08:00",
+      "created_at": "2025-05-15T17:30:24+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "Electronics",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46388484866240,
+          "title": "Base / Black",
+          "option1": "Base",
+          "option2": "Black",
+          "option3": null,
+          "sku": "OD2-BQ9BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 36665009864896,
+            "product_id": 8241725014208,
+            "position": 1,
+            "created_at": "2023-10-27T10:29:41+08:00",
+            "updated_at": "2023-10-27T11:43:30+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/1_2.png?v=1698378210",
+            "variant_ids": [
+              46388484866240
+            ]
+          },
+          "available": false,
+          "price": "339.00",
+          "grams": 900,
+          "compare_at_price": "339.00",
+          "position": 1,
+          "product_id": 8241725014208,
+          "created_at": "2025-05-15T17:30:24+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 36665009864896,
+          "created_at": "2023-10-27T10:29:41+08:00",
+          "position": 1,
+          "updated_at": "2023-10-27T11:43:30+08:00",
+          "product_id": 8241725014208,
+          "variant_ids": [
+            46388484866240
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/1_2.png?v=1698378210",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 36665012125888,
+          "created_at": "2023-10-27T10:30:41+08:00",
+          "position": 2,
+          "updated_at": "2024-01-10T15:51:47+08:00",
+          "product_id": 8241725014208,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/1_8b26c99a-94f8-4aad-af54-9630ce7dcac8.png?v=1704873107",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 36665011568832,
+          "created_at": "2023-10-27T10:30:25+08:00",
+          "position": 3,
+          "updated_at": "2024-01-10T15:51:47+08:00",
+          "product_id": 8241725014208,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/1_974a52fb-7529-4bbd-958c-b92809aa1a56.png?v=1704873107",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 36665010880704,
+          "created_at": "2023-10-27T10:30:05+08:00",
+          "position": 4,
+          "updated_at": "2024-01-10T15:51:47+08:00",
+          "product_id": 8241725014208,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/1_3_d2ac8b84-a3cd-4ddd-9a95-d4a717db433b.png?v=1704873107",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 36665012748480,
+          "created_at": "2023-10-27T10:30:55+08:00",
+          "position": 5,
+          "updated_at": "2023-10-27T11:43:30+08:00",
+          "product_id": 8241725014208,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/1_4_82e61b0e-790e-47b3-9b11-4114f88215e6.png?v=1698378210",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 37000148156608,
+          "created_at": "2024-01-10T14:01:10+08:00",
+          "position": 6,
+          "updated_at": "2024-01-10T14:08:42+08:00",
+          "product_id": 8241725014208,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/Odin2.webp?v=1704866922",
+          "width": 1037,
+          "height": 583
+        },
+        {
+          "id": 36665173999808,
+          "created_at": "2023-10-27T11:38:19+08:00",
+          "position": 7,
+          "updated_at": "2024-01-10T14:08:42+08:00",
+          "product_id": 8241725014208,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/1_2474e59f-fb5a-4242-9a93-663dfb2263a3.png?v=1704866922",
+          "width": 3000,
+          "height": 2000
+        },
+        {
+          "id": 36665174655168,
+          "created_at": "2023-10-27T11:38:31+08:00",
+          "position": 8,
+          "updated_at": "2024-01-10T14:08:42+08:00",
+          "product_id": 8241725014208,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/2_adde6587-8d76-4291-85f1-ed8ab9f082e0.png?v=1704866922",
+          "width": 3000,
+          "height": 2000
+        },
+        {
+          "id": 36665175736512,
+          "created_at": "2023-10-27T11:38:50+08:00",
+          "position": 9,
+          "updated_at": "2024-01-10T14:08:42+08:00",
+          "product_id": 8241725014208,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/4_09f7955c-1b5f-4800-83dd-909b9d64711d.png?v=1704866922",
+          "width": 3000,
+          "height": 2000
+        },
+        {
+          "id": 36665176424640,
+          "created_at": "2023-10-27T11:39:03+08:00",
+          "position": 10,
+          "updated_at": "2024-01-10T14:08:42+08:00",
+          "product_id": 8241725014208,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/5_7527eb42-f7fb-4d4b-9172-05789ca397b9.png?v=1704866922",
+          "width": 3000,
+          "height": 2000
+        },
+        {
+          "id": 36665177342144,
+          "created_at": "2023-10-27T11:39:14+08:00",
+          "position": 11,
+          "updated_at": "2024-01-10T14:08:42+08:00",
+          "product_id": 8241725014208,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/6_4c13beac-963c-4ef7-b929-38012693c7e9.png?v=1704866922",
+          "width": 3000,
+          "height": 2000
+        },
+        {
+          "id": 36665178325184,
+          "created_at": "2023-10-27T11:39:26+08:00",
+          "position": 12,
+          "updated_at": "2024-01-10T14:08:42+08:00",
+          "product_id": 8241725014208,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/7_15c6f09d-6f46-4c8f-9d68-515071e6550c.png?v=1704866922",
+          "width": 3000,
+          "height": 2000
+        },
+        {
+          "id": 36665179046080,
+          "created_at": "2023-10-27T11:39:40+08:00",
+          "position": 13,
+          "updated_at": "2024-01-10T14:08:42+08:00",
+          "product_id": 8241725014208,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/8_047c9633-1c45-4ce1-8b2b-da7f4d07de48.png?v=1704866922",
+          "width": 3000,
+          "height": 2000
+        },
+        {
+          "id": 36665179996352,
+          "created_at": "2023-10-27T11:39:54+08:00",
+          "position": 14,
+          "updated_at": "2024-01-10T14:08:42+08:00",
+          "product_id": 8241725014208,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/10.png?v=1704866922",
+          "width": 3000,
+          "height": 3876
+        },
+        {
+          "id": 36665180389568,
+          "created_at": "2023-10-27T11:40:02+08:00",
+          "position": 15,
+          "updated_at": "2024-01-10T14:08:42+08:00",
+          "product_id": 8241725014208,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/11.png?v=1704866922",
+          "width": 3000,
+          "height": 3754
+        },
+        {
+          "id": 36665175113920,
+          "created_at": "2023-10-27T11:38:41+08:00",
+          "position": 16,
+          "updated_at": "2024-01-10T14:08:42+08:00",
+          "product_id": 8241725014208,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/3_2.png?v=1704866922",
+          "width": 3000,
+          "height": 2000
+        }
+      ],
+      "options": [
+        {
+          "name": "Model",
+          "position": 1,
+          "values": [
+            "Base"
+          ]
+        },
+        {
+          "name": "Color",
+          "position": 2,
+          "values": [
+            "Black"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8158172479680,
+      "title": "Odin2 Portal",
+      "handle": "odin2-portal",
+      "body_html": "",
+      "published_at": "2025-01-17T11:15:53+08:00",
+      "created_at": "2025-01-16T15:58:23+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "Electronics",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46016396132544,
+          "title": "Base / Black",
+          "option1": "Base",
+          "option2": "Black",
+          "option3": null,
+          "sku": "OD2P-BX7BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41884329148608,
+            "product_id": 8158172479680,
+            "position": 1,
+            "created_at": "2025-01-16T16:05:26+08:00",
+            "updated_at": "2025-01-17T13:48:03+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/8b9cc7c9808a81fc8db0eaf67a4d79d7.jpg?v=1737092883",
+            "variant_ids": [
+              46016396132544,
+              46016396165312,
+              46016396198080
+            ]
+          },
+          "available": true,
+          "price": "259.00",
+          "grams": 900,
+          "compare_at_price": "329.00",
+          "position": 1,
+          "product_id": 8158172479680,
+          "created_at": "2025-01-16T15:58:25+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 48788897366208,
+          "title": "Base / Indigo",
+          "option1": "Base",
+          "option2": "Indigo",
+          "option3": null,
+          "sku": "OD2P-BX7IN",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41884347891904,
+            "product_id": 8158172479680,
+            "position": 10,
+            "created_at": "2025-01-16T16:07:48+08:00",
+            "updated_at": "2025-01-16T16:42:34+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/996c0314d3c9f4f6a92e228ed4c8e264_b1173bf3-682c-4d0d-a21f-583452027857.jpg?v=1737016954",
+            "variant_ids": [
+              46016396296384,
+              46016396329152,
+              48788897366208
+            ]
+          },
+          "available": true,
+          "price": "259.00",
+          "grams": 900,
+          "compare_at_price": "329.00",
+          "position": 1,
+          "product_id": 8158172479680,
+          "created_at": "2026-08-12T16:16:32+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46016396165312,
+          "title": "Pro / Black",
+          "option1": "Pro",
+          "option2": "Black",
+          "option3": null,
+          "sku": "OD2P-PX7BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41884329148608,
+            "product_id": 8158172479680,
+            "position": 1,
+            "created_at": "2025-01-16T16:05:26+08:00",
+            "updated_at": "2025-01-17T13:48:03+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/8b9cc7c9808a81fc8db0eaf67a4d79d7.jpg?v=1737092883",
+            "variant_ids": [
+              46016396132544,
+              46016396165312,
+              46016396198080
+            ]
+          },
+          "available": false,
+          "price": "369.00",
+          "grams": 900,
+          "compare_at_price": "399.00",
+          "position": 2,
+          "product_id": 8158172479680,
+          "created_at": "2025-01-16T15:58:25+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46016396230848,
+          "title": "Pro / White",
+          "option1": "Pro",
+          "option2": "White",
+          "option3": null,
+          "sku": "OD2P-PX7WT",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41884335374528,
+            "product_id": 8158172479680,
+            "position": 9,
+            "created_at": "2025-01-16T16:06:49+08:00",
+            "updated_at": "2025-01-16T16:42:34+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/d92e076f69cb1a6f81c9bab8cd8f57a2.jpg?v=1737016954",
+            "variant_ids": [
+              46016396230848,
+              46016396263616
+            ]
+          },
+          "available": false,
+          "price": "369.00",
+          "grams": 900,
+          "compare_at_price": "399.00",
+          "position": 3,
+          "product_id": 8158172479680,
+          "created_at": "2025-01-16T15:58:25+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46016396296384,
+          "title": "Pro / Indigo",
+          "option1": "Pro",
+          "option2": "Indigo",
+          "option3": null,
+          "sku": "OD2P-PX7IN",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41884347891904,
+            "product_id": 8158172479680,
+            "position": 10,
+            "created_at": "2025-01-16T16:07:48+08:00",
+            "updated_at": "2025-01-16T16:42:34+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/996c0314d3c9f4f6a92e228ed4c8e264_b1173bf3-682c-4d0d-a21f-583452027857.jpg?v=1737016954",
+            "variant_ids": [
+              46016396296384,
+              46016396329152,
+              48788897366208
+            ]
+          },
+          "available": false,
+          "price": "369.00",
+          "grams": 900,
+          "compare_at_price": "399.00",
+          "position": 4,
+          "product_id": 8158172479680,
+          "created_at": "2025-01-16T15:58:25+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46016396198080,
+          "title": "Max / Black",
+          "option1": "Max",
+          "option2": "Black",
+          "option3": null,
+          "sku": "OD2P-MX7BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41884329148608,
+            "product_id": 8158172479680,
+            "position": 1,
+            "created_at": "2025-01-16T16:05:26+08:00",
+            "updated_at": "2025-01-17T13:48:03+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/8b9cc7c9808a81fc8db0eaf67a4d79d7.jpg?v=1737092883",
+            "variant_ids": [
+              46016396132544,
+              46016396165312,
+              46016396198080
+            ]
+          },
+          "available": false,
+          "price": "449.00",
+          "grams": 900,
+          "compare_at_price": "499.00",
+          "position": 5,
+          "product_id": 8158172479680,
+          "created_at": "2025-01-16T15:58:25+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46016396263616,
+          "title": "Max / White",
+          "option1": "Max",
+          "option2": "White",
+          "option3": null,
+          "sku": "OD2P-MX7WT",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41884335374528,
+            "product_id": 8158172479680,
+            "position": 9,
+            "created_at": "2025-01-16T16:06:49+08:00",
+            "updated_at": "2025-01-16T16:42:34+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/d92e076f69cb1a6f81c9bab8cd8f57a2.jpg?v=1737016954",
+            "variant_ids": [
+              46016396230848,
+              46016396263616
+            ]
+          },
+          "available": false,
+          "price": "449.00",
+          "grams": 900,
+          "compare_at_price": "499.00",
+          "position": 6,
+          "product_id": 8158172479680,
+          "created_at": "2025-01-16T15:58:25+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46016396329152,
+          "title": "Max / Indigo",
+          "option1": "Max",
+          "option2": "Indigo",
+          "option3": null,
+          "sku": "OD2P-MX7IN",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41884347891904,
+            "product_id": 8158172479680,
+            "position": 10,
+            "created_at": "2025-01-16T16:07:48+08:00",
+            "updated_at": "2025-01-16T16:42:34+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/996c0314d3c9f4f6a92e228ed4c8e264_b1173bf3-682c-4d0d-a21f-583452027857.jpg?v=1737016954",
+            "variant_ids": [
+              46016396296384,
+              46016396329152,
+              48788897366208
+            ]
+          },
+          "available": false,
+          "price": "449.00",
+          "grams": 900,
+          "compare_at_price": "499.00",
+          "position": 7,
+          "product_id": 8158172479680,
+          "created_at": "2025-01-16T15:58:25+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 41884329148608,
+          "created_at": "2025-01-16T16:05:26+08:00",
+          "position": 1,
+          "updated_at": "2025-01-17T13:48:03+08:00",
+          "product_id": 8158172479680,
+          "variant_ids": [
+            46016396132544,
+            46016396165312,
+            46016396198080
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/8b9cc7c9808a81fc8db0eaf67a4d79d7.jpg?v=1737092883",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 41884247130304,
+          "created_at": "2025-01-16T15:53:44+08:00",
+          "position": 2,
+          "updated_at": "2025-01-17T13:48:03+08:00",
+          "product_id": 8158172479680,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/odin2-portal_1.jpg?v=1737092883",
+          "width": 1920,
+          "height": 3796
+        },
+        {
+          "id": 41884254339264,
+          "created_at": "2025-01-16T15:55:07+08:00",
+          "position": 3,
+          "updated_at": "2025-01-17T13:48:03+08:00",
+          "product_id": 8158172479680,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/odin2-portal_2.jpg?v=1737092883",
+          "width": 1920,
+          "height": 3781
+        },
+        {
+          "id": 41884254929088,
+          "created_at": "2025-01-16T15:55:11+08:00",
+          "position": 4,
+          "updated_at": "2025-01-17T13:48:03+08:00",
+          "product_id": 8158172479680,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/odin2-portal_3.jpg?v=1737092883",
+          "width": 1920,
+          "height": 5226
+        },
+        {
+          "id": 41884256010432,
+          "created_at": "2025-01-16T15:55:20+08:00",
+          "position": 5,
+          "updated_at": "2025-01-17T13:48:03+08:00",
+          "product_id": 8158172479680,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/odin2-portal_4.jpg?v=1737092883",
+          "width": 1920,
+          "height": 5509
+        },
+        {
+          "id": 41884256633024,
+          "created_at": "2025-01-16T15:55:25+08:00",
+          "position": 6,
+          "updated_at": "2025-01-17T13:48:03+08:00",
+          "product_id": 8158172479680,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/odin2-portal_5.jpg?v=1737092883",
+          "width": 1920,
+          "height": 3712
+        },
+        {
+          "id": 41884257386688,
+          "created_at": "2025-01-16T15:55:29+08:00",
+          "position": 7,
+          "updated_at": "2025-01-17T13:48:03+08:00",
+          "product_id": 8158172479680,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/odin2-portal_6.jpg?v=1737092883",
+          "width": 1920,
+          "height": 5158
+        },
+        {
+          "id": 41884692152512,
+          "created_at": "2025-01-16T16:42:21+08:00",
+          "position": 8,
+          "updated_at": "2025-01-17T13:48:03+08:00",
+          "product_id": 8158172479680,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/odin2-portal_7_a9a0c473-3e93-4c62-885f-e1e904205da8.jpg?v=1737092883",
+          "width": 1920,
+          "height": 6793
+        },
+        {
+          "id": 41884335374528,
+          "created_at": "2025-01-16T16:06:49+08:00",
+          "position": 9,
+          "updated_at": "2025-01-16T16:42:34+08:00",
+          "product_id": 8158172479680,
+          "variant_ids": [
+            46016396230848,
+            46016396263616
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/d92e076f69cb1a6f81c9bab8cd8f57a2.jpg?v=1737016954",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 41884347891904,
+          "created_at": "2025-01-16T16:07:48+08:00",
+          "position": 10,
+          "updated_at": "2025-01-16T16:42:34+08:00",
+          "product_id": 8158172479680,
+          "variant_ids": [
+            46016396296384,
+            46016396329152,
+            48788897366208
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/996c0314d3c9f4f6a92e228ed4c8e264_b1173bf3-682c-4d0d-a21f-583452027857.jpg?v=1737016954",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "options": [
+        {
+          "name": "Model",
+          "position": 1,
+          "values": [
+            "Base",
+            "Pro",
+            "Max"
+          ]
+        },
+        {
+          "name": "Color",
+          "position": 2,
+          "values": [
+            "Black",
+            "Indigo",
+            "White"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8158198399168,
+      "title": "Odin2 Portal ABXY(NS Layout) & Textured Joystick Cap",
+      "handle": "odin2-portal-enhanced-joystick-cap",
+      "body_html": "",
+      "published_at": "2025-01-17T11:15:25+08:00",
+      "created_at": "2025-01-16T16:46:06+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 46016456032448,
+          "title": "Black",
+          "option1": "Black",
+          "option2": null,
+          "option3": null,
+          "sku": "OD2P-004-BK",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 41901704904896,
+            "product_id": 8158198399168,
+            "position": 1,
+            "created_at": "2025-01-17T11:12:35+08:00",
+            "updated_at": "2025-01-17T11:12:36+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/BLACK.jpg?v=1737083556",
+            "variant_ids": [
+              46016456032448
+            ]
+          },
+          "available": false,
+          "price": "5.00",
+          "grams": 150,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 8158198399168,
+          "created_at": "2025-01-16T16:46:06+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46016456065216,
+          "title": "White",
+          "option1": "White",
+          "option2": null,
+          "option3": null,
+          "sku": "OD2P-004-WT",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 42007167434944,
+            "product_id": 8158198399168,
+            "position": 2,
+            "created_at": "2025-01-23T19:54:37+08:00",
+            "updated_at": "2025-01-23T19:54:38+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/White_6f51315a-fc1a-4f47-a446-663609413d7c.jpg?v=1737633278",
+            "variant_ids": [
+              46016456065216
+            ]
+          },
+          "available": false,
+          "price": "5.00",
+          "grams": 150,
+          "compare_at_price": null,
+          "position": 2,
+          "product_id": 8158198399168,
+          "created_at": "2025-01-16T16:46:06+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 46016456097984,
+          "title": "Light Grey",
+          "option1": "Light Grey",
+          "option2": null,
+          "option3": null,
+          "sku": "OD2P-004-DG",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 42007168450752,
+            "product_id": 8158198399168,
+            "position": 3,
+            "created_at": "2025-01-23T19:54:59+08:00",
+            "updated_at": "2025-01-23T19:55:00+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/LIGHT-GREY_c2b006d2-ed5b-4c56-96be-37b78d5bff31.jpg?v=1737633300",
+            "variant_ids": [
+              46016456097984
+            ]
+          },
+          "available": false,
+          "price": "5.00",
+          "grams": 150,
+          "compare_at_price": null,
+          "position": 3,
+          "product_id": 8158198399168,
+          "created_at": "2025-01-16T16:46:06+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 41901704904896,
+          "created_at": "2025-01-17T11:12:35+08:00",
+          "position": 1,
+          "updated_at": "2025-01-17T11:12:36+08:00",
+          "product_id": 8158198399168,
+          "variant_ids": [
+            46016456032448
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/BLACK.jpg?v=1737083556",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 42007167434944,
+          "created_at": "2025-01-23T19:54:37+08:00",
+          "position": 2,
+          "updated_at": "2025-01-23T19:54:38+08:00",
+          "product_id": 8158198399168,
+          "variant_ids": [
+            46016456065216
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/White_6f51315a-fc1a-4f47-a446-663609413d7c.jpg?v=1737633278",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 42007168450752,
+          "created_at": "2025-01-23T19:54:59+08:00",
+          "position": 3,
+          "updated_at": "2025-01-23T19:55:00+08:00",
+          "product_id": 8158198399168,
+          "variant_ids": [
+            46016456097984
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/LIGHT-GREY_c2b006d2-ed5b-4c56-96be-37b78d5bff31.jpg?v=1737633300",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "options": [
+        {
+          "name": "颜色",
+          "position": 1,
+          "values": [
+            "Black",
+            "White",
+            "Light Grey"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8108109693120,
+      "title": "Odin2 Portal TPU Grip",
+      "handle": "odin2-portal-tpu-grip",
+      "body_html": "<p><strong>IMPORTANT:</strong></p>\n<p>1. The final color is subject to the actual product. (<span style=\"text-decoration: underline;\"><strong>The white grip is not solid white but translucent/clear.</strong></span>)</p>\n<p>2. The unit price during the IGG period is $15, while the original price is $19.</p>\n<p>3. Backers who have already ordered the TPU protection shell will have it replaced with the TPU grip, which will automatically match the device color. There is no need to choose the color again.</p>\n<p><br> </p>",
+      "published_at": "2024-12-06T18:13:50+08:00",
+      "created_at": "2024-10-24T17:23:22+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 45851015545024,
+          "title": "Black",
+          "option1": "Black",
+          "option2": null,
+          "option3": null,
+          "sku": "OD2P-003BK",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": {
+            "id": 41904759242944,
+            "product_id": 8108109693120,
+            "position": 1,
+            "created_at": "2025-01-17T15:06:00+08:00",
+            "updated_at": "2025-01-17T15:06:01+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/8b9cc7c9808a81fc8db0eaf67a4d79d7_01fa5ab9-4ac3-4ddd-a433-ec13a81e9a1c.jpg?v=1737097561",
+            "variant_ids": [
+              45851015545024
+            ]
+          },
+          "available": true,
+          "price": "15.00",
+          "grams": 200,
+          "compare_at_price": "19.00",
+          "position": 2,
+          "product_id": 8108109693120,
+          "created_at": "2024-12-06T17:51:06+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 45851015577792,
+          "title": "Clear White",
+          "option1": "Clear White",
+          "option2": null,
+          "option3": null,
+          "sku": "OD2P-003CW",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": {
+            "id": 41904760783040,
+            "product_id": 8108109693120,
+            "position": 2,
+            "created_at": "2025-01-17T15:06:15+08:00",
+            "updated_at": "2025-01-17T15:06:16+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/d92e076f69cb1a6f81c9bab8cd8f57a2_1005ddcf-dd48-4ec2-9470-0c5f7c977404.jpg?v=1737097576",
+            "variant_ids": [
+              45851015577792
+            ]
+          },
+          "available": false,
+          "price": "15.00",
+          "grams": 200,
+          "compare_at_price": "19.00",
+          "position": 3,
+          "product_id": 8108109693120,
+          "created_at": "2024-12-06T17:51:06+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 45851015610560,
+          "title": "Indigo",
+          "option1": "Indigo",
+          "option2": null,
+          "option3": null,
+          "sku": "OD2P-003IN",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": {
+            "id": 41904762159296,
+            "product_id": 8108109693120,
+            "position": 3,
+            "created_at": "2025-01-17T15:06:29+08:00",
+            "updated_at": "2025-01-17T15:06:30+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/996c0314d3c9f4f6a92e228ed4c8e264_2e8f7906-24bd-4482-b093-742fdf8c14d2.jpg?v=1737097590",
+            "variant_ids": [
+              45851015610560
+            ]
+          },
+          "available": false,
+          "price": "15.00",
+          "grams": 200,
+          "compare_at_price": "19.00",
+          "position": 4,
+          "product_id": 8108109693120,
+          "created_at": "2024-12-06T17:51:06+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 41904759242944,
+          "created_at": "2025-01-17T15:06:00+08:00",
+          "position": 1,
+          "updated_at": "2025-01-17T15:06:01+08:00",
+          "product_id": 8108109693120,
+          "variant_ids": [
+            45851015545024
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/8b9cc7c9808a81fc8db0eaf67a4d79d7_01fa5ab9-4ac3-4ddd-a433-ec13a81e9a1c.jpg?v=1737097561",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 41904760783040,
+          "created_at": "2025-01-17T15:06:15+08:00",
+          "position": 2,
+          "updated_at": "2025-01-17T15:06:16+08:00",
+          "product_id": 8108109693120,
+          "variant_ids": [
+            45851015577792
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/d92e076f69cb1a6f81c9bab8cd8f57a2_1005ddcf-dd48-4ec2-9470-0c5f7c977404.jpg?v=1737097576",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 41904762159296,
+          "created_at": "2025-01-17T15:06:29+08:00",
+          "position": 3,
+          "updated_at": "2025-01-17T15:06:30+08:00",
+          "product_id": 8108109693120,
+          "variant_ids": [
+            45851015610560
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/996c0314d3c9f4f6a92e228ed4c8e264_2e8f7906-24bd-4482-b093-742fdf8c14d2.jpg?v=1737097590",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "options": [
+        {
+          "name": "Color",
+          "position": 1,
+          "values": [
+            "Black",
+            "Clear White",
+            "Indigo"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8108110938304,
+      "title": "Odin2 Portal Screen Protector",
+      "handle": "odin2-portal-screen-protector",
+      "body_html": "",
+      "published_at": "2024-10-24T17:31:40+08:00",
+      "created_at": "2024-10-24T17:25:45+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 45730087174336,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "OD2P-002",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": null,
+          "available": true,
+          "price": "5.00",
+          "grams": 20,
+          "compare_at_price": "6.00",
+          "position": 1,
+          "product_id": 8108110938304,
+          "created_at": "2024-10-24T17:25:46+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 41904772776128,
+          "created_at": "2025-01-17T15:08:38+08:00",
+          "position": 1,
+          "updated_at": "2025-01-17T15:08:39+08:00",
+          "product_id": 8108110938304,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/1_48915d4d-37fb-4979-9371-73a1f52451b4.jpg?v=1737097719",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8108102287552,
+      "title": "Odin2 Portal Carrying Case",
+      "handle": "odin-2-portal-carrying-case",
+      "body_html": "<p><strong data-start=\"51\" data-end=\"60\">Tip:</strong> Please be aware that this case is designed to fit the device only and is not compatible with the grip.</p>",
+      "published_at": "2024-10-24T17:03:58+08:00",
+      "created_at": "2024-10-24T17:01:30+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 45730066301120,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "OD2P-001",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": null,
+          "available": true,
+          "price": "12.00",
+          "grams": 300,
+          "compare_at_price": "15.00",
+          "position": 1,
+          "product_id": 8108102287552,
+          "created_at": "2024-10-24T17:01:31+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 42463718342848,
+          "created_at": "2025-02-18T15:05:43+08:00",
+          "position": 1,
+          "updated_at": "2025-02-18T15:05:54+08:00",
+          "product_id": 8108102287552,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/1_0c4cc905-127c-4592-a4e5-77c8a11ff1bd.jpg?v=1739862354",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 42463704875200,
+          "created_at": "2025-02-18T15:05:16+08:00",
+          "position": 2,
+          "updated_at": "2025-02-18T15:05:54+08:00",
+          "product_id": 8108102287552,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/3_95b39a78-327d-4974-b778-ae24a0a2d079.jpg?v=1739862354",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7915385094336,
+      "title": "Odin2/ Odin2 Mini 65w Charger",
+      "handle": "odin2-mini-65w-charger",
+      "body_html": "Note: The charger is Chinese Standard and will be shipped an adapter together.",
+      "published_at": "2024-05-20T17:53:42+08:00",
+      "created_at": "2024-05-20T16:15:43+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "Electronics",
+      "tags": [],
+      "variants": [
+        {
+          "id": 45117465788608,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "OD2M-007",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": null,
+          "available": true,
+          "price": "19.90",
+          "grams": 90,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 7915385094336,
+          "created_at": "2024-05-20T16:15:44+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 37735597572288,
+          "created_at": "2024-05-20T16:30:39+08:00",
+          "position": 1,
+          "updated_at": "2024-05-20T16:30:40+08:00",
+          "product_id": 7915385094336,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/65W2c.40.jpg?v=1716193840",
+          "width": 5000,
+          "height": 3549
+        },
+        {
+          "id": 37735598555328,
+          "created_at": "2024-05-20T16:30:46+08:00",
+          "position": 2,
+          "updated_at": "2024-05-20T16:30:48+08:00",
+          "product_id": 7915385094336,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/65W2c.43.jpg?v=1716193848",
+          "width": 5000,
+          "height": 3549
+        },
+        {
+          "id": 37735599734976,
+          "created_at": "2024-05-20T16:30:55+08:00",
+          "position": 3,
+          "updated_at": "2024-05-20T16:30:57+08:00",
+          "product_id": 7915385094336,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/65W2c.44.jpg?v=1716193857",
+          "width": 5000,
+          "height": 3549
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7915340792000,
+      "title": "Odin2/ Odin2 Mini Joystick Hat",
+      "handle": "odin2-mini-joystick-hat",
+      "body_html": "",
+      "published_at": "2024-05-20T17:53:24+08:00",
+      "created_at": "2024-05-20T14:10:04+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 45117109108928,
+          "title": "A",
+          "option1": "A",
+          "option2": null,
+          "option3": null,
+          "sku": "OD2M-003A",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 37734758252736,
+            "product_id": 7915340792000,
+            "position": 4,
+            "created_at": "2024-05-20T14:08:50+08:00",
+            "updated_at": "2024-05-20T14:08:52+08:00",
+            "alt": null,
+            "width": 2000,
+            "height": 2000,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/f44f3ee4dfec12e145fde0150cd05761.jpg?v=1716185332",
+            "variant_ids": [
+              45117109108928
+            ]
+          },
+          "available": false,
+          "price": "4.00",
+          "grams": 20,
+          "compare_at_price": null,
+          "position": 2,
+          "product_id": 7915340792000,
+          "created_at": "2024-05-20T14:10:05+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 45117109141696,
+          "title": "B",
+          "option1": "B",
+          "option2": null,
+          "option3": null,
+          "sku": "OD2M-003B",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 37734758285504,
+            "product_id": 7915340792000,
+            "position": 5,
+            "created_at": "2024-05-20T14:09:06+08:00",
+            "updated_at": "2024-05-20T14:09:08+08:00",
+            "alt": null,
+            "width": 2000,
+            "height": 2000,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/71defbc7c41970dff8b47d90a706bbae.jpg?v=1716185348",
+            "variant_ids": [
+              45117109141696
+            ]
+          },
+          "available": false,
+          "price": "4.00",
+          "grams": 20,
+          "compare_at_price": null,
+          "position": 3,
+          "product_id": 7915340792000,
+          "created_at": "2024-05-20T14:10:05+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        },
+        {
+          "id": 45117109174464,
+          "title": "C",
+          "option1": "C",
+          "option2": null,
+          "option3": null,
+          "sku": "OD2M-003C",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": {
+            "id": 37734758318272,
+            "product_id": 7915340792000,
+            "position": 6,
+            "created_at": "2024-05-20T14:09:22+08:00",
+            "updated_at": "2024-05-20T14:09:23+08:00",
+            "alt": null,
+            "width": 2000,
+            "height": 2000,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/71913282a8295b2ef4979d5f027f1af7.jpg?v=1716185363",
+            "variant_ids": [
+              45117109174464
+            ]
+          },
+          "available": true,
+          "price": "4.00",
+          "grams": 20,
+          "compare_at_price": null,
+          "position": 4,
+          "product_id": 7915340792000,
+          "created_at": "2024-05-20T14:10:05+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 37734757990592,
+          "created_at": "2024-05-20T14:05:51+08:00",
+          "position": 1,
+          "updated_at": "2024-05-20T14:05:53+08:00",
+          "product_id": 7915340792000,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/fe1a4919ca88b05c30a6d30181dfba26.jpg?v=1716185153",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 37734758023360,
+          "created_at": "2024-05-20T14:06:01+08:00",
+          "position": 2,
+          "updated_at": "2024-05-20T14:06:02+08:00",
+          "product_id": 7915340792000,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/e486466f6dba678d4dac01792730f18d.jpg?v=1716185162",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 37734758056128,
+          "created_at": "2024-05-20T14:06:09+08:00",
+          "position": 3,
+          "updated_at": "2024-05-20T14:06:10+08:00",
+          "product_id": 7915340792000,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/c18d96ffae7e7afa918077ebd0a8fd91.jpg?v=1716185170",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 37734758252736,
+          "created_at": "2024-05-20T14:08:50+08:00",
+          "position": 4,
+          "updated_at": "2024-05-20T14:08:52+08:00",
+          "product_id": 7915340792000,
+          "variant_ids": [
+            45117109108928
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/f44f3ee4dfec12e145fde0150cd05761.jpg?v=1716185332",
+          "width": 2000,
+          "height": 2000
+        },
+        {
+          "id": 37734758285504,
+          "created_at": "2024-05-20T14:09:06+08:00",
+          "position": 5,
+          "updated_at": "2024-05-20T14:09:08+08:00",
+          "product_id": 7915340792000,
+          "variant_ids": [
+            45117109141696
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/71defbc7c41970dff8b47d90a706bbae.jpg?v=1716185348",
+          "width": 2000,
+          "height": 2000
+        },
+        {
+          "id": 37734758318272,
+          "created_at": "2024-05-20T14:09:22+08:00",
+          "position": 6,
+          "updated_at": "2024-05-20T14:09:23+08:00",
+          "product_id": 7915340792000,
+          "variant_ids": [
+            45117109174464
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/71913282a8295b2ef4979d5f027f1af7.jpg?v=1716185363",
+          "width": 2000,
+          "height": 2000
+        }
+      ],
+      "options": [
+        {
+          "name": "Model",
+          "position": 1,
+          "values": [
+            "A",
+            "B",
+            "C"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7512163385536,
+      "title": "Odin 2 Super Dock",
+      "handle": "odin-2-super-dock",
+      "body_html": "<p data-start=\"253\" data-end=\"353\"><strong data-start=\"255\" data-end=\"286\">Dock Station Compatibility: </strong></p>\n<p data-start=\"253\" data-end=\"353\">This dock station is fully compatible with the following models:</p>\n<ul data-start=\"355\" data-end=\"399\">\n<li data-start=\"355\" data-end=\"365\">\n<p data-start=\"357\" data-end=\"365\">Odin 2<br></p>\n</li>\n<li data-start=\"382\" data-end=\"399\">\n<p data-start=\"384\" data-end=\"399\">Odin 2 Portal</p>\n</li>\n</ul>",
+      "published_at": "2023-08-23T11:23:50+08:00",
+      "created_at": "2023-08-23T11:16:26+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 43800565612736,
+          "title": "Black",
+          "option1": "Black",
+          "option2": null,
+          "option3": null,
+          "sku": "OD2-006",
+          "requires_shipping": true,
+          "taxable": false,
+          "featured_image": {
+            "id": 36670918394048,
+            "product_id": 7512163385536,
+            "position": 1,
+            "created_at": "2023-10-28T18:18:18+08:00",
+            "updated_at": "2023-11-03T16:53:54+08:00",
+            "alt": null,
+            "width": 2048,
+            "height": 2048,
+            "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/4_d8a2568a-31bf-4d08-872a-fc36c83b366f.png?v=1699001634",
+            "variant_ids": [
+              43800565612736
+            ]
+          },
+          "available": true,
+          "price": "48.00",
+          "grams": 400,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 7512163385536,
+          "created_at": "2023-08-23T11:16:26+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 36670918394048,
+          "created_at": "2023-10-28T18:18:18+08:00",
+          "position": 1,
+          "updated_at": "2023-11-03T16:53:54+08:00",
+          "product_id": 7512163385536,
+          "variant_ids": [
+            43800565612736
+          ],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/4_d8a2568a-31bf-4d08-872a-fc36c83b366f.png?v=1699001634",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 36670917968064,
+          "created_at": "2023-10-28T18:18:03+08:00",
+          "position": 2,
+          "updated_at": "2023-11-03T16:53:54+08:00",
+          "product_id": 7512163385536,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/1_1340a583-a9b8-4662-9b09-3dad9b5d3db8.png?v=1699001634",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 36694364258496,
+          "created_at": "2023-11-03T16:51:30+08:00",
+          "position": 3,
+          "updated_at": "2023-11-03T16:53:54+08:00",
+          "product_id": 7512163385536,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/3_c210f2df-34cc-4d86-886f-e9288fb0b016.png?v=1699001634",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 36670919311552,
+          "created_at": "2023-10-28T18:18:33+08:00",
+          "position": 4,
+          "updated_at": "2023-11-03T16:53:54+08:00",
+          "product_id": 7512163385536,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/files/4ee0482982cfa89bb4d1cff3333a55e6_5d5eb3f2-68ff-418c-8707-46f1e79e9465.png?v=1699001634",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Black"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7308377817280,
+      "title": "256GB SD Card",
+      "handle": "256gb-sd-card",
+      "body_html": "",
+      "published_at": "2022-07-06T15:52:12+08:00",
+      "created_at": "2022-07-06T15:43:57+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 42973069738176,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "256gb_SD_card_1",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": false,
+          "price": "30.00",
+          "grams": 10,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 7308377817280,
+          "created_at": "2022-07-06T15:43:57+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 34314810622144,
+          "created_at": "2022-07-06T15:43:58+08:00",
+          "position": 1,
+          "updated_at": "2022-07-06T15:43:58+08:00",
+          "product_id": 7308377817280,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/products/256_63926414-247f-462d-a09d-50f26f96ee24.jpg?v=1657093438",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7279113699520,
+      "title": "Fill Price Difference",
+      "handle": "fill-price-difference",
+      "body_html": "Notice: This link is not a<span data-mce-fragment=\"1\"> physical product which is used for filling price difference only.</span>",
+      "published_at": "2022-06-02T19:00:59+08:00",
+      "created_at": "2022-06-02T19:00:58+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 42849457897664,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "OD-008",
+          "requires_shipping": false,
+          "taxable": false,
+          "featured_image": null,
+          "available": true,
+          "price": "1.00",
+          "grams": 0,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 7279113699520,
+          "created_at": "2022-06-02T19:00:58+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 33855004377280,
+          "created_at": "2022-06-02T19:00:58+08:00",
+          "position": 1,
+          "updated_at": "2022-06-02T19:01:00+08:00",
+          "product_id": 7279113699520,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/products/shippingfee.jpg?v=1654167660",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7033390956736,
+      "title": "HDMI Cable",
+      "handle": "hdmi",
+      "body_html": "<table id=\"product-specification-table\" class=\"a-keyvalue\" data-mce-fragment=\"1\">\n<tbody data-mce-fragment=\"1\">\n<tr data-mce-fragment=\"1\">\n<th class=\"a-span4 a-text-right\" data-mce-fragment=\"1\"><span>Cable Length</span></th>\n<td data-mce-fragment=\"1\">4 Feet (1.5 meters)</td>\n</tr>\n<tr data-mce-fragment=\"1\">\n<th class=\"a-span4 a-text-right\" data-mce-fragment=\"1\">Compatible Devices</th>\n<td data-mce-fragment=\"1\">Tablet, Laptop, TV and more</td>\n</tr>\n<tr data-mce-fragment=\"1\">\n<th class=\"a-span4 a-text-right\" data-mce-fragment=\"1\">Connector Gender</th>\n<td data-mce-fragment=\"1\">Male-to-Male</td>\n</tr>\n<tr data-mce-fragment=\"1\">\n<th class=\"a-span4 a-text-right\" data-mce-fragment=\"1\">Connector Type</th>\n<td data-mce-fragment=\"1\">Micro HDMI, HDMI</td>\n</tr>\n</tbody>\n</table>\n<p> </p>\n<p> </p>\n<p> </p>",
+      "published_at": "2022-01-11T10:13:22+08:00",
+      "created_at": "2021-12-22T11:31:32+08:00",
+      "updated_at": "2026-09-09T21:26:06+08:00",
+      "vendor": "AYN",
+      "product_type": "",
+      "tags": [],
+      "variants": [
+        {
+          "id": 41370230456512,
+          "title": "Default Title",
+          "option1": "Default Title",
+          "option2": null,
+          "option3": null,
+          "sku": "OD-005",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "6.00",
+          "grams": 50,
+          "compare_at_price": null,
+          "position": 1,
+          "product_id": 7033390956736,
+          "created_at": "2021-12-22T11:31:32+08:00",
+          "updated_at": "2026-09-09T21:26:06+08:00"
+        }
+      ],
+      "images": [
+        {
+          "id": 31990106489024,
+          "created_at": "2021-12-22T11:31:32+08:00",
+          "position": 1,
+          "updated_at": "2021-12-22T11:31:34+08:00",
+          "product_id": 7033390956736,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/products/1_1dc2e925-205b-4d62-bc09-e2949778c61c.jpg?v=1640143894",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 31990106456256,
+          "created_at": "2021-12-22T11:31:32+08:00",
+          "position": 2,
+          "updated_at": "2022-03-07T11:00:30+08:00",
+          "product_id": 7033390956736,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/products/hdmi3.jpg?v=1646622030",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 32718528086208,
+          "created_at": "2022-03-07T11:02:30+08:00",
+          "position": 3,
+          "updated_at": "2022-03-07T11:02:34+08:00",
+          "product_id": 7033390956736,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/products/hdmi1.jpg?v=1646622154",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 31990106423488,
+          "created_at": "2021-12-22T11:31:32+08:00",
+          "position": 4,
+          "updated_at": "2022-03-07T11:02:34+08:00",
+          "product_id": 7033390956736,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/products/hdmi2.jpg?v=1646622154",
+          "width": 2048,
+          "height": 2048
+        },
+        {
+          "id": 32718518550720,
+          "created_at": "2022-03-07T11:00:22+08:00",
+          "position": 5,
+          "updated_at": "2022-03-07T11:02:34+08:00",
+          "product_id": 7033390956736,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0570/3214/7136/products/dock2048x2048.jpg?v=1646622154",
+          "width": 2048,
+          "height": 2048
+        }
+      ],
+      "options": [
+        {
+          "name": "Title",
+          "position": 1,
+          "values": [
+            "Default Title"
+          ]
+        }
+      ]
+    }
+  ]
+}

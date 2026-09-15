@@ -137,7 +137,7 @@ def test_controller_starts_idle(tmp_path):
 def test_controller_runs_and_reports_outcome(tmp_path):
     calls = {}
 
-    def runner(config_dir, *, force, only_source, only_sources=None, routine_scope=False, on_progress):
+    def runner(config_dir, *, force, only_source, only_sources=None, routine_scope=False, on_progress, surface=None):
         calls.update(config_dir=config_dir, force=force, only_source=only_source)
         on_progress({"event": "planned", "sources_total": 4})
         on_progress({"event": "source_start", "source": "medion"})
@@ -162,7 +162,7 @@ def test_controller_runs_and_reports_outcome(tmp_path):
 def test_controller_is_single_flight(tmp_path):
     release = threading.Event()
 
-    def runner(config_dir, *, force, only_source, only_sources=None, routine_scope=False, on_progress):
+    def runner(config_dir, *, force, only_source, only_sources=None, routine_scope=False, on_progress, surface=None):
         release.wait(5)
         return FakeOutcome()
 
@@ -186,7 +186,7 @@ def test_controller_reports_lock_held_as_blocked_not_failed(tmp_path):
     The scheduled hourly task and the dashboard share one lock; a user who
     opens the dashboard mid-crawl should be told that, not shown a failure.
     """
-    def runner(config_dir, *, force, only_source, only_sources=None, routine_scope=False, on_progress):
+    def runner(config_dir, *, force, only_source, only_sources=None, routine_scope=False, on_progress, surface=None):
         raise LockError("another oem-radar run is active (pid=4242)")
 
     c = CrawlController(tmp_path, runner=runner)
@@ -198,7 +198,7 @@ def test_controller_reports_lock_held_as_blocked_not_failed(tmp_path):
 
 
 def test_controller_survives_a_crawl_that_raises(tmp_path):
-    def runner(config_dir, *, force, only_source, only_sources=None, routine_scope=False, on_progress):
+    def runner(config_dir, *, force, only_source, only_sources=None, routine_scope=False, on_progress, surface=None):
         raise ValueError("network exploded")
 
     c = CrawlController(tmp_path, runner=runner)
@@ -882,7 +882,8 @@ def test_gui_trigger_reaches_execute_crawl_under_the_canonical_lock(tmp_path, mo
 
     def fake_execute_crawl(config_dir, *, force=False, only_source=None,
                            only_sources=None, routine_scope=False,
-                           dry_run=False, use_lock=True, on_progress=None):
+                           dry_run=False, use_lock=True, on_progress=None,
+                           surface=None):
         # Prove the canonical signature is what the GUI path calls, and that
         # exclusivity is requested rather than bypassed.
         seen["config_dir"] = Path(config_dir)

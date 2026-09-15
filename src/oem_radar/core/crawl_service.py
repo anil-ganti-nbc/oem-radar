@@ -178,18 +178,33 @@ def build_fetcher(cfg: RadarConfig):
     )
 
 
-def build_store_and_notifier(radar: RadarConfig, config_dir: Path, *, dry_run: bool = False):
-    """Returns (store, notifier, webhook_source, webhook_present)."""
+def build_store_and_notifier(radar: RadarConfig, config_dir: Path, *, dry_run: bool = False,
+                             surface: str | None = None):
+    """Returns (store, notifier, webhook_source, webhook_present).
+
+    This is the single notifier assembly point: the scheduled CLI run, a
+    manual terminal run, and the dashboard-triggered crawl all pass through
+    execute_crawl → here, so the configured notification policy (severity
+    floor AND the suppressed change-type list) applies on every surface by
+    construction — no launcher instantiates the notifier itself.
+    """
     if dry_run:
         store = stores.get(radar.store)(":memory:", radar.raw_dir)
         return store, notifiers.get("console")(), "none (dry run)", False
     store = stores.get(radar.store)(radar.db_path, radar.raw_dir)
     webhook, min_sev, wh_src = resolve_webhook(radar, config_dir)
     fb = radar.feedback
+    discord_cfg = radar.notify.get("discord")
+    suppress = tuple(
+        getattr(discord_cfg, "suppress_change_types", []) or []
+    ) if discord_cfg else ()
     notifier = notifiers.get(radar.notifier)(
         store, webhook, min_sev,
         review_base_url=fb.dashboard_base_url,
         feedback_enabled=fb.enabled,
+        suppress_change_types=suppress,
+        surface=surface,
+        config_path=str(config_dir / "radar.yaml"),
     )
     return store, notifier, wh_src, webhook is not None
 
@@ -251,6 +266,7 @@ def execute_crawl(
     dry_run: bool = False,
     use_lock: bool = True,
     on_progress: ProgressFn | None = None,
+    surface: str | None = None,
 ) -> CrawlOutcome:
     """Run one complete crawl. Raises `LockError` if another run holds the lock.
 
@@ -276,7 +292,7 @@ def execute_crawl(
     lock = RunLock.acquire(radar.run_lock_path) if (use_lock and not dry_run) else None
     started = time.monotonic()
     store, notifier, wh_src, wh_present = build_store_and_notifier(
-        radar, config_dir, dry_run=dry_run)
+        radar, config_dir, dry_run=dry_run, surface=surface)
     try:
         store.seed_components(SEED_COMPONENTS)
         stats = run_all(radar, oems, store, notifier, build_fetcher(radar),
@@ -467,6 +483,7 @@ class CrawlController:
                 only_sources=frozenset(sources) if sources is not None else None,
                 routine_scope=routine_scope,
                 on_progress=self._on_progress,
+                surface="dashboard",
             )
         except LockError as exc:
             self._finish(BLOCKED, str(exc))

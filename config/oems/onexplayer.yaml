@@ -1,0 +1,60 @@
+# support_status: NEEDS_OWNER_PROBE — probed 2026-09-09 from owner machine:
+# Shopify confirmed (probe confidence 98%, Discovery Quality 100/100).
+# Pending soak; do not enable without a baselined first crawl and QC.
+#
+# Handheld expansion wave 1. Editorial priority: PRIORITY 1 (PC handhelds).
+# Brand is ONEXPLAYER (壹号掌机) of Shenzhen One-Netbook Technology; the
+# ONEXFLY and ONEXSUGAR lines arrive in the same feed and stay visible in
+# model names (manufacturer identity stays ONEXPLAYER per source semantics).
+#
+# Feed quirks (fixture onexplayer_products_p1.json, 2026-09-09):
+#   * product_type is usually empty; when present it carries the vendor's
+#     own typo "ONEXPLAYE Gaming Console" — the category_map key below
+#     preserves that typo deliberately.
+#   * vendor strings are inconsistent ("ONEXPLAYER", "ONEXPLAYER " with a
+#     trailing space, "ONEXSUGAR", "One Netbook", "One-Netbook").
+#   * refurb listings and screen-film accessories must be denied.
+
+manufacturer:
+  name: ONEXPLAYER
+  aliases: [OneXPlayer, "One-Netbook", "One Netbook", ONEXFLY, ONEXSUGAR, 壹号掌机]
+  country: CN
+
+sources:
+  - id: onexplayer-shopify
+    engine: shopify
+    base_url: https://onexplayerstore.com
+    min_interval: 12h
+    discovery: [products_json, sitemap]
+    currency_default: USD
+    enabled: false
+    category_map:
+      onexplaye gaming console: handheld  # vendor's product_type typo, as shipped
+    non_product_terms:
+      - "screen protector"
+      - "soft film"
+      - "tempered film"
+      - "glass protector"
+      - "protector"
+      - "refurbish"
+      - "stylus"
+      - "bag"
+      - "case"
+      - "stand"
+      - "strap"
+      - "controller"
+      - "battery"
+      - "keyboard"
+      - "onexgpu"       # eGPU line — explicitly out of the handheld family
+      - "membership"    # "VIP Membership" store SKU
+      - "water tube"    # Frost Bay cooling accessories
+      - "ssd"
+      - "elite pack"
+      - "frost bay"
+      - "charger"
+      - "joystick"
+      - "defender"
+      - "parts"
+      - "usb"
+      - "enclosure"
+      - "hard drive"

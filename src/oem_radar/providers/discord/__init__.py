@@ -7,7 +7,11 @@ Discord or a killed run loses nothing; dedup keys prevent doubles (ADR-1).
 from __future__ import annotations
 
 import logging
+import os
+import socket
+import subprocess
 import sys
+from pathlib import Path
 from typing import Callable
 
 import requests
@@ -142,6 +146,42 @@ def _post_webhook(webhook_url: str, payload: dict) -> tuple[bool, str | None]:
         return False, repr(exc)
 
 
+def resolve_git_sha() -> str:
+    """Best-effort code identity for incident forensics. Never raises.
+
+    Priority: OEM_RADAR_GIT_SHA env (frozen builds / wrappers), the source
+    checkout's own git metadata, then a coarse fallback. The 2026-09-10
+    muted-alert incident happened because "the checkout" was assumed to be
+    "the sender"; a split-brain sender must be visible in one log line.
+    """
+    env = os.environ.get("OEM_RADAR_GIT_SHA")
+    if env:
+        return env.strip()
+    if getattr(sys, "frozen", False):
+        return "frozen"
+    try:
+        repo = Path(__file__).resolve().parents[3].parent  # src/oem_radar/.. → repo
+        out = subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=str(repo),
+            capture_output=True, text=True, timeout=5,
+        )
+        if out.returncode == 0:
+            return out.stdout.strip()
+    except Exception:  # noqa: BLE001 — diagnostics must never break a drain
+        pass
+    return "unknown"
+
+
+def _store_db_path(store) -> str:
+    try:
+        for row in store.db.execute("PRAGMA database_list"):
+            if row[1] == "main":
+                return str(row[2]) or ":memory:"
+    except Exception:  # noqa: BLE001
+        pass
+    return "unknown"
+
+
 @notifiers.register("discord")
 class DiscordNotifier:
     def __init__(
@@ -152,6 +192,9 @@ class DiscordNotifier:
         sender: Callable[[str, dict], tuple[bool, str | None]] = _post_webhook,
         review_base_url: str | None = "http://127.0.0.1:8787",
         feedback_enabled: bool = True,
+        suppress_change_types: tuple[str, ...] | list[str] = (),
+        surface: str | None = None,
+        config_path: str | None = None,
     ) -> None:
         self.store = store
         self.webhook_url = webhook_url
@@ -159,11 +202,22 @@ class DiscordNotifier:
         self.sender = sender
         self.review_base_url = review_base_url
         self.feedback_enabled = feedback_enabled
+        #: Change types that must NEVER reach Discord (notification policy,
+        #: radar.yaml notify.discord.suppress_change_types). They are still
+        #: recorded, diffed, severity-scored, and shown in the dashboard.
+        self.suppress_change_types = frozenset(suppress_change_types)
+        #: Diagnostic provenance (2026-09-10 incident): which runtime is
+        #: speaking. surface='cli' (scheduled + manual runs) or 'dashboard'.
+        self.surface = surface or os.environ.get("OEM_RADAR_SURFACE") or "cli"
+        self.config_path = config_path
 
     def enqueue(self, event: ChangeEvent, product: NormalizedProduct | None = None) -> None:
         event_id = self.store.record_event(event)  # full audit trail regardless
         if event.meta.get("baseline"):
             status = "suppressed"  # first-ever crawl of a source: history, not news
+        elif event.change_type.value in self.suppress_change_types:
+            # Notification-policy mute: the event exists, the ping does not.
+            status = "suppressed"
         else:
             status = "pending" if int(event.severity) >= self.min_severity else "suppressed"
         review_url = self.review_base_url if self.feedback_enabled else None
@@ -186,6 +240,14 @@ class DiscordNotifier:
     def drain(self, sleep=None) -> int:
         import time as _time
         sleep = sleep or _time.sleep
+        # Runtime provenance: one structured line per drain so a split-brain
+        # sender (a second checkout/build with its own webhook) is obvious
+        # immediately. Never log the webhook URL itself.
+        log.info(
+            "discord_runtime git_sha=%s db=%s hostname=%s surface=%s config=%s webhook_configured=%s",
+            resolve_git_sha(), _store_db_path(self.store), socket.gethostname(),
+            self.surface, self.config_path or "unknown", bool(self.webhook_url),
+        )
         if not self.webhook_url:
             pending = self.store.outbox_pending("discord")
             if pending:
@@ -196,6 +258,14 @@ class DiscordNotifier:
         sent = 0
         rows = self.store.outbox_pending("discord")
         for i, row in enumerate(rows):
+            # Last choke point: a pending row linked to a muted change type
+            # must never post, however it got there (stale backlog, a policy
+            # widened after enqueue, a manual status flip). Neutralize it
+            # instead of sending; the reason is recorded in last_error.
+            if (row["change_type"] or "") in self.suppress_change_types:
+                self.store.outbox_mark(row["id"], "suppressed", "change_type_suppressed")
+                log.info("discord: suppressed muted change_type row %s", row["id"])
+                continue
             import json as _json
             ok, err = self.sender(self.webhook_url, _json.loads(row["payload_json"]))
             if ok:

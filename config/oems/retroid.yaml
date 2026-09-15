@@ -1,0 +1,52 @@
+# support_status: NEEDS_OWNER_PROBE — probed 2026-09-09 from owner machine:
+# Shopify confirmed (probe confidence 98%, Discovery Quality 100/100).
+# goretroid.com 301-redirects to www.goretroid.com; base_url uses the final
+# form. Pending soak; do not enable without a baselined first crawl and QC.
+#
+# Handheld expansion wave 1. Editorial priority: PRIORITY 2 (retro/Android).
+# Retail entity is MOORECHIP TECHNOLOGIES LIMITED (Hong Kong) per the store's
+# privacy policy; the Shenzhen engineering/manufacturing entity is UNKNOWN.
+#
+# Feed quirks (fixture retroid_products_p1.json, 2026-09-09):
+#   * product_type is usually empty; when present it is handheld-descriptive
+#     ("handheld arcade game console") or generic ("Electronic").
+#   * the catalogue is heavy with model-specific accessory SKUs (pouches,
+#     buttons, shells, grips, screen protectors) — all denied below.
+#   * "Dual Screen Add-on" (clip-on second screen) is an accessory, not a
+#     handheld product.
+
+manufacturer:
+  name: Retroid
+  aliases: [Retroid Pocket, Moorechip, goretroid]
+  country: CN  # brand ecosystem; HK retail entity, Shenzhen entity UNKNOWN
+
+sources:
+  - id: retroid-shopify
+    engine: shopify
+    base_url: https://www.goretroid.com
+    min_interval: 24h
+    discovery: [products_json, sitemap]
+    currency_default: USD
+    enabled: false
+    category_map:
+      handheld arcade game console: handheld
+    non_product_terms:
+      - "pouch"
+      - "case"
+      - "screen protector"
+      - "grip"
+      - "shell"
+      - "buttons"
+      - "dock"
+      - "strap"
+      - "film"
+      - "add-on"
+      - "add on"
+      - "charger"
+      - "cable"
+      - "skin"
+      - "joystick"
+      - "backplate"
+      - "earbud"
+      - "sd card"
+      - "card reader"

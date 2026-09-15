@@ -1,12 +1,15 @@
 # OEM Coverage Matrix
 
-Last audit: **2026-08-07** (Stage 9 — see `docs/STAGE9.md`, plus
+Last audit: **2026-09-09** (handheld expansion M1 — six staged Chinese
+handheld sources, Sixunited classified `NEEDS_ENGINE`, GPD/FEVM holds;
+see "Fixture-ready, not yet enabled" and the recon tables below. Prior
+audit 2026-08-07, Stage 9 — see `docs/STAGE9.md`, plus
 `docs/STAGE8.md`/`docs/STAGE7.md`/`docs/STAGE6_RECON.md`/
 `docs/STAGE5_RECON.md` for prior batches and `docs/OEM_ATLAS.md` for the
 current flat planning table across all stages — supersedes
 `docs/OEM_ECOSYSTEM_MAP.md` — or `docs/OEM_PLATFORM_MATRIX.md` for the
 deeper ecosystem narrative). Stage 9 enabled zero new sources on purpose
-— see `docs/STAGE9.md`/`docs/STAGE10_PROPOSAL.md`; the table below is
+— see `docs/STAGE9.md`/`docs/STAGE10_PROPOSAL.md`; the enabled-sources table below is
 unchanged from Stage 8.
 **For a live, always-current count run `oem-radar coverage`** — the table
 below is a point-in-time snapshot and will drift as OEMs are added. Status
@@ -49,15 +52,39 @@ codes:
 | OEM | Source ID | URL tried | Status | Evidence | Next action |
 |-----|-----------|-----------|--------|----------|-------------|
 | Trigkey | trigkey-shopify | www.trigkey.com → trigkey.com | BROKEN | Real Shopify theme (`cdn.shopify.com` in body) but store returns HTTP 402 — signature of a suspended/unpaid Shopify store | Re-probe periodically; nothing to fix on our side |
-| GPD | gpd-shopify | gpd.hk (times out) / www.gpd.hk (200, sitemap present) | NEEDS_OWNER_PROBE | Bare domain unreachable from this network; `www.` prefix resolves but JSON-LD/product-page check not completed | Owner: `oem-radar probe https://www.gpd.hk --json` |
+| GPD | gpd-shopify | gpd.hk | **BLOCKED_JS** (re-confirmed 2026-09-09 recon) | Official surface is a JS sitebuilder (plain fetch returns title/meta only); launches route through Indiegogo and resellers. Editorial value high — see config/oems/gpd.yaml comment | Hold. No browser-automation fallback (standing never-build list); revisit only if GPD ships a static or bulk-API surface |
 | Peladn | peladn-shopify | peladn.com | NEEDS_OWNER_PROBE | 200, sitemap present, `products.json` returns a JS redirect (not Shopify) | Owner probe from a real browser for the actual listing route |
 | Firebat | firebat-shopify | firebat.com | NEEDS_OWNER_PROBE | 200, `products.json` 404, no WC/sitemap/JSON-LD signals | Owner probe |
 | Kingnovy | kingnovy-shopify | kingnovy.com, www.kingnovy.com | NEEDS_OWNER_PROBE | Connection timeout from this network both with and without `www.` | Owner probe from a different network |
-| AYANEO | ayaneo-shopify | www.ayaneo.com | NEEDS_OWNER_PROBE | 200, no Shopify/WC/sitemap/JSON-LD signals found | Probe from a browser; high editorial value if a surface can be found |
+| AYANEO | ayaneo-shopify | www.ayaneo.com | RESOLVED 2026-09-09 — retargeted | 200, no Shopify/WC/sitemap/JSON-LD signals found (custom JS app; 502 to plain fetches) | Superseded: descriptor now points at the verified official Shopify store shop.ayaneo.com — see "Fixture-ready, not yet enabled" |
 
 ## Fixture-ready, not yet enabled
 
-_(none — every confirmed real Stage 7 candidate went straight to enabled)_
+**Handheld expansion wave 1 (M1, 2026-09-09).** Six Chinese handheld
+manufacturers, all probed Shopify-confirmed from the owner machine the same
+day, all staged `enabled: false`, all on the existing `shopify` engine
+(config-only; no new engine, no schema change). Product family:
+`handheld` via per-source `category_map`; PC-handheld vs retro-handheld
+subtype is editorial metadata (the feeds do not expose it — decided from
+each product's own SoC/OS at review time, never from brand alone).
+Editorial priority below is operator scheduling intent only (existing
+`min_interval` knob; no tier field exists in this project).
+
+| OEM | Source ID | Region | URL | Platform | Engine | Status | ~Catalog (p1) | Priority | Signals | Fixture | Notes |
+|-----|-----------|--------|-----|----------|--------|--------|----------|----------|---------|---------|-------|
+| Anbernic | anbernic-shopify | CN/Global | anbernic.com | Shopify | shopify | NEEDS_OWNER_PROBE → staged | 91 (52 kept; 39 accessories denied) | P1 | model, RAM/storage variants, price, images; Chinese product_type (游戏机/配件) | anbernic_products_p1.json | Highest retro-handheld SKU velocity; vendor casing varies; accessories embed model names in titles |
+| AYANEO | ayaneo-shopify | CN/Global | **shop.ayaneo.com** | Shopify | shopify | NEEDS_OWNER_PROBE → staged | 94 (34 kept; 60 accessories denied) | P1 | model incl. KONKR sub-brand, SoC, configs, price | ayaneo_products_p1.json | **Retargeted** from www.ayaneo.com (custom JS app, 502 to plain fetches, never enabled); KONKR stays in model names; PC (AYANEO 3/NEXT) and retro (Pocket/KONKR Pocket) in one feed |
+| ONEXPLAYER | onexplayer-shopify | CN/Global | onexplayerstore.com | Shopify | shopify | NEEDS_OWNER_PROBE → staged | 70 (15 kept; 55 accessories/refurbs denied) | P1 | model, CPU, display, configs, price | onexplayer_products_p1.json | ONEXFLY/ONEXSUGAR sub-brands stay in model names; vendor's own product_type typo "ONEXPLAYE" preserved in category_map; refurb + battery/keyboard/eGPU denylist |
+| AYN | ayn-shopify | CN/Global | www.ayntec.com | Shopify | shopify | NEEDS_OWNER_PROBE → staged | 28 (4 kept; 24 accessories denied) | P2 | model, batch pre-order listings (available=false → SOLD_OUT), configs, price | ayn_products_p1.json | Batch-numbered pre-orders are ordinary variants — no special machinery; "Fill Price Difference" internal SKU denied |
+| Retroid | retroid-shopify | CN/Global | www.goretroid.com | Shopify | shopify | NEEDS_OWNER_PROBE → staged | 47 (8 kept; 39 accessories denied) | P2 | model, configs, price | retroid_products_p1.json | Retail entity MOORECHIP TECHNOLOGIES LIMITED (HK); Shenzhen entity UNKNOWN; accessory-dense catalogue |
+| AOKZOE | aokzoe-shopify | CN/Global | aokzoestore.com | Shopify | shopify | NEEDS_OWNER_PROBE → staged | 22 (4 kept; 18 parts/refurb/internal SKUs denied) | P2 | model, APU, display, configs, price | aokzoe_products_p1.json | No vendor SKUs anywhere in the feed — identity leans on model_key; parts/repair storefront denied |
+
+Baseline/enablement gate for all six (unchanged existing machinery):
+first crawl is `baseline_quiet` (recorded, never delivered), then soak/QC
+→ `CANARY` → `LIVE_PARTIAL`. Identity resolution uses the existing ADR-3
+cascade; fixture-level handheld naming tests live in
+`tests/test_handheld_sources.py` (including the documented RG35XX vs
+RG35XX H SKU-guard caveat — no resolver change was made).
 
 ## New-OEM reconnaissance, not enabled (Stage 5-7 combined)
 
@@ -78,6 +105,18 @@ and `docs/STAGE7.md`. Summary:
 | Razer | DISABLED_LOW_VALUE | No Product JSON-LD despite a modern platform; catalog is 93% non-laptop peripherals |
 | Eurocom, Falcon Northwest, ASRock Industrial | CANARY | Real, high editorial fit for some, but zero structured data — needs a bespoke parser, not a generic engine |
 | Dynabook, Panasonic Toughbook, Fujitsu | BROKEN | Stale sitemap or wrong domain entirely |
+
+## Handheld/ODM expansion recon dispositions (M1, 2026-09-09)
+
+Full classification evidence in the M1 recon; dispositions recorded here so
+the coverage matrix stays the single source inventory.
+
+| Candidate | Classification | Disposition | Evidence |
+|---|---|---|---|
+| **Sixunited** (Shanghai Sixunited Intelligent Technology Co., Ltd., 上海六联智能科技有限公司) | **ODM** (high confidence; official ODM-service offering + industry press). Upstream laptop + mini-PC catalogue, ~630 SKUs, Intel/AMD/domestic platforms; demonstrably exposes new AMD platforms before retail | **NEEDS_ENGINE — not implemented.** `oem-radar probe` on the root returns "needs a product-page fetch"; product-page fetches (2026-09-09) show **zero Product JSON-LD anywhere**: detail pages (`/hyl_deatail/<id>.html`, e.g. XN77-160M5-CS, XS170-6HD-QSB) are server-rendered HTML with specs only as visible text/CMS field metadata; no `application/ld+json` blocks on any checked page; sitemap is flat (not an index) with template-dated `lastmod`. No existing engine can extract this; a bespoke one-OEM parser is below the 3-confirmed-OEM engine bar | Priority 1 editorial intent recorded; revisit when a second/third catalogue-style ODM (e.g. Weibu, uniwill-family) is confirmed, which would justify a small new engine. Story-count note: when admitted, Sixunited would count as one distinct manufacturer in story rules alongside downstream OEMs of the same platform — a story-policy tuning question for that future mission, not now. Weibu probe: SSL handshake failure from this environment (inconclusive, retry elsewhere) |
+| **FEVM** (深圳市和峰忆电子科技有限公司, Shenzhen Hefengyi Electronic Technology) | Hybrid own-brand mini-PC design house (medium confidence); ODM-for-others NOT established; no confirmed downstream rebrands | **HOLD — not implemented.** Canonical site fevmpc.com is a JS SPA: raw HTML is an app shell ("FEVM迷你主机" only), sitemap URL returns the same text fragment — no crawlable catalogue, no engine fit. High-value FEVM signals (e.g. pre-release Panther Lake prototype) surface via press, not the site. A Beelink-POC-style bounded delta collector over its private JSON API is the only plausible future path and needs separate ratification | No runtime code, no config, no fixtures |
+| Zotac (Zone handheld) | Global OEM — Singapore-domiciled (PC Partner, SGX), not a China-section fit | Rejected for the handheld section; zotac.com behind SafeLine WAF (403) | Corporate structure: PC Partner split from VTech, HQ relocated to Singapore |
+| Powkiddy / Orange Pi / Magicx / Data Frog / trimuistore.com | Marketplace-centric or unverifiable official surfaces; Powkiddy's own Shopify feed no longer carries Powkiddy handhelds (retails TrimUI) | Rejected as canonical sources | Marketplace crawling remains out of scope by policy |
 | Eluktronics | BLOCKED_JS | Static/API probing found nothing; likely a JS SPA |
 | Purism | DISABLED_LOW_VALUE | Sitemap almost entirely blog posts; catalog looks stale |
 
