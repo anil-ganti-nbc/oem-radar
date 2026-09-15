@@ -50,8 +50,12 @@ production promotion, verified Reddit access, or authoritative source resolution
   r/GamingLeaksAndRumours work is preserved separately pending an operator
   ownership decision; this OEM tranche does not claim it for FGT. Discovery is
   separate from offers.
-- Semiconductor Intelligence's open Reddit PR #5 is preserved. Watch and other
-  consumers can import the primitive later; no extra communities are enabled.
+- Semiconductor Intelligence PR #5 merged on 2026-09-09 from implementation
+  head `5f843d8abce24a64315620296a5ca47044906cd7` as merge
+  `a9a202ad82d6365890d49a34de75dceeac329762`. Its r/hardware source remains
+  unregistered, polling remains disabled, and live soak has not started. Watch
+  and other consumers can import the primitive later; no extra communities are
+  enabled by this change.
 
 ## Why a discovery table is necessary in Free Game Tracker
 
@@ -129,7 +133,13 @@ admission increment. The existing r/hardware pilot is not expanded here.
 
 ## Validation performed locally
 
-Full suite: 632 passed, 1 skipped. Correctness lint, bytecode validation, lock check, and wheel build passed.
+At implementation head `ec45c050942c6026ef56c9e3c434d386f380ed73`,
+the targeted suite passed 14 tests and both required GitHub checks passed
+(Linux tests/collection and Windows). Scoped Ruff and format checks passed. A
+local full-suite repeat passed 670 tests with 1 skipped and encountered 3
+Windows sandbox `DuplicateHandle` environment failures; an earlier same-code
+run before the style-only formatting commit passed 673 tests with 1 skipped.
+The repository-wide advisory Ruff scan retains 163 inherited findings.
 Tests used Python 3.14 and temporary databases. GitHub CI targets Python 3.12.
 Both built wheels contain byte-identical clank_reddit code. No live Reddit
 collection, production database migration, deployment, or notification occurred.
