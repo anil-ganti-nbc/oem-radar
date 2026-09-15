@@ -46,9 +46,10 @@ production promotion, verified Reddit access, or authoritative source resolution
 - OEM Radar: r/GamingLaptops and r/MiniPCs through native evidence_items,
   evidence_events, crawler_runs, run locking, and its existing fetcher.
   Community provenance is explicit; no product model, NEW_PRODUCT, or outbox entry.
-- Free Game Tracker: r/FreeGameFindings plus operator-approved
-  r/GamingLeaksAndRumours. Its source registry/manual GUI dispatch and SQLite
-  transaction/lock machinery own collection. Discovery is separate from offers.
+- Free Game Tracker: r/FreeGameFindings is domain-coherent. The recovered
+  r/GamingLeaksAndRumours work is preserved separately pending an operator
+  ownership decision; this OEM tranche does not claim it for FGT. Discovery is
+  separate from offers.
 - Semiconductor Intelligence's open Reddit PR #5 is preserved. Watch and other
   consumers can import the primitive later; no extra communities are enabled.
 
@@ -66,11 +67,12 @@ merely unmuting or toggling collection. Building a new notifier was out of scope
 ## Shared primitive
 
 clank_reddit is an importable, dependency-free Atom transport package. The
-canonical copy is oem-radar/src/clank_reddit; FGT vendors identical bytes, pinned
-by docs/REDDIT_TRANSPORT.json with a SHA-256 test in each repository. This follows
-existing fleet code-reuse practice without a new repo, runtime or installation
-service. Change the canonical copy first, synchronize consumers, update both
-manifests, and rerun tests. Semantic policy never belongs in this package.
+canonical copy is oem-radar/src/clank_reddit; consumers pin adopted bytes by
+version and SHA-256 in docs/REDDIT_TRANSPORT.json. This follows existing fleet
+code-reuse practice without a new repo, runtime or installation service. Change
+the canonical copy first; each consumer must explicitly adopt the new version,
+update its manifest, and rerun tests in its own tranche. Semantic policy never
+belongs in this package.
 
 One bounded /new/.rss page is fetched per intake. HTTP failures, malformed feeds,
 unexpected identity/scope, and empty Reddit listings fail closed. No short-circuit

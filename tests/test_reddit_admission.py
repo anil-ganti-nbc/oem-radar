@@ -36,11 +36,27 @@ def test_duplicate_ids_and_same_article_keep_distinct_observations():
     assert posts[0].evidence()["original_source_url"] is None
     assert link_key("https://example.com/x?id=1") != link_key("https://example.com/x?id=2")
 
+def test_deleted_and_incomplete_entries_fail_soft_when_listing_has_valid_evidence():
+    deleted = listing(ids=("gone",), title="[deleted]")
+    incomplete = listing(ids=("blank",), title="")
+    valid = listing(ids=("kept",), title="A real community observation")
+    body = deleted.replace("</feed>", "") + incomplete.removeprefix(
+        '<feed xmlns="http://www.w3.org/2005/Atom">'
+    ).replace("</feed>", "") + valid.removeprefix(
+        '<feed xmlns="http://www.w3.org/2005/Atom">'
+    )
+    posts = parse_listing(body, "GamingLaptops")
+    assert [post.external_id for post in posts] == ["t3_kept"]
+
+def test_listing_with_only_deleted_entries_is_not_a_healthy_empty_run():
+    with pytest.raises(RedditUnavailable, match="no usable submissions"):
+        parse_listing(listing(ids=("gone",), title="[removed]"), "GamingLaptops")
+
 class Fetcher:
     def __init__(self, body): self.body = body
     def get(self, url): return FetchedDocument(url=url, status=200, body=self.body)
 
-def test_baseline_restart_and_link_edits(tmp_path):
+def test_baseline_restart_and_link_edits_never_create_market_novelty(tmp_path):
     path = str(tmp_path / "radar.db")
     store = SqliteStore(path, str(tmp_path / "raw"))
     first = collect_community("GamingLaptops", Fetcher(listing()), store)

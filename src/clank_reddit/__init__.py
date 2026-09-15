@@ -14,7 +14,7 @@ from typing import Any, Callable
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 from xml.etree import ElementTree as ET
 
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 ATOM = "{http://www.w3.org/2005/Atom}"
 
 
@@ -125,8 +125,11 @@ def parse_listing(body: str, subreddit: str) -> list[Submission]:
             continue
         seen.add(eid)
         title = (entry.findtext(ATOM + "title") or "").strip()
-        if not title:
-            raise RedditUnavailable("Reddit submission has no title")
+        # Individual deleted/removed or incomplete entries must not take down a
+        # bounded listing that still contains usable evidence.  Structural feed
+        # and identity/scope failures above remain fail-closed.
+        if not title or title.casefold() in {"[deleted]", "[removed]"}:
+            continue
         published = entry.findtext(ATOM + "published")
         if published:
             try:
@@ -145,6 +148,8 @@ def parse_listing(body: str, subreddit: str) -> list[Submission]:
             entry.findtext(ATOM + "author/" + ATOM + "name"), published,
             links, ET.tostring(entry, encoding="unicode"),
         ))
+    if not result:
+        raise RedditUnavailable("Reddit listing contains no usable submissions")
     return result
 
 
