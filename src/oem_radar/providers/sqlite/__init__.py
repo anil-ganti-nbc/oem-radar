@@ -669,10 +669,16 @@ class SqliteStore:
         of identical facts never produces a spurious event."""
         content_hash = item.content_hash()
         existing = self.db.execute(
-            "SELECT id, content_hash FROM evidence_items WHERE source_id=? AND external_id=?",
+            "SELECT id, content_hash, raw_data_json FROM evidence_items WHERE source_id=? AND external_id=?",
             (item.source_id, item.external_id),
         ).fetchone()
-        raw_json = json.dumps(item.raw_data, default=str)
+        raw_data = dict(item.raw_data)
+        if item.provenance.value == "community_report" and existing is not None:
+            previous = json.loads(existing["raw_data_json"])
+            raw_data["observation_mode"] = previous.get("observation_mode", "baseline")
+            history = previous.pop("revision_history", [])
+            raw_data["revision_history"] = history + [previous]
+        raw_json = json.dumps(raw_data, default=str)
         published = item.published_at.isoformat() if item.published_at else None
         if existing is None:
             cur = self.db.execute(
