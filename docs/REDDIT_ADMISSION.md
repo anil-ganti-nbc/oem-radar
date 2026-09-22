@@ -112,6 +112,10 @@ Defaults are disabled: OEM radar.yaml reddit_discovery_enabled=false;
 FGT NEWSROOM_ENABLE_REDDIT_DISCOVERY=false. To test after review, use an isolated
 lane/database and the existing manual GUI collection controls, with collection
 opted in. OEM uses reddit_min_interval_s (default 1800) and native source_due.
+The existing hourly run fetches one admitted community per invocation,
+alternating GamingLaptops and MiniPCs from the newest crawler_runs row
+for those source keys. A failed or unfinished row still advances the turn.
+No second scheduler is involved.
 FGT shows both discovery sources in its existing source registry. Opening either
 GUI/evidence view does not fetch Reddit. No scheduler was created or enabled.
 

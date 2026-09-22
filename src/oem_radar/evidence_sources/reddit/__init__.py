@@ -10,6 +10,31 @@ from ...core.registry import evidence_sources
 
 COMMUNITIES = ("GamingLaptops", "MiniPCs")
 
+
+def source_key_for(community: str) -> str:
+    return f"reddit-{community.lower()}"
+
+
+def next_hourly_community(last_source_key: str | None, candidates: tuple[str, ...] | list[str]) -> str | None:
+    """One community per invocation, derived from the previous durable run.
+
+    ``candidates`` are community names. Order follows ``COMMUNITIES``, not
+    caller order. A missing history starts at GamingLaptops. Any recorded
+    run, including a failure or an unfinished start, advances the turn.
+    """
+    wanted = set(candidates)
+    ordered = [community for community in COMMUNITIES if community in wanted]
+    if not ordered:
+        return None
+    if len(ordered) == 1 or not last_source_key:
+        return ordered[0]
+    keys = [source_key_for(community) for community in ordered]
+    try:
+        index = keys.index(last_source_key)
+    except ValueError:
+        return ordered[0]
+    return ordered[(index + 1) % len(ordered)]
+
 class CommunityEvidenceItem(EvidenceItem):
     def content_hash(self):
         import hashlib
@@ -26,7 +51,7 @@ class RedditEvidenceSource:
         if subreddit not in COMMUNITIES:
             raise ValueError("Community outside OEM Radar admission scope")
         self.subreddit = subreddit
-        self.source_id = f"reddit-{subreddit.lower()}"
+        self.source_id = source_key_for(subreddit)
         self.context = {"run_id": run_id, "code_revision": code_revision,
                         "observation_mode": "baseline" if baseline else "live",
                         "delivery": "blocked", "novelty": "unconfirmed"}
@@ -56,7 +81,7 @@ def collect_community(subreddit, fetcher, store, *, code_revision="UNKNOWN"):
     """Reuse evidence_items/events and crawler_runs; never create product alerts."""
     if subreddit not in COMMUNITIES:
         raise ValueError("Community outside OEM Radar admission scope")
-    source_id = f"reddit-{subreddit.lower()}"
+    source_id = source_key_for(subreddit)
     baseline = not store.has_completed_run(source_id)
     run_id = store.run_started(source_id)
     try:
