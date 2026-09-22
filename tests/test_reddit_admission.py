@@ -141,7 +141,17 @@ def test_runner_explicit_opt_in_and_routine_scope(tmp_path):
         CommunityFetcher(),
         routine_scope=True,
     )
-    assert len(stats) == 2 and all(s.events == 0 for s in stats)
+    assert len(stats) == 1 and stats[0].source_id == "reddit-gaminglaptops"
+    assert stats[0].events == 0
+    stats = run_all(
+        RadarConfig(reddit_discovery_enabled=True),
+        {},
+        store,
+        Notifier(),
+        CommunityFetcher(),
+        routine_scope=True,
+    )
+    assert len(stats) == 1 and stats[0].source_id == "reddit-minipcs"
     assert (
         run_all(
             RadarConfig(reddit_discovery_enabled=True),

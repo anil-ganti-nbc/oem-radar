@@ -389,6 +389,23 @@ class SqliteStore:
         self._source_ctx = row["id"]
         return row["id"]
 
+    def latest_source_key_among(self, source_keys: list[str]) -> str | None:
+        """Newest crawler_runs source among ``source_keys``, any status.
+
+        Used to rotate Reddit communities. Failed and unfinished rows count
+        so a crash or HTTP 429 still advances the turn. This does not write
+        rotation state.
+        """
+        if not source_keys:
+            return None
+        placeholders = ",".join("?" * len(source_keys))
+        row = self.db.execute(
+            f"SELECT source_key FROM crawler_runs WHERE source_key IN ({placeholders}) "
+            "ORDER BY id DESC LIMIT 1",
+            tuple(source_keys),
+        ).fetchone()
+        return None if row is None else row["source_key"]
+
     def has_completed_run(self, source_key: str) -> bool:
         return self.db.execute(
             "SELECT 1 FROM crawler_runs WHERE source_key=? AND status='ok' LIMIT 1",

@@ -124,9 +124,16 @@ def run_all(
     ]
     reddit_planned = []
     if radar_cfg.reddit_discovery_enabled:
-        from ..evidence_sources.reddit import COMMUNITIES
-        reddit_planned = [c for c in COMMUNITIES
-                          if scope is None or f"reddit-{c.lower()}" in scope]
+        from ..evidence_sources.reddit import COMMUNITIES, next_hourly_community, source_key_for
+        reddit_candidates = [c for c in COMMUNITIES
+                             if scope is None or f"reddit-{c.lower()}" in scope]
+        if len(reddit_candidates) > 1:
+            last = store.latest_source_key_among(
+                [source_key_for(c) for c in reddit_candidates])
+            chosen = next_hourly_community(last, reddit_candidates)
+            reddit_planned = [chosen] if chosen else []
+        else:
+            reddit_planned = reddit_candidates
     emit(event="planned", sources_total=len(planned) + len(reddit_planned))
 
     if radar_cfg.reddit_discovery_enabled:
