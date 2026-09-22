@@ -1,6 +1,7 @@
 """Hourly Reddit rotation derived from crawler_runs, not a second scheduler."""
 import json
 from pathlib import Path
+from xml.sax.saxutils import escape
 
 from oem_radar.core.config import ManufacturerConfig, OemConfig, RadarConfig, SourceConfig
 from oem_radar.core.knownhw import SEED_COMPONENTS
@@ -10,13 +11,25 @@ from oem_radar.engines import shopify  # noqa: F401
 from oem_radar.evidence_sources.reddit import next_hourly_community
 from oem_radar.providers.discord import DiscordNotifier
 from oem_radar.providers.sqlite import SqliteStore
-from tests.test_reddit_admission import listing
 
 FIXTURE = json.loads(
     (Path(__file__).parent / "fixtures" / "shopify" / "gmktec_products.json")
     .read_text(encoding="utf-8")
 )
 BASE = "https://www.gmktec.com"
+
+
+def listing(community="GamingLaptops", ids=("a1",)):
+    entries = []
+    for eid in ids:
+        link = f"https://www.reddit.com/r/{community}/comments/{eid}/story/"
+        body = escape('<a href="https://example.com/story">[link]</a>')
+        entries.append(
+            f"<entry><id>t3_{eid}</id><title>New game sequel reportedly leaked</title>"
+            f'<link href="{link}"/><published>2026-09-07T12:00:00Z</published>'
+            f'<content type="html">{body}</content></entry>'
+        )
+    return '<feed xmlns="http://www.w3.org/2005/Atom">' + "".join(entries) + "</feed>"
 
 
 def test_rotation_is_deterministic_and_starts_with_gaminglaptops():
