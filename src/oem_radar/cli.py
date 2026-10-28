@@ -624,6 +624,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="oem-radar", description="OEM product intelligence")
     parser.add_argument("--config", default="config", help="config directory (default: config)")
     sub = parser.add_subparsers(dest="command", required=True)
+    from .discovery_cli import register as register_discovery
+    register_discovery(sub)
 
     sub.add_parser("validate", help="validate configuration offline").set_defaults(func=cmd_validate)
 

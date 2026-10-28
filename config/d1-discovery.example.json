@@ -1,0 +1,8 @@
+{
+  "producer_id": "discovery-core-d1",
+  "producer": "<absolute external D1 app path>/d1.py",
+  "profiles": "<absolute external D1 app path>/profiles.json",
+  "evidence_root": "<absolute external D1 inbox path>",
+  "data_dir": "<absolute OEM Radar sidecar path>",
+  "enabled": false
+}
