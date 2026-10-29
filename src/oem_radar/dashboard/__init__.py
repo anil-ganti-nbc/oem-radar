@@ -713,6 +713,7 @@ def serve(
     stale_after_hours: float = 6.0,
     allow_review_writes: bool = False,
     allow_manual_collection: bool = False,
+    discovery_settings=None,
 ) -> None:
     require_loopback_host(host)
     # Auto-crawl is refused unconditionally and permanently: loading or
@@ -735,7 +736,13 @@ def serve(
             "allow_manual_collection=True requires a crawl controller "
             "(core.crawl_service.CrawlController)"
         )
-    handler = partial(_Handler)
+    if discovery_settings is not None:
+        if crawl is not None or allow_review_writes or allow_manual_collection:
+            raise ValueError("Discovery manual dashboard is strictly GET-only")
+        from ..discovery import dashboard_handler
+        handler = partial(dashboard_handler(discovery_settings, db_path))
+    else:
+        handler = partial(_Handler)
     _Handler.db_path = db_path
     _Handler.raw_dir = raw_dir or str(Path(db_path).parent / "raw")
     _Handler.max_body = max_body
